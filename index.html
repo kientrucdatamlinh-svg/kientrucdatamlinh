@@ -182,53 +182,169 @@
             transform: translateY(-3px);
         }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-            position: relative;
-        }
+        /* =======================================================
+   LUXURY ROYAL SECTION HEADER DESIGN
+   ======================================================= */
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+    padding: 0 15px;
+}
 
-        .section-header h2 {
-            font-size: 2.5rem;
-            color: var(--gold-light);
-            margin-bottom: 15px;
-            position: relative;
-            display: inline-block;
-            padding-bottom: 15px;
-        }
+/* Royal Glassmorphic Badge */
+.section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 22px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(10, 20, 44, 0.75) 100%);
+    border: 1.2px solid rgba(197, 160, 89, 0.45);
+    border-radius: 50px;
+    color: var(--gold-light);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), inset 0 0 12px rgba(197, 160, 89, 0.12);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
 
-        .section-header h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: var(--gold-primary);
-        }
+.section-badge i {
+    color: var(--gold-primary);
+    font-size: 0.75rem;
+    filter: drop-shadow(0 0 6px rgba(197, 160, 89, 0.7));
+}
 
-        .section-header h2::before {
-            content: '◆';
-            position: absolute;
-            bottom: -9px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--gold-primary);
-            font-size: 0.8rem;
-            background: var(--navy-deep);
-            padding: 0 10px;
-            z-index: 1;
-        }
+.section-badge:hover {
+    border-color: var(--gold-light);
+    box-shadow: 0 4px 25px rgba(197, 160, 89, 0.3), inset 0 0 15px rgba(197, 160, 89, 0.2);
+    transform: translateY(-2px);
+}
 
-        .section-header p {
-            color: var(--text-silver);
-            max-width: 600px;
-            margin: 15px auto 0;
-            font-size: 1.1rem;
-        }
+/* Magnificent Section Title H2 */
+.section-header h2 {
+    font-family: 'Playfair Display', 'Lora', serif;
+    font-size: clamp(2rem, 3.2vw, 2.7rem);
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #ffffff 0%, #fff7e6 20%, #dfb76c 60%, #c5a059 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.7));
+    letter-spacing: -0.01em;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0;
+}
 
-        .section-padding {
+/* Remove legacy pseudo-element cutout */
+.section-header h2::before,
+.section-header h2::after {
+    display: none !important;
+}
+
+/* Symmetrical Luxury Gold Divider with Jewel */
+.header-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 16px auto 18px;
+    max-width: 320px;
+}
+
+.header-divider .divider-line {
+    flex: 1;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.8), var(--gold-primary));
+}
+
+.header-divider .divider-line.right {
+    background: linear-gradient(90deg, var(--gold-primary), rgba(197, 160, 89, 0.8), transparent);
+}
+
+.header-divider .divider-jewel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.header-divider .divider-jewel .dot {
+    width: 4px;
+    height: 4px;
+    background: var(--gold-light);
+    transform: rotate(45deg);
+    opacity: 0.8;
+    box-shadow: 0 0 5px rgba(229, 192, 123, 0.8);
+}
+
+.header-divider .divider-jewel .diamond {
+    width: 11px;
+    height: 11px;
+    background: linear-gradient(135deg, #ffffff 0%, #dfb76c 50%, #996515 100%);
+    transform: rotate(45deg);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 1px;
+}
+
+/* Fallback subtle underline for headers without explicit .header-divider */
+.section-header:not(:has(.header-divider)) h2 {
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.section-header:not(:has(.header-divider)) h2::after {
+    content: '' !important;
+    display: block !important;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+    box-shadow: 0 0 8px rgba(197, 160, 89, 0.6);
+}
+
+/* Section Subtitle Paragraph */
+.section-header p {
+    color: #b8c4d6;
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    font-weight: 400;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 768px) {
+    .section-header {
+        margin-bottom: 35px;
+    }
+    .section-badge {
+        font-size: 0.75rem;
+        padding: 5px 16px;
+        letter-spacing: 0.1em;
+    }
+    .section-header h2 {
+        font-size: 1.75rem !important;
+    }
+    .header-divider {
+        max-width: 240px;
+        margin: 12px auto 14px;
+    }
+    .section-header p {
+        font-size: 0.95rem;
+    }
+}
+
+.section-padding {
             padding: 100px 0;
         }
 
@@ -10048,10 +10164,23 @@
                     <img src="https://res.cloudinary.com/g3beqqle/image/upload/v1789377575/%E1%BA%A3nh%20n%E1%BB%81n/nha_tho_to_vang_kim.jpg" alt="Nhà thờ họ đá tâm linh" style="border-radius: 8px; border: 2px solid var(--gold-primary); box-shadow: var(--shadow-premium); cursor:pointer; width:100%; max-height:520px; height:480px; object-fit:cover;" onclick="openLightbox(this.src)">
                 </div>
                 <div class="about-text">
-                    <div style="text-align: left; margin-bottom: 35px;">
-                        <h2 style="font-size: 2.15rem; color: var(--gold-light); white-space: nowrap; margin: 0; display: inline-block;">
-                            Đá Tạo Hình <span class="dash-ornament">-</span> Tâm Tạo Giá Trị
+                    <div style="text-align: left; margin-bottom: 25px;">
+                        <div class="section-badge" style="margin-bottom: 12px;">
+                            <i class="fa-solid fa-landmark"></i>
+                            <span>Nghệ Thuật Truyền Thống Hoa Lư</span>
+                        </div>
+                        <h2 style="font-family: 'Playfair Display', 'Lora', serif; font-size: clamp(1.8rem, 2.8vw, 2.4rem); background: linear-gradient(135deg, #ffffff 0%, #fff7e6 20%, #dfb76c 60%, #c5a059 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.7)); margin: 0 0 14px 0; line-height: 1.3;">
+                            Đá Tạo Hình <span style="color: var(--gold-primary); -webkit-text-fill-color: var(--gold-primary);">-</span> Tâm Tạo Giá Trị
                         </h2>
+                        <div class="header-divider" style="margin: 0 0 20px 0; max-width: 240px; justify-content: flex-start;">
+                            <span class="divider-line" style="flex: none; width: 60px;"></span>
+                            <span class="divider-jewel">
+                                <span class="dot"></span>
+                                <span class="diamond"></span>
+                                <span class="dot"></span>
+                            </span>
+                            <span class="divider-line right" style="flex: 1;"></span>
+                        </div>
                     </div>
                     <p style="color: var(--text-silver); margin-bottom: 20px; font-size: 1.05rem;">
                         Sinh ra và lớn lên tại nôi làng nghề đá mỹ nghệ Ninh Vân, Hoa Lư, Ninh Bình – nơi nổi tiếng nghìn năm với truyền thống điêu khắc đá cho các công trình cố đô Cố Đô Hoa Lư, <strong style="color: var(--gold-light); font-size: 1.15em; font-weight: 700;">Kiến Trúc Đá Tâm Linh</strong> được sáng lập bởi <strong style="color: var(--gold-light); font-size: 1.15em; font-weight: 700;">KTS Nguyễn Văn Hướng</strong> với sứ mệnh mang nghệ thuật điêu khắc đá đỉnh cao đến từng gia tộc Việt.
@@ -10071,10 +10200,23 @@
     <!-- 1. CÁC CÔNG TRÌNH TIÊU BIỂU ĐÃ THI CÔNG (6 DỰ ÁN) -->
     <section class="section-padding" style="background: var(--navy-dark); padding: 75px 0;">
         <div class="container">
-            <div class="section-header" style="text-align: center; margin-bottom: 45px;">
-                <span style="color: var(--gold-primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.9rem; display: block; margin-bottom: 6px;">Thực Tế Công Trình Hoàn Thiện</span>
-                <h2 style="font-size: 2.3rem; color: var(--gold-light); margin: 0 0 12px 0;">Các Công Trình Tiêu Biểu Đã Thi Công</h2>
-                <p style="color: var(--text-silver); max-width: 720px; margin: 0 auto; font-size: 1rem; line-height: 1.6;">Hình ảnh thực tế các khu lăng mộ gia tộc và nhà thờ họ chế tác hoàn thiện bàn giao cho chủ đầu tư trên toàn quốc.</p>
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fa-solid fa-gem"></i>
+                    <span>Thực Tế Công Trình Hoàn Thiện</span>
+                    <i class="fa-solid fa-gem"></i>
+                </div>
+                <h2>Các Công Trình Tiêu Biểu Đã Thi Công</h2>
+                <div class="header-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-jewel">
+                        <span class="dot"></span>
+                        <span class="diamond"></span>
+                        <span class="dot"></span>
+                    </span>
+                    <span class="divider-line right"></span>
+                </div>
+                <p>Hình ảnh thực tế các khu lăng mộ gia tộc và nhà thờ họ chế tác hoàn thiện bàn giao cho chủ đầu tư trên toàn quốc.</p>
             </div>
             <div class="portfolio-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px;">
 
@@ -10256,10 +10398,23 @@
     <!-- 2. DỰ ÁN PHỐI CẢNH KHUÔN VIÊN 3D (6 DỰ ÁN) -->
     <section class="section-padding" style="background: var(--navy-deep); padding: 75px 0; border-top: 1px solid var(--navy-light);">
         <div class="container">
-            <div class="section-header" style="text-align: center; margin-bottom: 45px;">
-                <span style="color: var(--gold-primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.9rem; display: block; margin-bottom: 6px;">Bản Vẽ Thiết Kế & Quy Hoạch</span>
-                <h2 style="font-size: 2.3rem; color: var(--gold-light); margin: 0 0 12px 0;">Dự Án Phối Cảnh Khuôn Viên 3D</h2>
-                <p style="color: var(--text-silver); max-width: 720px; margin: 0 auto; font-size: 1rem; line-height: 1.6;">Tổng hợp các dự án thiết kế 3D chi tiết quy hoạch khuôn viên lăng mộ gia tộc bởi KTS Nguyễn Văn Hướng.</p>
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fa-solid fa-cube"></i>
+                    <span>Bản Vẽ Thiết Kế & Quy Hoạch</span>
+                    <i class="fa-solid fa-cube"></i>
+                </div>
+                <h2>Dự Án Phối Cảnh Khuôn Viên 3D</h2>
+                <div class="header-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-jewel">
+                        <span class="dot"></span>
+                        <span class="diamond"></span>
+                        <span class="dot"></span>
+                    </span>
+                    <span class="divider-line right"></span>
+                </div>
+                <p>Tổng hợp các dự án thiết kế 3D chi tiết quy hoạch khuôn viên lăng mộ gia tộc bởi KTS Nguyễn Văn Hướng.</p>
             </div>
             <div class="portfolio-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px;">
 
@@ -10441,10 +10596,23 @@
     <!-- 3. SẢN PHẨM ĐIÊU KHẮC TINH XẢO (9 SẢN PHẨM) -->
     <section class="section-padding" style="background: var(--navy-dark); padding: 75px 0; border-top: 1px solid var(--navy-light);">
         <div class="container">
-            <div class="section-header" style="text-align: center; margin-bottom: 45px;">
-                <span style="color: var(--gold-primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.9rem; display: block; margin-bottom: 6px;">Nghệ Thuật Chế Tác Đá Ninh Vân</span>
-                <h2 style="font-size: 2.3rem; color: var(--gold-light); margin: 0 0 12px 0;">Sản Phẩm Điêu Khắc Tinh Xảo</h2>
-                <p style="color: var(--text-silver); max-width: 720px; margin: 0 auto; font-size: 1rem; line-height: 1.6;">Chế tác từ đá tự nhiên nguyên khối bởi các nghệ nhân tay nghề cao tại làng nghề truyền thống Ninh Vân, Hoa Lư, Ninh Bình.</p>
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fa-solid fa-monument"></i>
+                    <span>Nghệ Thuật Chế Tác Đá Ninh Vân</span>
+                    <i class="fa-solid fa-monument"></i>
+                </div>
+                <h2>Sản Phẩm Điêu Khắc Tinh Xảo</h2>
+                <div class="header-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-jewel">
+                        <span class="dot"></span>
+                        <span class="diamond"></span>
+                        <span class="dot"></span>
+                    </span>
+                    <span class="divider-line right"></span>
+                </div>
+                <p>Chế tác từ đá tự nhiên nguyên khối bởi các nghệ nhân tay nghề cao tại làng nghề truyền thống Ninh Vân, Hoa Lư, Ninh Bình.</p>
             </div>
             <div class="product-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;">
 
@@ -10701,10 +10869,23 @@ Về mặt phong thủy tâm linh, Chậu Đá Kênh Bong đóng vai trò quan t
     <!-- TIN TỨC & CẨM NANG SECTION -->
     <section class="section-padding" style="background: var(--navy-medium); padding: 75px 0; border-top: 1px solid var(--navy-light);">
         <div class="container">
-            <div class="section-header" style="text-align: center; margin-bottom: 50px;">
-                <span style="color: var(--gold-primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.9rem; display: block; margin-bottom: 6px;">Kiến Thức & Văn Hóa Tâm Linh</span>
-                <h2 style="font-size: 2.3rem; color: var(--gold-light); margin: 0 0 12px 0;">Tin Tức & Cẩm Nang Đá Phong Thủy</h2>
-                <p style="color: var(--text-silver); max-width: 680px; margin: 0 auto; font-size: 1rem; line-height: 1.6;">Tổng hợp kinh nghiệm xây dựng khu lăng mộ gia tộc, cẩm nang phong thủy âm trạch và kiến thức chế tác đá mỹ nghệ từ KTS Nguyễn Văn Hướng.</p>
+            <div class="section-header">
+                <div class="section-badge">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Kiến Thức & Văn Hóa Tâm Linh</span>
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <h2>Tin Tức & Cẩm Nang Đá Phong Thủy</h2>
+                <div class="header-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-jewel">
+                        <span class="dot"></span>
+                        <span class="diamond"></span>
+                        <span class="dot"></span>
+                    </span>
+                    <span class="divider-line right"></span>
+                </div>
+                <p>Tổng hợp kinh nghiệm xây dựng khu lăng mộ gia tộc, cẩm nang phong thủy âm trạch và kiến thức chế tác đá mỹ nghệ từ KTS Nguyễn Văn Hướng.</p>
             </div>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
