@@ -10163,7 +10163,7 @@
             <nav class="nav-menu" id="navMenu">
                 <a href="index.html" class="nav-link">Trang Chủ</a>
                 <a href="gioi-thieu.html" class="nav-link">Giới Thiệu</a>
-                <a href="phong-thuy.html" class="nav-link active">Tư Vấn Phong Thủy</a>
+                <a href="phong-thuy.html" class="nav-link active">Phong Thủy</a>
                 <a href="du-an.html" class="nav-link">Dự Án</a>
                 <a href="san-pham.html" class="nav-link">Sản Phẩm</a>
                 <a href="tin-tuc.html" class="nav-link">Tin Tức</a>
@@ -10196,6 +10196,39 @@
     <!-- SECTION TRA CỨU HƯỚNG MỘ & THƯỚC LỖ BAN -->
     <section class="section-padding">
         <div class="container">
+            <!-- FORM ĐĂNG KÝ TƯ VẤN PHONG THỦY MIỄN PHÍ (COMPACT TOP CARD) -->
+            <div style="max-width: 820px; margin: 0 auto 55px; background: linear-gradient(135deg, rgba(17, 32, 70, 0.75) 0%, rgba(10, 20, 44, 0.95) 100%); border: 1.2px solid rgba(197, 160, 89, 0.45); border-radius: 12px; padding: 26px 30px 22px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(197, 160, 89, 0.08); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+                <div class="section-badge" style="margin: 0 auto 8px auto !important; font-size: 0.75rem; padding: 4px 16px;">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>Tư Vấn Miễn Phí Trực Tiếp</span>
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h2 style="font-family: 'Playfair Display', 'Lora', serif; font-size: clamp(1.35rem, 2.4vw, 1.7rem); color: var(--gold-light); margin: 0 auto 6px !important; text-align: center; background: linear-gradient(135deg, #ffffff 0%, #fff7e6 20%, #dfb76c 60%, #c5a059 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));">Yêu Cầu Tư Vấn Phong Thủy Âm Trạch Trực Tiếp</h2>
+                <p style="color: var(--text-silver); max-width: 680px; margin: 0 auto 18px !important; font-size: 0.92rem; line-height: 1.5; text-align: center;">
+                    <strong style="color: var(--gold-light); font-weight: 700;">KTS Nguyễn Văn Hướng</strong> (chủ xưởng Kiến Trúc Đá Tâm Linh) trực tiếp khảo sát thực địa, tư vấn hướng mộ & thước Lỗ Ban miễn phí cho gia đình bạn.
+                </p>
+
+                <form id="fengshuiConsultForm" onsubmit="submitFengshuiConsult(event)" style="max-width: 680px; margin: 0 auto; text-align: left;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 12px;">
+                        <div>
+                            <label style="display:block; color:var(--text-silver); font-size:0.85rem; margin-bottom:4px; font-weight:500;">Họ và Tên (*):</label>
+                            <input type="text" id="fsName" required placeholder="Nguyễn Văn A" style="width:100%; padding:9px 12px; font-size:0.92rem; background:rgba(5, 11, 26, 0.85); border:1px solid rgba(197, 160, 89, 0.3); color:#fff; border-radius:6px; outline:none; transition:var(--transition-smooth);">
+                        </div>
+                        <div>
+                            <label style="display:block; color:var(--text-silver); font-size:0.85rem; margin-bottom:4px; font-weight:500;">Số Điện Thoại Zalo (*):</label>
+                            <input type="tel" id="fsPhone" required placeholder="0912345678" style="width:100%; padding:9px 12px; font-size:0.92rem; background:rgba(5, 11, 26, 0.85); border:1px solid rgba(197, 160, 89, 0.3); color:#fff; border-radius:6px; outline:none; transition:var(--transition-smooth);">
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 14px;">
+                        <label style="display:block; color:var(--text-silver); font-size:0.85rem; margin-bottom:4px; font-weight:500;">Năm Sinh Gia Chủ & Yêu Cầu Cần Tư Vấn:</label>
+                        <input type="text" id="fsNote" placeholder="Ví dụ: Cần xem hướng mộ cho ông sinh năm 1952 tại Hà Nội..." style="width:100%; padding:9px 12px; font-size:0.92rem; background:rgba(5, 11, 26, 0.85); border:1px solid rgba(197, 160, 89, 0.3); color:#fff; border-radius:6px; outline:none; transition:var(--transition-smooth);">
+                    </div>
+                    <button type="submit" class="btn-gold" style="width:100%; padding:11px; font-size:0.95rem; font-weight:700; border-radius:6px; letter-spacing:0.04em;">
+                        <i class="fa-solid fa-paper-plane" style="margin-right:6px;"></i> GỬI YÊU CẦU CHO KTS HƯỚNG NGAY
+                    </button>
+                </form>
+            </div>
+
 
             <div class="section-header">
                 <div class="section-badge">
@@ -10486,29 +10519,7 @@
                 </div>
             </div>
 
-            <!-- FORM ĐĂNG KÝ TƯ VẤN PHONG THỦY MIỄN PHÍ -->
-            <div style="margin-top: 80px; background: linear-gradient(135deg, var(--navy-medium) 0%, var(--navy-dark) 100%); border: 1px solid var(--gold-primary); border-radius: 12px; padding: 40px; text-align: center;">
-                <h2 style="color: var(--gold-light); font-size: 2rem; margin-bottom: 15px;">Yêu Cầu Tư Vấn Phong Thủy Âm Trạch Trực Tiếp</h2>
-                <p style="color: var(--text-silver); max-width: 700px; margin: 0 auto 30px;">
-                    <strong style="color: var(--gold-light); font-size: 1.12em; font-weight: 700;">KTS Nguyễn Văn Hướng</strong> (chủ xưởng Kiến Trúc Đá Tâm Linh Ninh Bình) trực tiếp khảo sát địa hình thực tế và tư vấn hướng mộ, thước Lỗ Ban miễn phí cho gia đình bạn.
-                </p>
-
-                <form id="fengshuiConsultForm" onsubmit="submitFengshuiConsult(event)" style="max-width: 600px; margin: 0 auto; text-align: left;">
-                    <div style="margin-bottom: 15px;">
-                        <label style="display:block; color:var(--text-silver); margin-bottom:5px;">Họ và Tên (*):</label>
-                        <input type="text" id="fsName" required placeholder="Nguyễn Văn A" style="width:100%; padding:12px; background:var(--navy-dark); border:1px solid var(--navy-light); color:#fff; border-radius:4px;">
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <label style="display:block; color:var(--text-silver); margin-bottom:5px;">Số Điện Thoại Zalo (*):</label>
-                        <input type="tel" id="fsPhone" required placeholder="0912345678" style="width:100%; padding:12px; background:var(--navy-dark); border:1px solid var(--navy-light); color:#fff; border-radius:4px;">
-                    </div>
-                    <div style="margin-bottom: 20px;">
-                        <label style="display:block; color:var(--text-silver); margin-bottom:5px;">Năm Sinh Gia Chủ & Yêu Cầu Cần Tư Vấn:</label>
-                        <textarea id="fsNote" rows="3" placeholder="Ví dụ: Cần xem hướng mộ cho ông sinh năm 1952 tại Hà Nội..." style="width:100%; padding:12px; background:var(--navy-dark); border:1px solid var(--navy-light); color:#fff; border-radius:4px;"></textarea>
-                    </div>
-                    <button type="submit" class="btn-gold" style="width:100%; padding:14px; font-size:1rem;">Gửi Yêu Cầu Cho KTS Hướng Ngay</button>
-                </form>
-            </div>
+            
 
         </div>
     </section>
