@@ -177,184 +177,196 @@
             transition: var(--transition-smooth);
         }
 
-        .btn-outline:hover {
+                .btn-outline:hover {
             background: rgba(197, 160, 89, 0.1);
             transform: translateY(-3px);
         }
 
         /* =======================================================
-   LUXURY ROYAL SECTION HEADER DESIGN
-   ======================================================= */
-.section-header {
-    text-align: center;
-    margin-bottom: 50px;
-    position: relative;
-    padding: 0 15px;
-}
+           LUXURY ROYAL SECTION HEADER DESIGN
+           ======================================================= */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            padding: 0 15px;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
 
-/* Royal Glassmorphic Badge */
-.section-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 22px;
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(10, 20, 44, 0.75) 100%);
-    border: 1.2px solid rgba(197, 160, 89, 0.45);
-    border-radius: 50px;
-    color: var(--gold-light);
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), inset 0 0 12px rgba(197, 160, 89, 0.12);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
-}
+        /* Royal Glassmorphic Badge */
+        .section-badge {
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 7px 22px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(10, 20, 44, 0.75) 100%);
+            border: 1.2px solid rgba(197, 160, 89, 0.45);
+            border-radius: 50px;
+            color: var(--gold-light);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin: 0 auto 16px auto !important;
+            width: fit-content;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), inset 0 0 12px rgba(197, 160, 89, 0.12);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
 
-.section-badge i {
-    color: var(--gold-primary);
-    font-size: 0.75rem;
-    filter: drop-shadow(0 0 6px rgba(197, 160, 89, 0.7));
-}
+        .section-badge i {
+            color: var(--gold-primary);
+            font-size: 0.75rem;
+            filter: drop-shadow(0 0 6px rgba(197, 160, 89, 0.7));
+        }
 
-.section-badge:hover {
-    border-color: var(--gold-light);
-    box-shadow: 0 4px 25px rgba(197, 160, 89, 0.3), inset 0 0 15px rgba(197, 160, 89, 0.2);
-    transform: translateY(-2px);
-}
+        .section-badge:hover {
+            border-color: var(--gold-light);
+            box-shadow: 0 4px 25px rgba(197, 160, 89, 0.3), inset 0 0 15px rgba(197, 160, 89, 0.2);
+            transform: translateY(-2px);
+        }
 
-/* Magnificent Section Title H2 */
-.section-header h2 {
-    font-family: 'Playfair Display', 'Lora', serif;
-    font-size: clamp(2rem, 3.2vw, 2.7rem);
-    font-weight: 700;
-    line-height: 1.25;
-    margin: 0 auto;
-    background: linear-gradient(135deg, #ffffff 0%, #fff7e6 20%, #dfb76c 60%, #c5a059 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.7));
-    letter-spacing: -0.01em;
-    position: relative;
-    display: inline-block;
-    padding-bottom: 0;
-}
+        /* Magnificent Section Title H2 */
+        .section-header h2 {
+            font-family: 'Playfair Display', 'Lora', serif;
+            font-size: clamp(2rem, 3.2vw, 2.7rem);
+            font-weight: 700;
+            line-height: 1.25;
+            margin: 0 auto !important;
+            width: 100% !important;
+            text-align: center !important;
+            display: block !important;
+            background: linear-gradient(135deg, #ffffff 0%, #fff7e6 20%, #dfb76c 60%, #c5a059 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.7));
+            letter-spacing: -0.01em;
+            position: relative;
+            padding-bottom: 0;
+        }
 
-/* Remove legacy pseudo-element cutout */
-.section-header h2::before,
-.section-header h2::after {
-    display: none !important;
-}
+        /* Remove legacy pseudo-element cutout */
+        .section-header h2::before,
+        .section-header h2::after {
+            display: none !important;
+        }
 
-/* Symmetrical Luxury Gold Divider with Jewel */
-.header-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    margin: 16px auto 18px;
-    max-width: 320px;
-}
+        /* Symmetrical Luxury Gold Divider with Jewel */
+        .header-divider {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin: 16px auto 18px !important;
+            width: 100% !important;
+            max-width: 320px;
+        }
 
-.header-divider .divider-line {
-    flex: 1;
-    height: 1.5px;
-    background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.8), var(--gold-primary));
-}
+        .header-divider .divider-line {
+            flex: 1;
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.8), var(--gold-primary));
+        }
 
-.header-divider .divider-line.right {
-    background: linear-gradient(90deg, var(--gold-primary), rgba(197, 160, 89, 0.8), transparent);
-}
+        .header-divider .divider-line.right {
+            background: linear-gradient(90deg, var(--gold-primary), rgba(197, 160, 89, 0.8), transparent);
+        }
 
-.header-divider .divider-jewel {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
+        .header-divider .divider-jewel {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-.header-divider .divider-jewel .dot {
-    width: 4px;
-    height: 4px;
-    background: var(--gold-light);
-    transform: rotate(45deg);
-    opacity: 0.8;
-    box-shadow: 0 0 5px rgba(229, 192, 123, 0.8);
-}
+        .header-divider .divider-jewel .dot {
+            width: 4px;
+            height: 4px;
+            background: var(--gold-light);
+            transform: rotate(45deg);
+            opacity: 0.8;
+            box-shadow: 0 0 5px rgba(229, 192, 123, 0.8);
+        }
 
-.header-divider .divider-jewel .diamond {
-    width: 11px;
-    height: 11px;
-    background: linear-gradient(135deg, #ffffff 0%, #dfb76c 50%, #996515 100%);
-    transform: rotate(45deg);
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 1px;
-}
+        .header-divider .divider-jewel .diamond {
+            width: 11px;
+            height: 11px;
+            background: linear-gradient(135deg, #ffffff 0%, #dfb76c 50%, #996515 100%);
+            transform: rotate(45deg);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 1px;
+        }
 
-/* Fallback subtle underline for headers without explicit .header-divider */
-.section-header:not(:has(.header-divider)) h2 {
-    padding-bottom: 15px;
-    position: relative;
-}
+        /* Fallback subtle underline for headers without explicit .header-divider */
+        .section-header:not(:has(.header-divider)) h2 {
+            padding-bottom: 15px;
+            position: relative;
+        }
 
-.section-header:not(:has(.header-divider)) h2::after {
-    content: '' !important;
-    display: block !important;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
-    box-shadow: 0 0 8px rgba(197, 160, 89, 0.6);
-}
+        .section-header:not(:has(.header-divider)) h2::after {
+            content: '' !important;
+            display: block !important;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+            box-shadow: 0 0 8px rgba(197, 160, 89, 0.6);
+        }
 
-/* Section Subtitle Paragraph */
-.section-header p {
-    color: #b8c4d6;
-    max-width: 720px;
-    margin: 0 auto;
-    font-size: 1.05rem;
-    line-height: 1.7;
-    font-weight: 400;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-}
+        /* Section Subtitle Paragraph */
+        .section-header p {
+            color: #b8c4d6;
+            max-width: 720px;
+            margin: 0 auto !important;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            font-weight: 400;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+            text-align: center !important;
+            width: 100% !important;
+        }
 
-@media (max-width: 768px) {
-    .section-header {
-        margin-bottom: 35px;
-    }
-    .section-badge {
-        font-size: 0.75rem;
-        padding: 5px 16px;
-        letter-spacing: 0.1em;
-    }
-    .section-header h2 {
-        font-size: 1.75rem !important;
-    }
-    .header-divider {
-        max-width: 240px;
-        margin: 12px auto 14px;
-    }
-    .section-header p {
-        font-size: 0.95rem;
-    }
-}
+        /* Regal Page Banner Heading */
+        .page-banner h1 {
+            font-family: 'Playfair Display', 'Lora', serif;
+            font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #fff7e6 20%, #dfb76c 60%, #c5a059 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.8));
+            margin-bottom: 14px;
+        }
 
-/* Regal Page Banner Heading */
-.page-banner h1 {
-    font-family: 'Playfair Display', 'Lora', serif;
-    font-size: clamp(2.2rem, 3.8vw, 3.2rem);
-    font-weight: 700;
-    background: linear-gradient(135deg, #ffffff 0%, #fff7e6 20%, #dfb76c 60%, #c5a059 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.8));
-    margin-bottom: 14px;
-}
+        @media (max-width: 768px) {
+            .section-header {
+                margin-bottom: 35px;
+            }
+            .section-badge {
+                font-size: 0.75rem;
+                padding: 5px 16px;
+                letter-spacing: 0.1em;
+                margin-bottom: 12px !important;
+            }
+            .section-header h2 {
+                font-size: 1.75rem !important;
+            }
+            .header-divider {
+                max-width: 240px;
+                margin: 12px auto 14px !important;
+            }
+            .section-header p {
+                font-size: 0.95rem;
+            }
+        }
 
 .section-padding {
             padding: 100px 0;
