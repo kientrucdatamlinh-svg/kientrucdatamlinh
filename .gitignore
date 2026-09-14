@@ -1,0 +1,16 @@
+# Ignore large image folders (to be hosted on Cloudinary)
+/ảnh dự án/
+/ảnh nền/
+/ảnh sản phẩm/
+ảnh nền.png
+New folder/
+
+# Keep logo
+!/logo/
+!/logo/**
+
+# System and temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
