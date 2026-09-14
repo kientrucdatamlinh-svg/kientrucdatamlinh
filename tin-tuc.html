@@ -10766,7 +10766,7 @@
 
     <!-- ARTICLES DATA & SCRIPTS -->
     <script>
-        const ARTICLES_DATA = [
+        let ARTICLES_DATA = [
             {
                 id: 1,
                 title: "Kinh Nghiệm Xây Dựng Khu Lăng Mộ Đá Gia Tộc Chuẩn Phong Thủy 2026",
@@ -11034,6 +11034,11 @@
             }
         ];
 
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('ktdtl_articles')) {
+            try { ARTICLES_DATA = JSON.parse(localStorage.getItem('ktdtl_articles')); } catch(e) {}
+        }
+
+
         let currentCat = 'all';
 
         function renderArticles() {
@@ -11248,5 +11253,6 @@
         window.addEventListener('DOMContentLoaded', handleHeaderScroll);
 
     </script>
+    <script src="admin-shortcut.js"></script>
 </body>
 </html>

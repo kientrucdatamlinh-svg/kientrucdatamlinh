@@ -1,0 +1,1879 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Trị Nội Bộ - Kiến Trúc Đá Tâm Linh Ninh Bình</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500..700;1,400..700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-deep: #050b1a;
+            --bg-dark: #0a142c;
+            --bg-card: #0f1d3d;
+            --bg-input: #070f24;
+            --border-color: #1e3366;
+            --border-focus: #c5a059;
+            --gold-primary: #c5a059;
+            --gold-light: #e5c07b;
+            --gold-dark: #967439;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-silver: #cbd5e1;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
+            --sidebar-width: 270px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* AUTH GATE SCREEN */
+        #authGateScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #0e1e40 0%, #030712 100%);
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: #0a142c;
+            border: 2px solid var(--gold-primary);
+            border-radius: 16px;
+            max-width: 440px;
+            width: 100%;
+            padding: 40px 35px;
+            text-align: center;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9);
+            position: relative;
+        }
+
+        .auth-logo {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            margin: 0 auto 18px;
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 0 25px rgba(197, 160, 89, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(197, 160, 89, 0.15);
+            color: var(--gold-primary);
+            font-size: 2rem;
+        }
+
+        /* SIDEBAR */
+        #adminSidebar {
+            width: var(--sidebar-width);
+            background: var(--bg-dark);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-brand {
+            padding: 24px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-brand img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold-primary);
+            object-fit: cover;
+        }
+
+        .sidebar-brand h2 {
+            font-family: 'Lora', serif;
+            font-size: 1.15rem;
+            color: var(--gold-light);
+            line-height: 1.2;
+        }
+
+        .sidebar-brand span {
+            font-size: 0.72rem;
+            color: var(--gold-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            display: block;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 12px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            margin-bottom: 6px;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: var(--text-silver);
+            text-decoration: none;
+            font-size: 0.93rem;
+            font-weight: 500;
+            transition: all 0.25s ease;
+            cursor: pointer;
+        }
+
+        .menu-link i {
+            font-size: 1.1rem;
+            width: 22px;
+            text-align: center;
+            color: var(--gold-primary);
+        }
+
+        .menu-link:hover, .menu-link.active {
+            background: rgba(197, 160, 89, 0.15);
+            color: var(--gold-light);
+            border-left: 3px solid var(--gold-primary);
+        }
+
+        .badge-count {
+            margin-left: auto;
+            background: var(--bg-deep);
+            color: var(--gold-light);
+            border: 1px solid var(--border-color);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .sidebar-footer {
+            padding: 18px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* MAIN CONTENT AREA */
+        #adminMain {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: var(--bg-deep);
+        }
+
+        .admin-topbar {
+            height: 70px;
+            background: var(--bg-dark);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        .topbar-title h1 {
+            font-family: 'Lora', serif;
+            font-size: 1.35rem;
+            color: var(--gold-light);
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            border: none;
+        }
+
+        .btn-gold-admin {
+            background: linear-gradient(135deg, #967439 0%, #c5a059 50%, #e5c07b 100%);
+            color: #050b1a;
+            box-shadow: 0 4px 12px rgba(197, 160, 89, 0.35);
+        }
+
+        .btn-gold-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(197, 160, 89, 0.5);
+        }
+
+        .btn-outline-admin {
+            background: transparent;
+            color: var(--gold-primary);
+            border: 1px solid var(--gold-primary);
+        }
+
+        .btn-outline-admin:hover {
+            background: rgba(197, 160, 89, 0.12);
+        }
+
+        .btn-danger-admin {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+
+        .btn-danger-admin:hover {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        /* CONTENT SECTIONS */
+        .admin-content {
+            padding: 30px;
+            flex: 1;
+        }
+
+        .tab-section {
+            display: none;
+        }
+
+        .tab-section.active {
+            display: block;
+        }
+
+        /* STATS GRID */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.25s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold-primary);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: rgba(197, 160, 89, 0.12);
+            border: 1px solid var(--gold-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold-primary);
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .stat-info h3 {
+            font-size: 1.8rem;
+            font-family: 'Lora', serif;
+            color: var(--gold-light);
+            margin-bottom: 4px;
+        }
+
+        .stat-info p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        /* TOOLBAR IN TABS */
+        .section-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .search-filter-wrap {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+            max-width: 650px;
+        }
+
+        .admin-input {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.25s ease;
+        }
+
+        .admin-input:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.2);
+        }
+
+        .admin-select {
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* DATA TABLE */
+        .table-responsive {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.92rem;
+        }
+
+        .admin-table th {
+            background: var(--bg-dark);
+            color: var(--gold-light);
+            padding: 14px 18px;
+            font-family: 'Lora', serif;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        .admin-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-silver);
+            vertical-align: middle;
+        }
+
+        .admin-table tr:hover {
+            background: rgba(197, 160, 89, 0.04);
+        }
+
+        .thumb-preview {
+            width: 55px;
+            height: 55px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+        }
+
+        .tag-pill {
+            display: inline-block;
+            background: rgba(197, 160, 89, 0.15);
+            color: var(--gold-light);
+            border: 1px solid var(--gold-primary);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* MODAL STYLES */
+        .admin-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 7, 18, 0.88);
+            backdrop-filter: blur(8px);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .admin-modal-box {
+            background: var(--bg-card);
+            border: 2px solid var(--gold-primary);
+            border-radius: 14px;
+            max-width: 850px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-header-admin {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .modal-header-admin h2 {
+            font-family: 'Lora', serif;
+            color: var(--gold-light);
+            font-size: 1.45rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.88rem;
+            color: var(--gold-light);
+            font-weight: 500;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-textarea:focus {
+            border-color: var(--gold-primary);
+        }
+
+        /* GOOGLE SERP PREVIEW BOX */
+        .serp-box {
+            background: #202124;
+            border: 1px solid #3c4043;
+            border-radius: 8px;
+            padding: 18px;
+            margin: 15px 0 25px;
+            font-family: Arial, sans-serif;
+        }
+
+        .serp-url {
+            color: #bdc1c6;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .serp-title {
+            color: #8ab4f8;
+            font-size: 1.25rem;
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 6px;
+            cursor: pointer;
+        }
+
+        .serp-desc {
+            color: #bdc1c6;
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        /* TOAST NOTIFICATION */
+        #adminToast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-card);
+            border: 1.5px solid var(--gold-primary);
+            color: #fff;
+            padding: 14px 22px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 100000;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 900px) {
+            #adminSidebar {
+                transform: translateX(-100%);
+            }
+            #adminSidebar.open {
+                transform: translateX(0);
+            }
+            #adminMain {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. AUTH GATE SCREEN -->
+    <div id="authGateScreen">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h2 style="font-family: 'Lora', serif; color: var(--gold-light); font-size: 1.5rem; margin-bottom: 6px;">XÁC THỰC QUẢN TRỊ</h2>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 24px;">Kiến Trúc Đá Tâm Linh - Ninh Vân, Ninh Bình</p>
+            
+            <form onsubmit="handleAuthGateLogin(event)">
+                <div style="position: relative; margin-bottom: 18px;">
+                    <input type="password" id="gatePassInput" placeholder="Nhập mật khẩu quản trị..." required style="width: 100%; padding: 13px 45px 13px 16px; background: var(--bg-input); border: 1.5px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 1rem; outline: none;">
+                    <span onclick="toggleGatePassVisibility()" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--gold-primary); cursor: pointer;">
+                        <i id="gateEyeIcon" class="fa-solid fa-eye"></i>
+                    </span>
+                </div>
+                <div id="gateErrorMsg" style="display: none; color: var(--accent-red); font-size: 0.85rem; margin-bottom: 15px;">Mật khẩu không chính xác!</div>
+                <button type="submit" class="btn-action btn-gold-admin" style="width: 100%; justify-content: center; padding: 13px; font-size: 0.95rem; text-transform: uppercase;">
+                    <i class="fa-solid fa-lock-open"></i> Đăng Nhập Quản Trị
+                </button>
+            </form>
+            <p style="color: #64748b; font-size: 0.78rem; margin-top: 20px;">Phím tắt mở nhanh trên mọi trang: <code>Ctrl + Shift + K</code></p>
+        </div>
+    </div>
+
+    <!-- 2. SIDEBAR -->
+    <aside id="adminSidebar">
+        <div class="sidebar-brand">
+            <img src="https://res.cloudinary.com/g3beqqle/image/upload/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg" alt="Logo">
+            <div>
+                <h2>Đá Tâm Linh</h2>
+                <span>Bảng Quản Trị</span>
+            </div>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li class="menu-item">
+                <a class="menu-link active" onclick="switchAdminTab('overview', this)">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Tổng Quan</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" onclick="switchAdminTab('products', this)">
+                    <i class="fa-solid fa-monument"></i>
+                    <span>Sản Phẩm Đá</span>
+                    <span class="badge-count" id="badgeProductCount">0</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" onclick="switchAdminTab('projects', this)">
+                    <i class="fa-solid fa-landmark"></i>
+                    <span>Dự Án Đã Thi Công</span>
+                    <span class="badge-count" id="badgeProjectCount">0</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" onclick="switchAdminTab('articles', this)">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>Bài Viết & SEO</span>
+                    <span class="badge-count" id="badgeArticleCount">0</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" onclick="switchAdminTab('config', this)">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>Cài Đặt Website & SEO</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" onclick="switchAdminTab('sync', this)">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                    <span>Xuất Bản & Sao Lưu</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <a href="index.html" target="_blank" class="btn-action btn-outline-admin" style="justify-content: center; font-size: 0.85rem;">
+                <i class="fa-solid fa-globe"></i> Xem Trang Web
+            </a>
+            <button onclick="handleAdminLogout()" class="btn-action btn-danger-admin" style="justify-content: center; font-size: 0.85rem;">
+                <i class="fa-solid fa-right-from-bracket"></i> Đăng Xuất
+            </button>
+        </div>
+    </aside>
+
+    <!-- 3. MAIN DASHBOARD CONTENT -->
+    <main id="adminMain">
+        <!-- Topbar -->
+        <header class="admin-topbar">
+            <div class="topbar-title">
+                <h1 id="currentTabTitle">Tổng Quan Hệ Thống</h1>
+            </div>
+            <div class="topbar-actions">
+                <span style="font-size: 0.85rem; color: var(--gold-light); display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-user-shield"></i> KTS Nguyễn Văn Hướng
+                </span>
+                <button onclick="saveAllToStorage()" class="btn-action btn-gold-admin" title="Lưu toàn bộ thay đổi">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu Thay Đổi
+                </button>
+            </div>
+        </header>
+
+        <div class="admin-content">
+            <!-- TAB 1: TỔNG QUAN (OVERVIEW) -->
+            <section id="tab-overview" class="tab-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-monument"></i></div>
+                        <div class="stat-info">
+                            <h3 id="statTotalProducts">112</h3>
+                            <p>Sản phẩm đá mỹ nghệ</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-landmark"></i></div>
+                        <div class="stat-info">
+                            <h3 id="statTotalProjects">43</h3>
+                            <p>Dự án công trình thực tế</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-newspaper"></i></div>
+                        <div class="stat-info">
+                            <h3 id="statTotalArticles">8</h3>
+                            <p>Bài viết chuẩn SEO Google</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fa-solid fa-cloud"></i></div>
+                        <div class="stat-info">
+                            <h3>783+</h3>
+                            <p>Hình ảnh CDN Cloudinary</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Action Cards -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px;">
+                        <h3 style="color: var(--gold-light); font-size: 1.15rem; margin-bottom: 10px;"><i class="fa-solid fa-plus-circle" style="color: var(--gold-primary);"></i> Quản Trị Sản Phẩm</h3>
+                        <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 18px;">Thêm mới mẫu mộ đá, lăng thờ chung, chỉnh sửa báo giá, kích thước Lỗ Ban và cập nhật ảnh sản phẩm.</p>
+                        <button onclick="openProductModal()" class="btn-action btn-gold-admin"><i class="fa-solid fa-plus"></i> Thêm Sản Phẩm Mới</button>
+                    </div>
+
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px;">
+                        <h3 style="color: var(--gold-light); font-size: 1.15rem; margin-bottom: 10px;"><i class="fa-solid fa-camera" style="color: var(--gold-primary);"></i> Quản Trị Dự Án</h3>
+                        <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 18px;">Thêm công trình hoàn thành, cập nhật album ảnh thực tế, thông số kỹ thuật và địa điểm thi công.</p>
+                        <button onclick="openProjectModal()" class="btn-action btn-gold-admin"><i class="fa-solid fa-plus"></i> Thêm Dự Án Mới</button>
+                    </div>
+
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px;">
+                        <h3 style="color: var(--gold-light); font-size: 1.15rem; margin-bottom: 10px;"><i class="fa-solid fa-feather-pointed" style="color: var(--gold-primary);"></i> Quản Trị Bài Viết SEO</h3>
+                        <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 18px;">Viết bài mới chuẩn SEO, tối ưu Meta Title & Description, xem trước hiển thị kết quả tìm kiếm Google.</p>
+                        <button onclick="openArticleModal()" class="btn-action btn-gold-admin"><i class="fa-solid fa-plus"></i> Viết Bài Chuẩn SEO</button>
+                    </div>
+                </div>
+
+                <!-- Admin Guide -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; border-left: 4px solid var(--gold-primary);">
+                    <h3 style="color: var(--gold-light); font-size: 1.2rem; margin-bottom: 12px;"><i class="fa-solid fa-circle-info" style="color: var(--gold-primary);"></i> Hướng Dẫn Sử Dụng Trang Quản Trị Ẩn</h3>
+                    <ul style="color: var(--text-silver); font-size: 0.92rem; line-height: 1.8; padding-left: 20px;">
+                        <li><strong>Phím tắt mở trang Admin:</strong> Bấm tổ hợp phím <kbd style="background: #050b1a; padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border-color); color: var(--gold-primary);">Ctrl + Shift + K</kbd> trên bất kỳ trang nào của website và nhập mật khẩu <code>Ninhbinh1@</code>.</li>
+                        <li><strong>Lưu trữ tức thì:</strong> Mọi thao tác chỉnh sửa sản phẩm, dự án, bài viết được lưu trữ trực tiếp vào bộ nhớ trình duyệt, có hiệu lực ngay lập tức.</li>
+                        <li><strong>Sao lưu dữ liệu:</strong> Vào mục <em>"Xuất Bản & Sao Lưu"</em> để tải file dữ liệu JSON đầy đủ về máy tính.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- TAB 2: QUẢN LÝ SẢN PHẨM (PRODUCTS) -->
+            <section id="tab-products" class="tab-section">
+                <div class="section-toolbar">
+                    <div class="search-filter-wrap">
+                        <input type="text" id="prodSearchInput" class="admin-input" placeholder="Tìm kiếm sản phẩm theo tên, chất liệu..." oninput="renderProductsTable()">
+                        <select id="prodCategoryFilter" class="admin-select" onchange="renderProductsTable()">
+                            <option value="all">Tất Cả Danh Mục</option>
+                            <option value="langtho">Lăng Thờ Đá</option>
+                            <option value="moda">Mộ Đá</option>
+                            <option value="cuonthu">Cuốn Thư Đá</option>
+                            <option value="cong">Cổng Đá</option>
+                            <option value="lancan">Lan Can Đá</option>
+                            <option value="nhatho">Nhà Thờ Họ</option>
+                            <option value="thap">Tháp Đá</option>
+                            <option value="tuong">Tượng Đá & Linh Vật</option>
+                        </select>
+                    </div>
+                    <button onclick="openProductModal()" class="btn-action btn-gold-admin">
+                        <i class="fa-solid fa-plus"></i> Thêm Sản Phẩm Mới
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Ảnh</th>
+                                <th>Tên Sản Phẩm</th>
+                                <th>Danh Mục</th>
+                                <th>Đơn Giá</th>
+                                <th>Chất Liệu</th>
+                                <th>Số Ảnh</th>
+                                <th style="text-align: right;">Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 3: QUẢN LÝ DỰ ÁN (PROJECTS) -->
+            <section id="tab-projects" class="tab-section">
+                <div class="section-toolbar">
+                    <div class="search-filter-wrap">
+                        <input type="text" id="projSearchInput" class="admin-input" placeholder="Tìm kiếm dự án theo tên, địa điểm..." oninput="renderProjectsTable()">
+                        <select id="projCategoryFilter" class="admin-select" onchange="renderProjectsTable()">
+                            <option value="all">Tất Cả Loại Công Trình</option>
+                            <option value="langmo">Công Trình Khu Lăng Mộ</option>
+                            <option value="congtrinh">Công Trình Tâm Linh</option>
+                            <option value="khuonvien3d">Khuôn Viên 3D</option>
+                        </select>
+                    </div>
+                    <button onclick="openProjectModal()" class="btn-action btn-gold-admin">
+                        <i class="fa-solid fa-plus"></i> Thêm Dự Án Mới
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Ảnh</th>
+                                <th>Tên Công Trình</th>
+                                <th>Địa Điểm</th>
+                                <th>Phân Loại</th>
+                                <th>Số Ảnh</th>
+                                <th style="text-align: right;">Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectsTableBody">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 4: QUẢN LÝ BÀI VIẾT SEO (ARTICLES) -->
+            <section id="tab-articles" class="tab-section">
+                <div class="section-toolbar">
+                    <div class="search-filter-wrap">
+                        <input type="text" id="artSearchInput" class="admin-input" placeholder="Tìm kiếm bài viết theo tiêu đề, chuyên mục..." oninput="renderArticlesTable()">
+                        <select id="artCategoryFilter" class="admin-select" onchange="renderArticlesTable()">
+                            <option value="all">Tất Cả Chuyên Mục</option>
+                            <option value="cam-nang">Cẩm Nang Lăng Mộ</option>
+                            <option value="phong-thuy">Phong Thủy Âm Trạch</option>
+                            <option value="chon-da">Kinh Nghiệm Chọn Đá</option>
+                            <option value="nha-tho">Nhà Thờ Họ</option>
+                            <option value="thi-cong">Quy Trình Thi Công</option>
+                        </select>
+                    </div>
+                    <button onclick="openArticleModal()" class="btn-action btn-gold-admin">
+                        <i class="fa-solid fa-plus"></i> Viết Bài Mới Chuẩn SEO
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Ảnh Bìa</th>
+                                <th>Tiêu Đề Bài Viết</th>
+                                <th>Chuyên Mục</th>
+                                <th>Ngày Đăng</th>
+                                <th>Lượt Xem</th>
+                                <th style="text-align: right;">Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="articlesTableBody">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TAB 5: CÀI ĐẶT SEO & WEBSITE (CONFIG) -->
+            <section id="tab-config" class="tab-section">
+                <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; max-width: 900px;">
+                    <h2 style="font-family: 'Lora', serif; color: var(--gold-light); margin-bottom: 20px; font-size: 1.4rem;">
+                        <i class="fa-solid fa-gear" style="color: var(--gold-primary);"></i> Cấu Hình Toàn Trang & Thẻ SEO Mặc Định
+                    </h2>
+
+                    <form onsubmit="saveSiteConfig(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Tên Thương Hiệu</label>
+                                <input type="text" id="cfgSiteName" class="admin-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Khẩu Hiệu (Slogan)</label>
+                                <input type="text" id="cfgTagline" class="admin-input">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nghệ Nhân Sáng Lập</label>
+                                <input type="text" id="cfgFounder" class="admin-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Hotline Tư Vấn (24/7)</label>
+                                <input type="text" id="cfgHotline" class="admin-input">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Số Điện Thoại Kỹ Thuật</label>
+                                <input type="text" id="cfgTechPhone" class="admin-input">
+                            </div>
+                            <div class="form-group">
+                                <label>Địa Chỉ Xưởng Chế Tác</label>
+                                <input type="text" id="cfgAddress" class="admin-input">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Thẻ Tiêu Đề SEO Trang Chủ (Meta Title)</label>
+                            <input type="text" id="cfgMetaTitle" class="admin-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Thẻ Mô Tả SEO Trang Chủ (Meta Description)</label>
+                            <textarea id="cfgMetaDesc" class="form-textarea" style="min-height: 80px;"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Từ Khóa SEO Toàn Trang (Cách nhau bởi dấu phẩy)</label>
+                            <input type="text" id="cfgKeywords" class="admin-input">
+                        </div>
+
+                        <button type="submit" class="btn-action btn-gold-admin" style="padding: 12px 28px;">
+                            <i class="fa-solid fa-floppy-disk"></i> Lưu Cài Đặt Hệ Thống
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- TAB 6: XUẤT BẢN & SAO LƯU (SYNC & BACKUP) -->
+            <section id="tab-sync" class="tab-section">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;">
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px;">
+                        <h3 style="color: var(--gold-light); font-size: 1.2rem; margin-bottom: 10px;">
+                            <i class="fa-solid fa-download" style="color: var(--gold-primary);"></i> Tải File Sao Lưu JSON
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px;">
+                            Xuất toàn bộ dữ liệu gồm 112+ sản phẩm, 43+ dự án và 8+ bài viết SEO ra file JSON để lưu trữ an toàn trên máy tính.
+                        </p>
+                        <button onclick="downloadBackupJSON()" class="btn-action btn-gold-admin">
+                            <i class="fa-solid fa-file-arrow-down"></i> Tải Bản Sao Lưu (.JSON)
+                        </button>
+                    </div>
+
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px;">
+                        <h3 style="color: var(--gold-light); font-size: 1.2rem; margin-bottom: 10px;">
+                            <i class="fa-solid fa-rotate-left" style="color: var(--accent-red);"></i> Khôi Phục Dữ Liệu Gốc
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px;">
+                            Đặt lại toàn bộ dữ liệu về trạng thái ban đầu của website nếu bạn muốn hủy các chỉnh sửa thử nghiệm.
+                        </p>
+                        <button onclick="resetToDefaultData()" class="btn-action btn-danger-admin">
+                            <i class="fa-solid fa-arrows-rotate"></i> Khôi Phục Mặc Định
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- PRODUCT EDIT / ADD MODAL -->
+    <div id="productModal" class="admin-modal-overlay">
+        <div class="admin-modal-box">
+            <div class="modal-header-admin">
+                <h2 id="productModalTitle">Chỉnh Sửa Chi Tiết Sản Phẩm</h2>
+                <span onclick="closeProductModal()" style="color: var(--gold-primary); font-size: 28px; cursor: pointer;">&times;</span>
+            </div>
+            <form onsubmit="saveProductItem(event)">
+                <input type="hidden" id="prodEditIndex" value="-1">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tên Sản Phẩm (*)</label>
+                        <input type="text" id="prodTitle" class="admin-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Danh Mục Sản Phẩm</label>
+                        <select id="prodCatCode" class="admin-select" style="width: 100%;" onchange="updateProdCatName()">
+                            <option value="langtho">Lăng Thờ Đá</option>
+                            <option value="moda">Mộ Đá</option>
+                            <option value="cuonthu">Cuốn Thư Đá</option>
+                            <option value="cong">Cổng Đá</option>
+                            <option value="lancan">Lan Can Đá</option>
+                            <option value="nhatho">Nhà Thờ Họ</option>
+                            <option value="thap">Tháp Đá</option>
+                            <option value="tuong">Tượng Đá & Linh Vật</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Đơn Giá Tham Khảo</label>
+                        <input type="text" id="prodPrice" class="admin-input" placeholder="Ví dụ: 35 - 280 Triệu VNĐ">
+                    </div>
+                    <div class="form-group">
+                        <label>Phân Khúc Giá</label>
+                        <select id="prodPriceCat" class="admin-select" style="width: 100%;">
+                            <option value="under30">Dưới 30 Triệu</option>
+                            <option value="30to60">30 - 60 Triệu</option>
+                            <option value="60to100">60 - 100 Triệu</option>
+                            <option value="over100">Trên 100 Triệu</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Chất Liệu Đá Chế Tác</label>
+                        <input type="text" id="prodMaterial" class="admin-input" placeholder="Ví dụ: Đá Xanh Rêu & Xanh Đen Khối">
+                    </div>
+                    <div class="form-group">
+                        <label>Quy Cách Kích Thước</label>
+                        <input type="text" id="prodSpec" class="admin-input" placeholder="Ví dụ: Chuẩn Thước Lỗ Ban - Bảo Hành Trọn Đời">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Mô Tả Chi Tiết & Ý Nghĩa Phong Thủy</label>
+                    <textarea id="prodDesc" class="form-textarea" style="min-height: 140px;"></textarea>
+                </div>
+
+                <!-- Product Images Manager -->
+                <div class="form-group">
+                    <label>Danh Sách Link Ảnh Cloudinary (Mỗi link một dòng)</label>
+                    <textarea id="prodImgsText" class="form-textarea" style="min-height: 100px;" oninput="previewProductImages()"></textarea>
+                    <div id="prodImgsPreview" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
+                </div>
+
+                <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                    <button type="button" onclick="closeProductModal()" class="btn-action btn-outline-admin">Hủy Bỏ</button>
+                    <button type="submit" class="btn-action btn-gold-admin"><i class="fa-solid fa-check"></i> Lưu Sản Phẩm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- PROJECT EDIT / ADD MODAL -->
+    <div id="projectModal" class="admin-modal-overlay">
+        <div class="admin-modal-box">
+            <div class="modal-header-admin">
+                <h2 id="projectModalTitle">Chỉnh Sửa Chi Tiết Dự Án</h2>
+                <span onclick="closeProjectModal()" style="color: var(--gold-primary); font-size: 28px; cursor: pointer;">&times;</span>
+            </div>
+            <form onsubmit="saveProjectItem(event)">
+                <input type="hidden" id="projEditIndex" value="-1">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tên Công Trình (*)</label>
+                        <input type="text" id="projTitle" class="admin-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phân Loại Công Trình</label>
+                        <select id="projCatCode" class="admin-select" style="width: 100%;" onchange="updateProjCatName()">
+                            <option value="langmo">Công Trình Khu Lăng Mộ</option>
+                            <option value="congtrinh">Công Trình Tâm Linh</option>
+                            <option value="khuonvien3d">Khuôn Viên 3D</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Địa Điểm Thi Công (Tỉnh/Thành)</label>
+                        <input type="text" id="projLocation" class="admin-input" placeholder="Ví dụ: Hà Nội, Vĩnh Phúc...">
+                    </div>
+                    <div class="form-group">
+                        <label>Ảnh Đại Diện Chính (Link Cloudinary)</label>
+                        <input type="text" id="projMainImg" class="admin-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Giới Thiệu Ngắn (Hiển thị thẻ xem nhanh)</label>
+                    <input type="text" id="projShortDesc" class="admin-input">
+                </div>
+
+                <div class="form-group">
+                    <label>Mô Tả Chi Tiết Công Trình</label>
+                    <textarea id="projDetailDesc" class="form-textarea" style="min-height: 100px;"></textarea>
+                </div>
+
+                <!-- Specs Dynamic Rows -->
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <label style="margin: 0;">Thông Số Kỹ Thuật & Hạng Mục</label>
+                        <button type="button" onclick="addSpecRow()" class="btn-action btn-outline-admin" style="padding: 4px 10px; font-size: 0.78rem;">
+                            <i class="fa-solid fa-plus"></i> Thêm Dòng
+                        </button>
+                    </div>
+                    <div id="projSpecsContainer" style="display: flex; flex-direction: column; gap: 8px;"></div>
+                </div>
+
+                <!-- Project Images List -->
+                <div class="form-group">
+                    <label>Tất Cả Ảnh Dự Án (Mỗi link Cloudinary một dòng)</label>
+                    <textarea id="projImgsText" class="form-textarea" style="min-height: 100px;" oninput="previewProjectImages()"></textarea>
+                    <div id="projImgsPreview" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
+                </div>
+
+                <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                    <button type="button" onclick="closeProjectModal()" class="btn-action btn-outline-admin">Hủy Bỏ</button>
+                    <button type="submit" class="btn-action btn-gold-admin"><i class="fa-solid fa-check"></i> Lưu Dự Án</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SEO ARTICLE EDIT / ADD MODAL -->
+    <div id="articleModal" class="admin-modal-overlay">
+        <div class="admin-modal-box">
+            <div class="modal-header-admin">
+                <h2 id="articleModalTitle">Soạn Thảo & Tối Ưu SEO Bài Viết</h2>
+                <span onclick="closeArticleModal()" style="color: var(--gold-primary); font-size: 28px; cursor: pointer;">&times;</span>
+            </div>
+            <form onsubmit="saveArticleItem(event)">
+                <input type="hidden" id="artEditIndex" value="-1">
+                
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <label>Tiêu Đề Bài Viết H1 (*)</label>
+                        <input type="text" id="artTitle" class="admin-input" required oninput="updateSerpPreview()">
+                    </div>
+                    <div class="form-group">
+                        <label>Chuyên Mục</label>
+                        <select id="artCategory" class="admin-select" style="width: 100%;" onchange="updateArtCategoryName()">
+                            <option value="cam-nang">Cẩm Nang Lăng Mộ</option>
+                            <option value="phong-thuy">Phong Thủy Âm Trạch</option>
+                            <option value="chon-da">Kinh Nghiệm Chọn Đá</option>
+                            <option value="nha-tho">Nhà Thờ Họ</option>
+                            <option value="thi-cong">Quy Trình Thi Công</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tác Giả</label>
+                        <input type="text" id="artAuthor" class="admin-input" value="KTS Nguyễn Văn Hướng">
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày Đăng</label>
+                        <input type="text" id="artDate" class="admin-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Thời Gian Đọc Ước Tính</label>
+                        <input type="text" id="artReadTime" class="admin-input" placeholder="Ví dụ: 8 phút">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Link Ảnh Bìa Đại Diện (Cloudinary URL)</label>
+                    <input type="text" id="artImage" class="admin-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Đoạn Tóm Tắt Dẫn Dắt (Excerpt)</label>
+                    <textarea id="artExcerpt" class="form-textarea" style="min-height: 80px;" oninput="updateSerpPreview()"></textarea>
+                </div>
+
+                <!-- GOOGLE SERP PREVIEW -->
+                <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 18px; margin-bottom: 20px; background: rgba(5,11,26,0.5);">
+                    <h4 style="color: var(--gold-light); margin-bottom: 8px; font-size: 0.95rem;">
+                        <i class="fa-brands fa-google" style="color: #ea4335;"></i> Mô Phỏng Hiển Thị Kết Quả Tìm Kiếm Google (SERP Snippet)
+                    </h4>
+                    <div class="serp-box">
+                        <div class="serp-url">https://kientrucdatamlinh.com › tin-tuc › <span id="serpSlug">kinh-nghiem-xay-dung-lang-mo</span></div>
+                        <div class="serp-title" id="serpTitle">Kinh Nghiệm Xây Dựng Khu Lăng Mộ Đá Gia Tộc Chuẩn Phong Thủy 2026</div>
+                        <div class="serp-desc" id="serpDesc">Tổng hợp toàn bộ kinh nghiệm thực chiến khi quy hoạch và xây dựng khu lăng mộ đá gia tộc: bố trí lăng thờ chung, mộ đá, cuốn thư...</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Từ Khóa SEO Chính (Focus Keyword)</label>
+                            <input type="text" id="artKeyword" class="admin-input" placeholder="Ví dụ: lăng mộ đá gia tộc">
+                        </div>
+                        <div class="form-group">
+                            <label>Đường Dẫn Tĩnh (SEO Slug)</label>
+                            <input type="text" id="artSlug" class="admin-input" placeholder="kinh-nghiem-xay-dung-lang-mo" oninput="updateSerpPreview()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nội Dung Chi Tiết Bài Viết (Hỗ trợ HTML: &lt;h2&gt;, &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;table&gt;...)</label>
+                    <textarea id="artContent" class="form-textarea" style="min-height: 220px;"></textarea>
+                </div>
+
+                <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+                    <button type="button" onclick="closeArticleModal()" class="btn-action btn-outline-admin">Hủy Bỏ</button>
+                    <button type="submit" class="btn-action btn-gold-admin"><i class="fa-solid fa-check"></i> Lưu Bài Viết SEO</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="adminToast">
+        <i class="fa-solid fa-circle-check" style="color: var(--accent-green); font-size: 1.2rem;"></i>
+        <span id="adminToastMsg">Thao tác thành công!</span>
+    </div>
+
+    <!-- Scripts: load default baseline data, then app logic -->
+    <script src="default_data.js"></script>
+    <script>
+        // Admin State
+        let adminProducts = [];
+        let adminProjects = [];
+        let adminArticles = [];
+        let adminConfig = {};
+
+        // 1. Auth Guard
+        function checkAuthGate() {
+            const isAuth = sessionStorage.getItem('ktdtl_admin_auth') === 'authenticated';
+            const gate = document.getElementById('authGateScreen');
+            if (isAuth) {
+                gate.style.display = 'none';
+            } else {
+                gate.style.display = 'flex';
+            }
+        }
+
+        function handleAuthGateLogin(e) {
+            e.preventDefault();
+            const val = document.getElementById('gatePassInput').value;
+            const err = document.getElementById('gateErrorMsg');
+            if (val === 'Ninhbinh1@') {
+                sessionStorage.setItem('ktdtl_admin_auth', 'authenticated');
+                document.getElementById('authGateScreen').style.display = 'none';
+                showToast("Đăng nhập quản trị thành công!");
+            } else {
+                err.style.display = 'block';
+                document.getElementById('gatePassInput').select();
+            }
+        }
+
+        function toggleGatePassVisibility() {
+            const inp = document.getElementById('gatePassInput');
+            const icon = document.getElementById('gateEyeIcon');
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                icon.className = 'fa-solid fa-eye-slash';
+            } else {
+                inp.type = 'password';
+                icon.className = 'fa-solid fa-eye';
+            }
+        }
+
+        function handleAdminLogout() {
+            if (confirm("Bạn có chắc chắn muốn đăng xuất khỏi trang quản trị?")) {
+                sessionStorage.removeItem('ktdtl_admin_auth');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // 2. Data Initialization
+        function initAdminData() {
+            // Products
+            const storedProd = localStorage.getItem('ktdtl_products');
+            adminProducts = storedProd ? JSON.parse(storedProd) : (typeof DEFAULT_PRODUCTS !== 'undefined' ? DEFAULT_PRODUCTS : []);
+            
+            // Projects
+            const storedProj = localStorage.getItem('ktdtl_projects');
+            adminProjects = storedProj ? JSON.parse(storedProj) : (typeof DEFAULT_PROJECTS !== 'undefined' ? DEFAULT_PROJECTS : []);
+
+            // Articles
+            const storedArt = localStorage.getItem('ktdtl_articles');
+            adminArticles = storedArt ? JSON.parse(storedArt) : (typeof DEFAULT_ARTICLES !== 'undefined' ? DEFAULT_ARTICLES : []);
+
+            // Config
+            const storedCfg = localStorage.getItem('ktdtl_config');
+            adminConfig = storedCfg ? JSON.parse(storedCfg) : (typeof DEFAULT_SITE_CONFIG !== 'undefined' ? DEFAULT_SITE_CONFIG : {});
+
+            updateDashboardCounts();
+            renderProductsTable();
+            renderProjectsTable();
+            renderArticlesTable();
+            populateConfigForm();
+        }
+
+        function updateDashboardCounts() {
+            document.getElementById('statTotalProducts').innerText = adminProducts.length;
+            document.getElementById('statTotalProjects').innerText = adminProjects.length;
+            document.getElementById('statTotalArticles').innerText = adminArticles.length;
+            
+            document.getElementById('badgeProductCount').innerText = adminProducts.length;
+            document.getElementById('badgeProjectCount').innerText = adminProjects.length;
+            document.getElementById('badgeArticleCount').innerText = adminArticles.length;
+        }
+
+        function saveAllToStorage() {
+            localStorage.setItem('ktdtl_products', JSON.stringify(adminProducts));
+            localStorage.setItem('ktdtl_projects', JSON.stringify(adminProjects));
+            localStorage.setItem('ktdtl_articles', JSON.stringify(adminArticles));
+            localStorage.setItem('ktdtl_config', JSON.stringify(adminConfig));
+            updateDashboardCounts();
+            showToast("Đã lưu tất cả thay đổi thành công!");
+        }
+
+        // 3. Tab Switching
+        function switchAdminTab(tabId, linkEl) {
+            document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.menu-link').forEach(link => link.classList.remove('active'));
+
+            const target = document.getElementById('tab-' + tabId);
+            if (target) target.classList.add('active');
+            if (linkEl) linkEl.classList.add('active');
+
+            const titles = {
+                'overview': 'Tổng Quan Hệ Thống',
+                'products': 'Quản Lý Sản Phẩm Đá',
+                'projects': 'Quản Lý Dự Án Đã Thi Công',
+                'articles': 'Quản Lý Bài Viết & Tối Ưu SEO',
+                'config': 'Cài Đặt Website & SEO',
+                'sync': 'Xuất Bản & Sao Lưu'
+            };
+            document.getElementById('currentTabTitle').innerText = titles[tabId] || 'Quản Trị';
+        }
+
+        // 4. Products CRUD
+        function renderProductsTable() {
+            const tbody = document.getElementById('productsTableBody');
+            const search = (document.getElementById('prodSearchInput').value || '').toLowerCase().trim();
+            const cat = document.getElementById('prodCategoryFilter').value;
+
+            const filtered = adminProducts.filter(p => {
+                const matchCat = (cat === 'all') || (p.cat_code === cat);
+                const matchSearch = !search || 
+                    (p.title && p.title.toLowerCase().includes(search)) ||
+                    (p.material && p.material.toLowerCase().includes(search));
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:30px;">Không tìm thấy sản phẩm phù hợp.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map((p, idx) => {
+                const realIndex = adminProducts.indexOf(p);
+                const firstImg = (p.imgs && p.imgs.length > 0) ? p.imgs[0] : 'https://res.cloudinary.com/g3beqqle/image/upload/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg';
+                return `
+                <tr>
+                    <td><img src="${firstImg}" class="thumb-preview" alt="thumb"></td>
+                    <td><strong>${p.title}</strong></td>
+                    <td><span class="tag-pill">${p.cat_name || p.cat_code}</span></td>
+                    <td style="color: var(--gold-light); font-weight:600;">${p.price || 'Liên hệ'}</td>
+                    <td>${p.material || 'Đá tự nhiên'}</td>
+                    <td>${(p.imgs || []).length} ảnh</td>
+                    <td style="text-align: right; white-space: nowrap;">
+                        <button onclick="editProduct(${realIndex})" class="btn-action btn-outline-admin" style="padding:6px 12px; font-size:0.8rem;"><i class="fa-solid fa-pen-to-square"></i> Sửa</button>
+                        <button onclick="deleteProduct(${realIndex})" class="btn-action btn-danger-admin" style="padding:6px 12px; font-size:0.8rem; margin-left:6px;"><i class="fa-solid fa-trash"></i> Xóa</button>
+                    </td>
+                </tr>
+                `;
+            }).join('');
+        }
+
+        function openProductModal(index = -1) {
+            document.getElementById('prodEditIndex').value = index;
+            const modal = document.getElementById('productModal');
+            
+            if (index >= 0 && adminProducts[index]) {
+                const p = adminProducts[index];
+                document.getElementById('productModalTitle').innerText = "Chỉnh Sửa: " + p.title;
+                document.getElementById('prodTitle').value = p.title || '';
+                document.getElementById('prodCatCode').value = p.cat_code || 'langtho';
+                document.getElementById('prodPrice').value = p.price || '';
+                document.getElementById('prodPriceCat').value = p.price_cat || 'under30';
+                document.getElementById('prodMaterial').value = p.material || '';
+                document.getElementById('prodSpec').value = p.spec || '';
+                document.getElementById('prodDesc').value = p.desc || '';
+                document.getElementById('prodImgsText').value = (p.imgs || []).join('\n');
+            } else {
+                document.getElementById('productModalTitle').innerText = "Thêm Sản Phẩm Mới";
+                document.getElementById('prodTitle').value = '';
+                document.getElementById('prodCatCode').value = 'langtho';
+                document.getElementById('prodPrice').value = '35 - 120 Triệu VNĐ';
+                document.getElementById('prodPriceCat').value = '30to60';
+                document.getElementById('prodMaterial').value = 'Đá Xanh Rêu Tự Nhiên';
+                document.getElementById('prodSpec').value = 'Chuẩn Thước Lỗ Ban 38.8cm';
+                document.getElementById('prodDesc').value = '';
+                document.getElementById('prodImgsText').value = '';
+            }
+            previewProductImages();
+            modal.style.display = 'flex';
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        function updateProdCatName() {
+            const code = document.getElementById('prodCatCode').value;
+            const map = {
+                langtho: 'Lăng Thờ Đá',
+                moda: 'Mộ Đá',
+                cuonthu: 'Cuốn Thư Đá',
+                cong: 'Cổng Đá',
+                lancan: 'Lan Can Đá',
+                nhatho: 'Nhà Thờ Họ',
+                thap: 'Tháp Đá',
+                tuong: 'Tượng Đá & Linh Vật'
+            };
+            return map[code] || 'Sản Phẩm Đá';
+        }
+
+        function previewProductImages() {
+            const text = document.getElementById('prodImgsText').value;
+            const urls = text.split('\n').map(u => u.trim()).filter(Boolean);
+            const container = document.getElementById('prodImgsPreview');
+            container.innerHTML = urls.slice(0, 8).map(u => `
+                <img src="${u}" style="width:50px; height:50px; border-radius:4px; object-fit:cover; border:1px solid var(--border-color);" alt="preview" onerror="this.style.display='none'">
+            `).join('') + (urls.length > 8 ? `<span style="font-size:0.8rem; color:var(--gold-light); align-self:center;">+${urls.length - 8} ảnh khác</span>` : '');
+        }
+
+        function saveProductItem(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('prodEditIndex').value);
+            const catCode = document.getElementById('prodCatCode').value;
+            const catName = updateProdCatName();
+            const imgs = document.getElementById('prodImgsText').value.split('\n').map(u => u.trim()).filter(Boolean);
+
+            const item = {
+                cat_code: catCode,
+                cat_name: catName,
+                folder_key: catCode + '/' + document.getElementById('prodTitle').value,
+                title: document.getElementById('prodTitle').value,
+                price: document.getElementById('prodPrice').value,
+                price_cat: document.getElementById('prodPriceCat').value,
+                material: document.getElementById('prodMaterial').value,
+                spec: document.getElementById('prodSpec').value,
+                desc: document.getElementById('prodDesc').value,
+                imgs: imgs
+            };
+
+            if (index >= 0) {
+                adminProducts[index] = item;
+                showToast("Đã cập nhật sản phẩm thành công!");
+            } else {
+                adminProducts.unshift(item);
+                showToast("Đã thêm sản phẩm mới thành công!");
+            }
+
+            saveAllToStorage();
+            closeProductModal();
+            renderProductsTable();
+        }
+
+        function editProduct(idx) {
+            openProductModal(idx);
+        }
+
+        function deleteProduct(idx) {
+            if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+                adminProducts.splice(idx, 1);
+                saveAllToStorage();
+                renderProductsTable();
+                showToast("Đã xóa sản phẩm!");
+            }
+        }
+
+        // 5. Projects CRUD
+        function renderProjectsTable() {
+            const tbody = document.getElementById('projectsTableBody');
+            const search = (document.getElementById('projSearchInput').value || '').toLowerCase().trim();
+            const cat = document.getElementById('projCategoryFilter').value;
+
+            const filtered = adminProjects.filter(p => {
+                const matchCat = (cat === 'all') || (p.cat_code === cat);
+                const matchSearch = !search ||
+                    (p.title && p.title.toLowerCase().includes(search)) ||
+                    (p.location && p.location.toLowerCase().includes(search));
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px;">Không tìm thấy dự án phù hợp.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map((p, idx) => {
+                const realIndex = adminProjects.indexOf(p);
+                return `
+                <tr>
+                    <td><img src="${p.img || (p.imgs && p.imgs[0])}" class="thumb-preview" alt="thumb"></td>
+                    <td><strong>${p.title}</strong></td>
+                    <td><span style="color:var(--gold-primary);"><i class="fa-solid fa-location-dot"></i> ${p.location || 'Ninh Bình'}</span></td>
+                    <td><span class="tag-pill">${p.cat_name || p.cat_code}</span></td>
+                    <td>${(p.imgs || []).length} ảnh</td>
+                    <td style="text-align: right; white-space: nowrap;">
+                        <button onclick="editProject(${realIndex})" class="btn-action btn-outline-admin" style="padding:6px 12px; font-size:0.8rem;"><i class="fa-solid fa-pen-to-square"></i> Sửa</button>
+                        <button onclick="deleteProject(${realIndex})" class="btn-action btn-danger-admin" style="padding:6px 12px; font-size:0.8rem; margin-left:6px;"><i class="fa-solid fa-trash"></i> Xóa</button>
+                    </td>
+                </tr>
+                `;
+            }).join('');
+        }
+
+        function openProjectModal(index = -1) {
+            document.getElementById('projEditIndex').value = index;
+            const modal = document.getElementById('projectModal');
+
+            if (index >= 0 && adminProjects[index]) {
+                const p = adminProjects[index];
+                document.getElementById('projectModalTitle').innerText = "Chỉnh Sửa: " + p.title;
+                document.getElementById('projTitle').value = p.title || '';
+                document.getElementById('projCatCode').value = p.cat_code || 'langmo';
+                document.getElementById('projLocation').value = p.location || '';
+                document.getElementById('projMainImg').value = p.img || (p.imgs && p.imgs[0]) || '';
+                document.getElementById('projShortDesc').value = p.short_desc || '';
+                document.getElementById('projDetailDesc').value = p.detail_desc || '';
+                document.getElementById('projImgsText').value = (p.imgs || []).join('\n');
+                renderSpecsRows(p.specs || []);
+            } else {
+                document.getElementById('projectModalTitle').innerText = "Thêm Dự Án Mới";
+                document.getElementById('projTitle').value = '';
+                document.getElementById('projCatCode').value = 'langmo';
+                document.getElementById('projLocation').value = 'Hà Nội';
+                document.getElementById('projMainImg').value = '';
+                document.getElementById('projShortDesc').value = 'Công Trình Khu Lăng Mộ | Đá xanh rêu Ninh Vân';
+                document.getElementById('projDetailDesc').value = 'Công trình được thiết kế quy hoạch chuẩn phong thủy bởi KTS Nguyễn Văn Hướng.';
+                document.getElementById('projImgsText').value = '';
+                renderSpecsRows([
+                    ["Hạng Mục Công Trình", "Khu Lăng Mộ Gia Tộc"],
+                    ["Địa Điểm Thi Công", "Hà Nội"],
+                    ["Chất Liệu Chế Tác", "Đá xanh rêu Thanh Hóa"],
+                    ["Đơn Vị Thi Công", "Kiến Trúc Đá Tâm Linh (0397.247.333)"]
+                ]);
+            }
+            previewProjectImages();
+            modal.style.display = 'flex';
+        }
+
+        function closeProjectModal() {
+            document.getElementById('projectModal').style.display = 'none';
+        }
+
+        function updateProjCatName() {
+            const code = document.getElementById('projCatCode').value;
+            const map = {
+                langmo: 'Công Trình Khu Lăng Mộ',
+                congtrinh: 'Công Trình Tâm Linh',
+                khuonvien3d: 'Khuôn Viên 3D'
+            };
+            return map[code] || 'Công Trình Đá';
+        }
+
+        function renderSpecsRows(specs) {
+            const container = document.getElementById('projSpecsContainer');
+            container.innerHTML = specs.map((s, idx) => `
+                <div style="display:flex; gap:10px; align-items:center;" class="spec-row">
+                    <input type="text" class="admin-input spec-key" value="${s[0] || ''}" placeholder="Tên thông số (Ví dụ: Diện tích)" style="flex:1;">
+                    <input type="text" class="admin-input spec-val" value="${s[1] || ''}" placeholder="Giá trị (Ví dụ: 120m2)" style="flex:1.5;">
+                    <button type="button" onclick="this.parentElement.remove()" style="background:none; border:none; color:var(--accent-red); cursor:pointer; font-size:1.1rem;"><i class="fa-solid fa-circle-xmark"></i></button>
+                </div>
+            `).join('');
+        }
+
+        function addSpecRow() {
+            const container = document.getElementById('projSpecsContainer');
+            const div = document.createElement('div');
+            div.style.display = 'flex';
+            div.style.gap = '10px';
+            div.style.alignItems = 'center';
+            div.className = 'spec-row';
+            div.innerHTML = `
+                <input type="text" class="admin-input spec-key" placeholder="Tên thông số" style="flex:1;">
+                <input type="text" class="admin-input spec-val" placeholder="Giá trị" style="flex:1.5;">
+                <button type="button" onclick="this.parentElement.remove()" style="background:none; border:none; color:var(--accent-red); cursor:pointer; font-size:1.1rem;"><i class="fa-solid fa-circle-xmark"></i></button>
+            `;
+            container.appendChild(div);
+        }
+
+        function previewProjectImages() {
+            const text = document.getElementById('projImgsText').value;
+            const urls = text.split('\n').map(u => u.trim()).filter(Boolean);
+            const container = document.getElementById('projImgsPreview');
+            container.innerHTML = urls.slice(0, 8).map(u => `
+                <img src="${u}" style="width:50px; height:50px; border-radius:4px; object-fit:cover; border:1px solid var(--border-color);" alt="preview" onerror="this.style.display='none'">
+            `).join('') + (urls.length > 8 ? `<span style="font-size:0.8rem; color:var(--gold-light); align-self:center;">+${urls.length - 8} ảnh</span>` : '');
+        }
+
+        function saveProjectItem(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('projEditIndex').value);
+            const catCode = document.getElementById('projCatCode').value;
+            const catName = updateProjCatName();
+            const imgs = document.getElementById('projImgsText').value.split('\n').map(u => u.trim()).filter(Boolean);
+
+            // Collect specs
+            const specs = [];
+            document.querySelectorAll('.spec-row').forEach(row => {
+                const k = row.querySelector('.spec-key').value.trim();
+                const v = row.querySelector('.spec-val').value.trim();
+                if (k || v) specs.push([k, v]);
+            });
+
+            const item = {
+                id: index >= 0 ? adminProjects[index].id : Date.now(),
+                cat_code: catCode,
+                cat_name: catName,
+                top_folder: catCode,
+                sub_folder: document.getElementById('projTitle').value,
+                title: document.getElementById('projTitle').value,
+                location: document.getElementById('projLocation').value,
+                img: document.getElementById('projMainImg').value,
+                imgs: imgs,
+                short_desc: document.getElementById('projShortDesc').value,
+                detail_desc: document.getElementById('projDetailDesc').value,
+                specs: specs
+            };
+
+            if (index >= 0) {
+                adminProjects[index] = item;
+                showToast("Đã cập nhật dự án thành công!");
+            } else {
+                adminProjects.unshift(item);
+                showToast("Đã thêm dự án mới thành công!");
+            }
+
+            saveAllToStorage();
+            closeProjectModal();
+            renderProjectsTable();
+        }
+
+        function editProject(idx) {
+            openProjectModal(idx);
+        }
+
+        function deleteProject(idx) {
+            if (confirm("Bạn có chắc chắn muốn xóa dự án này?")) {
+                adminProjects.splice(idx, 1);
+                saveAllToStorage();
+                renderProjectsTable();
+                showToast("Đã xóa dự án!");
+            }
+        }
+
+        // 6. Articles CRUD & SEO Tools
+        function renderArticlesTable() {
+            const tbody = document.getElementById('articlesTableBody');
+            const search = (document.getElementById('artSearchInput').value || '').toLowerCase().trim();
+            const cat = document.getElementById('artCategoryFilter').value;
+
+            const filtered = adminArticles.filter(a => {
+                const matchCat = (cat === 'all') || (a.category === cat);
+                const matchSearch = !search || (a.title && a.title.toLowerCase().includes(search));
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px;">Không tìm thấy bài viết phù hợp.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map((a, idx) => {
+                const realIndex = adminArticles.indexOf(a);
+                return `
+                <tr>
+                    <td><img src="${a.image}" class="thumb-preview" alt="thumb"></td>
+                    <td><strong>${a.title}</strong></td>
+                    <td><span class="tag-pill">${a.categoryName || a.category}</span></td>
+                    <td>${a.date || '2026'}</td>
+                    <td><i class="fa-regular fa-eye"></i> ${a.views || '1,000'}</td>
+                    <td style="text-align: right; white-space: nowrap;">
+                        <button onclick="editArticle(${realIndex})" class="btn-action btn-outline-admin" style="padding:6px 12px; font-size:0.8rem;"><i class="fa-solid fa-pen-to-square"></i> Sửa & SEO</button>
+                        <button onclick="deleteArticle(${realIndex})" class="btn-action btn-danger-admin" style="padding:6px 12px; font-size:0.8rem; margin-left:6px;"><i class="fa-solid fa-trash"></i> Xóa</button>
+                    </td>
+                </tr>
+                `;
+            }).join('');
+        }
+
+        function openArticleModal(index = -1) {
+            document.getElementById('artEditIndex').value = index;
+            const modal = document.getElementById('articleModal');
+
+            if (index >= 0 && adminArticles[index]) {
+                const a = adminArticles[index];
+                document.getElementById('articleModalTitle').innerText = "Chỉnh Sửa & SEO: " + a.title;
+                document.getElementById('artTitle').value = a.title || '';
+                document.getElementById('artCategory').value = a.category || 'cam-nang';
+                document.getElementById('artAuthor').value = a.author || 'KTS Nguyễn Văn Hướng';
+                document.getElementById('artDate').value = a.date || '14/09/2026';
+                document.getElementById('artReadTime').value = a.readTime || '8 phút';
+                document.getElementById('artImage').value = a.image || '';
+                document.getElementById('artExcerpt').value = a.excerpt || '';
+                document.getElementById('artKeyword').value = a.keyword || 'lăng mộ đá chuẩn phong thủy';
+                document.getElementById('artSlug').value = a.slug || generateSlug(a.title || '');
+                document.getElementById('artContent').value = a.content || '';
+            } else {
+                document.getElementById('articleModalTitle').innerText = "Viết Bài Mới Chuẩn SEO";
+                document.getElementById('artTitle').value = '';
+                document.getElementById('artCategory').value = 'cam-nang';
+                document.getElementById('artAuthor').value = 'KTS Nguyễn Văn Hướng';
+                document.getElementById('artDate').value = new Date().toLocaleDateString('vi-VN');
+                document.getElementById('artReadTime').value = '7 phút';
+                document.getElementById('artImage').value = 'https://res.cloudinary.com/g3beqqle/image/upload/v1789377427/%E1%BA%A3nh%20d%E1%BB%B1%20%C3%A1n/1.%20khu%20l%C4%83ng%20m%E1%BB%99/khu%20l%C4%83ng%20m%E1%BB%99%20cho%20ch%E1%BB%A7%20%C4%91%E1%BA%A7u%20t%C6%B0%20t%E1%BA%A1i%20h%C3%A0%20n%E1%BB%99i/20240523_065741.jpg';
+                document.getElementById('artExcerpt').value = '';
+                document.getElementById('artKeyword').value = '';
+                document.getElementById('artSlug').value = '';
+                document.getElementById('artContent').value = '<h2>1. Tiêu đề mục chính</h2>\n<p>Nội dung chia sẻ kiến thức tâm linh phong thủy...</p>';
+            }
+            updateSerpPreview();
+            modal.style.display = 'flex';
+        }
+
+        function closeArticleModal() {
+            document.getElementById('articleModal').style.display = 'none';
+        }
+
+        function updateArtCategoryName() {
+            const cat = document.getElementById('artCategory').value;
+            const map = {
+                'cam-nang': 'Cẩm Nang Lăng Mộ',
+                'phong-thuy': 'Phong Thủy Âm Trạch',
+                'chon-da': 'Kinh Nghiệm Chọn Đá',
+                'nha-tho': 'Nhà Thờ Họ',
+                'thi-cong': 'Quy Trình Thi Công'
+            };
+            return map[cat] || 'Kiến Thức Đá';
+        }
+
+        function generateSlug(str) {
+            return str.toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[đĐ]/g, 'd')
+                .replace(/[^a-z0-9\s-]/g, '')
+                .trim().replace(/\s+/g, '-');
+        }
+
+        function updateSerpPreview() {
+            const title = document.getElementById('artTitle').value || 'Tiêu đề bài viết chuẩn SEO';
+            const desc = document.getElementById('artExcerpt').value || 'Đoạn mô tả ngắn hiển thị thu hút người dùng trên kết quả tìm kiếm Google...';
+            let slug = document.getElementById('artSlug').value || generateSlug(title);
+
+            document.getElementById('serpTitle').innerText = title;
+            document.getElementById('serpDesc').innerText = desc;
+            document.getElementById('serpSlug').innerText = slug;
+        }
+
+        function saveArticleItem(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('artEditIndex').value);
+            const cat = document.getElementById('artCategory').value;
+            const catName = updateArtCategoryName();
+
+            const item = {
+                id: index >= 0 ? adminArticles[index].id : Date.now(),
+                title: document.getElementById('artTitle').value,
+                category: cat,
+                categoryName: catName,
+                author: document.getElementById('artAuthor').value,
+                date: document.getElementById('artDate').value,
+                readTime: document.getElementById('artReadTime').value,
+                views: index >= 0 ? adminArticles[index].views : '1,250',
+                image: document.getElementById('artImage').value,
+                excerpt: document.getElementById('artExcerpt').value,
+                keyword: document.getElementById('artKeyword').value,
+                slug: document.getElementById('artSlug').value,
+                content: document.getElementById('artContent').value
+            };
+
+            if (index >= 0) {
+                adminArticles[index] = item;
+                showToast("Đã cập nhật bài viết SEO!");
+            } else {
+                adminArticles.unshift(item);
+                showToast("Đã thêm bài viết mới thành công!");
+            }
+
+            saveAllToStorage();
+            closeArticleModal();
+            renderArticlesTable();
+        }
+
+        function editArticle(idx) {
+            openArticleModal(idx);
+        }
+
+        function deleteArticle(idx) {
+            if (confirm("Bạn có chắc chắn muốn xóa bài viết này?")) {
+                adminArticles.splice(idx, 1);
+                saveAllToStorage();
+                renderArticlesTable();
+                showToast("Đã xóa bài viết!");
+            }
+        }
+
+        // 7. Config Form
+        function populateConfigForm() {
+            document.getElementById('cfgSiteName').value = adminConfig.siteName || '';
+            document.getElementById('cfgTagline').value = adminConfig.tagline || '';
+            document.getElementById('cfgFounder').value = adminConfig.founder || '';
+            document.getElementById('cfgHotline').value = adminConfig.hotline || '';
+            document.getElementById('cfgTechPhone').value = adminConfig.techPhone || '';
+            document.getElementById('cfgAddress').value = adminConfig.address || '';
+            document.getElementById('cfgMetaTitle').value = adminConfig.metaTitle || '';
+            document.getElementById('cfgMetaDesc').value = adminConfig.metaDesc || '';
+            document.getElementById('cfgKeywords').value = adminConfig.focusKeywords || '';
+        }
+
+        function saveSiteConfig(e) {
+            e.preventDefault();
+            adminConfig = {
+                siteName: document.getElementById('cfgSiteName').value,
+                tagline: document.getElementById('cfgTagline').value,
+                founder: document.getElementById('cfgFounder').value,
+                hotline: document.getElementById('cfgHotline').value,
+                techPhone: document.getElementById('cfgTechPhone').value,
+                zalo: 'https://zalo.me/' + document.getElementById('cfgHotline').value.replace(/[^0-9]/g, ''),
+                address: document.getElementById('cfgAddress').value,
+                taxCode: '2700942345',
+                metaTitle: document.getElementById('cfgMetaTitle').value,
+                metaDesc: document.getElementById('cfgMetaDesc').value,
+                focusKeywords: document.getElementById('cfgKeywords').value
+            };
+            saveAllToStorage();
+            showToast("Đã lưu cấu hình hệ thống & SEO!");
+        }
+
+        // 8. Backup & Reset
+        function downloadBackupJSON() {
+            const backup = {
+                exportedAt: new Date().toISOString(),
+                products: adminProducts,
+                projects: adminProjects,
+                articles: adminArticles,
+                config: adminConfig
+            };
+            const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup, null, 2));
+            const a = document.createElement('a');
+            a.setAttribute("href", str);
+            a.setAttribute("download", "kientrucdatamlinh_backup_" + new Date().toISOString().slice(0,10) + ".json");
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            showToast("Đã tải xuống file sao lưu JSON!");
+        }
+
+        function resetToDefaultData() {
+            if (confirm("Khôi phục sẽ xóa các thay đổi bạn đã lưu tạm trên trình duyệt và trở về dữ liệu gốc. Bạn có chắc chắn?")) {
+                localStorage.removeItem('ktdtl_products');
+                localStorage.removeItem('ktdtl_projects');
+                localStorage.removeItem('ktdtl_articles');
+                localStorage.removeItem('ktdtl_config');
+                initAdminData();
+                showToast("Đã khôi phục dữ liệu gốc!");
+            }
+        }
+
+        // 9. Toast Notification
+        function showToast(msg) {
+            const toast = document.getElementById('adminToast');
+            document.getElementById('adminToastMsg').innerText = msg;
+            toast.style.display = 'flex';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            checkAuthGate();
+            initAdminData();
+        });
+    </script>
+</body>
+</html>
