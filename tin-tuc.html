@@ -10823,7 +10823,183 @@
         }
 
         /* RIGHT SIDEBAR STYLING */
+                /* SIDEBAR RECOMMENDED PRODUCTS - HORIZONTAL CARD LAYOUT */
+        .rec-products-sidebar-box {
+            border: 1.2px solid rgba(197, 160, 89, 0.35);
+        }
+
+        .sidebar-rec-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sidebar-rec-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(5, 11, 26, 0.6);
+            border: 1px solid rgba(197, 160, 89, 0.18);
+            border-radius: 8px;
+            padding: 10px;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-rec-card:hover {
+            background: rgba(197, 160, 89, 0.12);
+            border-color: var(--gold-primary);
+            transform: translateX(4px);
+        }
+
+        .sidebar-rec-thumb {
+            width: 86px;
+            height: 78px;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+            border: 1px solid rgba(197, 160, 89, 0.25);
+        }
+
+        .sidebar-rec-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .sidebar-rec-card:hover .sidebar-rec-thumb img {
+            transform: scale(1.08);
+        }
+
+        .sidebar-rec-tag {
+            position: absolute;
+            bottom: 3px;
+            left: 3px;
+            right: 3px;
+            background: rgba(5, 11, 26, 0.9);
+            color: var(--gold-light);
+            font-size: 0.62rem;
+            font-weight: 600;
+            padding: 1px 4px;
+            border-radius: 3px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border: 0.5px solid rgba(197, 160, 89, 0.4);
+        }
+
+        .sidebar-rec-info {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .sidebar-rec-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin: 0;
+            line-height: 1.35;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .sidebar-rec-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            font-size: 0.74rem;
+            flex-wrap: wrap;
+        }
+
+        .sidebar-rec-material {
+            color: #94a3b8;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 130px;
+        }
+
+        .sidebar-rec-price {
+            color: var(--gold-light);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .sidebar-rec-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .sidebar-rec-btn {
+            padding: 4px 9px;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .sidebar-rec-btn.btn-view {
+            background: rgba(197, 160, 89, 0.15);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            flex: 1;
+            justify-content: center;
+        }
+
+        .sidebar-rec-btn.btn-view:hover {
+            background: var(--gold-primary);
+            color: #050b1a;
+        }
+
+        .sidebar-rec-btn.btn-zalo {
+            background: #0068ff;
+            color: #fff;
+            border: 1px solid #0068ff;
+            padding: 4px 8px;
+        }
+
+        .sidebar-rec-btn.btn-zalo:hover {
+            background: #0052cc;
+        }
+
         .reading-sidebar-sticky {
+            position: sticky;
+            top: 15px;
+            max-height: calc(100vh - 90px);
+            overflow-y: auto;
+            padding-right: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .reading-sidebar-sticky::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .reading-sidebar-sticky::-webkit-scrollbar-thumb {
+            background: rgba(197, 160, 89, 0.3);
+            border-radius: 3px;
+        }
+
+        .reading-sidebar-sticky::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-primary);
+        }
+        .reading-sidebar-sticky_orig {
             position: sticky;
             top: 20px;
             display: flex;
@@ -11430,10 +11606,7 @@
                             <!-- Injected by JS: Article Header, Meta, Hero Image, Body Content, CTA -->
                         </div>
 
-                        <!-- 5 RECOMMENDED PRODUCTS SECTION -->
-                        <section class="reading-recommended-products" id="readingRecommendedProducts">
-                            <!-- Injected by JS: 5 relevant products -->
-                        </section>
+                        
                     </div>
 
                     <!-- RIGHT SIDEBAR COLUMN -->
@@ -11477,7 +11650,21 @@
                                 </div>
                             </div>
 
-                            <!-- 2. Most Read Articles (Dynamically sorted by click count) -->
+                            <!-- 2. Recommended Products (Horizontal cards) -->
+                            <div class="sidebar-box rec-products-sidebar-box" id="readingRecommendedSidebarBox">
+                                <div class="sidebar-box-header" style="justify-content: space-between;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <i class="fa-solid fa-gem" style="color: var(--gold-primary);"></i>
+                                        <span>Sản Phẩm Đề Xuất Phù Hợp</span>
+                                    </div>
+                                    <span style="font-size: 0.72rem; background: rgba(197,160,89,0.2); border: 1px solid var(--gold-primary); color: var(--gold-light); padding: 2px 8px; border-radius: 12px; font-weight: 700;">5 Mẫu</span>
+                                </div>
+                                <div id="readingRecommendedProductsList" class="sidebar-rec-list">
+                                    <!-- Injected by JS: 5 horizontal product cards -->
+                                </div>
+                            </div>
+
+                            <!-- 3. Most Read Articles (Dynamically sorted by click count) -->
                             <div class="sidebar-box popular-articles-box">
                                 <div class="sidebar-box-header">
                                     <i class="fa-solid fa-fire" style="color: #f59e0b;"></i>
@@ -12158,44 +12345,36 @@
                 </div>
             `;
 
-            // 4. Inject 5 Recommended Products
-            const recContainer = document.getElementById('readingRecommendedProducts');
-            const recProducts = getRecommendedProducts(article);
-            
-            recContainer.innerHTML = `
-                <div class="rec-products-header">
-                    <div class="rec-products-badge">
-                        <i class="fa-solid fa-gem"></i> Gợi Ý Chuyên Gia KTS
-                    </div>
-                    <h3 class="rec-products-title">5 Sản Phẩm Đề Xuất Phù Hợp Với Bài Viết</h3>
-                    <p class="rec-products-desc">Các mẫu lăng mộ & cấu kiện đá tự nhiên nguyên khối được KTS khuyên dùng đồng bộ chuẩn phong thủy âm trạch</p>
-                </div>
-                <div class="rec-products-grid">
-                    ${recProducts.map(p => {
-                        const pImg = (p.imgs && p.imgs.length > 0) ? p.imgs[0] : (p.image || '');
-                        const pMat = p.material || 'Đá Xanh Tự Nhiên';
-                        const pPrice = p.price || 'Liên Hệ KTS';
-                        const pCat = p.cat_name || 'Lăng Mộ Đá';
-                        return `
-                            <div class="rec-product-card">
-                                <div class="rec-product-img">
-                                    <img src="${pImg}" alt="${p.title}" loading="lazy">
-                                    <span class="rec-product-tag">${pCat}</span>
+            // 4. Inject 5 Recommended Products into the Right Sidebar List (Horizontal Cards)
+            const recContainer = document.getElementById('readingRecommendedProductsList');
+            if (recContainer) {
+                const recProducts = getRecommendedProducts(article);
+                recContainer.innerHTML = recProducts.map(p => {
+                    const pImg = (p.imgs && p.imgs.length > 0) ? p.imgs[0] : (p.image || '');
+                    const pMat = p.material || 'Đá Xanh Tự Nhiên';
+                    const pPrice = p.price || 'Liên Hệ KTS';
+                    const pCat = p.cat_name || 'Lăng Mộ Đá';
+                    return `
+                        <div class="sidebar-rec-card">
+                            <div class="sidebar-rec-thumb">
+                                <img src="${pImg}" alt="${p.title}" loading="lazy">
+                                <span class="sidebar-rec-tag">${pCat}</span>
+                            </div>
+                            <div class="sidebar-rec-info">
+                                <h4 class="sidebar-rec-title" title="${p.title}">${p.title}</h4>
+                                <div class="sidebar-rec-meta">
+                                    <span class="sidebar-rec-material"><i class="fa-solid fa-layer-group" style="color: var(--gold-primary); font-size: 0.7rem;"></i> ${pMat}</span>
+                                    <span class="sidebar-rec-price">${pPrice}</span>
                                 </div>
-                                <div class="rec-product-body">
-                                    <h4 class="rec-product-name" title="${p.title}">${p.title}</h4>
-                                    <div class="rec-product-material"><i class="fa-solid fa-layer-group" style="color: var(--gold-primary); font-size: 0.75rem;"></i> ${pMat}</div>
-                                    <div class="rec-product-price"><i class="fa-solid fa-tag" style="margin-right: 3px;"></i> ${pPrice}</div>
-                                    <div class="rec-product-actions">
-                                        <a href="san-pham.html" class="rec-product-btn rec-btn-detail">Xem Chi Tiết</a>
-                                        <a href="https://zalo.me/0397247333" target="_blank" class="rec-product-btn rec-btn-contact"><i class="fa-solid fa-comment-dots"></i> Zalo</a>
-                                    </div>
+                                <div class="sidebar-rec-actions">
+                                    <a href="san-pham.html" class="sidebar-rec-btn btn-view">Xem chi tiết <i class="fa-solid fa-arrow-right"></i></a>
+                                    <a href="https://zalo.me/0397247333" target="_blank" class="sidebar-rec-btn btn-zalo" title="Nhắn Zalo KTS"><i class="fa-solid fa-comment-dots"></i> Zalo</a>
                                 </div>
                             </div>
-                        `;
-                    }).join('')}
-                </div>
-            `;
+                        </div>
+                    `;
+                }).join('');
+            }
 
             // 5. Update Right Sidebar Popular Articles (by clicks count)
             renderReadingSidebarPopular(article.id);
