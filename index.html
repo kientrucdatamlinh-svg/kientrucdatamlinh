@@ -11244,8 +11244,12 @@ Về mặt phong thủy tâm linh, Chậu Đá Kênh Bong đóng vai trò quan t
 
         if (typeof localStorage !== 'undefined') {
             try {
-                if (localStorage.getItem('ktdtl_projects')) projectsData = JSON.parse(localStorage.getItem('ktdtl_projects'));
-                if (localStorage.getItem('ktdtl_products')) groupedProductsData = JSON.parse(localStorage.getItem('ktdtl_products'));
+                const localTs = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
+                const defaultTs = (typeof DEFAULT_DATA_TIMESTAMP !== 'undefined') ? DEFAULT_DATA_TIMESTAMP : 0;
+                if (localTs > defaultTs) {
+                    if (localStorage.getItem('ktdtl_projects')) projectsData = JSON.parse(localStorage.getItem('ktdtl_projects'));
+                    if (localStorage.getItem('ktdtl_products')) groupedProductsData = JSON.parse(localStorage.getItem('ktdtl_products'));
+                }
             } catch(e) { console.warn('LocalStorage load error', e); }
         }
 

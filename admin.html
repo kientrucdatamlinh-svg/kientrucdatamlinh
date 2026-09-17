@@ -663,6 +663,142 @@
             border-radius: 4px;
         }
 
+        /* GLOBAL SYNC & PUBLISH STYLES */
+        .btn-publish-global {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            font-weight: 700;
+            padding: 9px 18px;
+            border-radius: 6px;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.88rem;
+        }
+        .btn-publish-global:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+        .btn-publish-global.has-changes {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+            animation: pulse-publish 2s infinite;
+        }
+        @keyframes pulse-publish {
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+
+        .sync-badge-wrapper {
+            display: inline-flex;
+            align-items: center;
+        }
+        .badge-sync {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .badge-sync.live {
+            background: rgba(16, 185, 129, 0.12);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        .badge-sync.pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        .badge-sync.syncing {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .pub-step-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 12px 16px;
+            transition: all 0.3s;
+        }
+        .pub-step-item.active {
+            border-color: rgba(197, 160, 89, 0.5);
+            background: rgba(197, 160, 89, 0.08);
+        }
+        .pub-step-item.done {
+            border-color: rgba(16, 185, 129, 0.4);
+            background: rgba(16, 185, 129, 0.06);
+        }
+        .pub-step-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .pub-step-item.done .pub-step-icon {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        .pub-step-item.active .pub-step-icon {
+            background: rgba(197, 160, 89, 0.2);
+            color: #c5a059;
+        }
+        .pub-step-content {
+            flex: 1;
+        }
+        .pub-step-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+        .pub-step-sub {
+            font-size: 0.78rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+        .pub-step-status {
+            font-size: 1.1rem;
+        }
+
+        .switch-toggle input:checked + .slider-round {
+            background-color: #10b981 !important;
+        }
+        .switch-toggle input:checked + .slider-round:before {
+            transform: translateX(20px);
+        }
+        .slider-round:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
     </style>
 </head>
 <body>
@@ -767,11 +903,24 @@
             <div class="topbar-title">
                 <h1 id="currentTabTitle">Tổng Quan Hệ Thống</h1>
             </div>
-            <div class="topbar-actions">
+            <div class="topbar-actions" style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <!-- Sync status badge -->
+                <div id="globalSyncStatusBadge" class="sync-badge-wrapper" onclick="openPublishModal()" style="cursor: pointer;" title="Xem trạng thái xuất bản toàn cầu">
+                    <span class="badge-sync live" id="badgeSyncStatus">
+                        <i class="fa-solid fa-cloud-check"></i> <span id="badgeSyncText">Toàn Cầu: Đã Đồng Bộ</span>
+                    </span>
+                </div>
+
+                <!-- One-click Global Publish Button -->
+                <button onclick="openPublishModal()" id="btnTopGlobalPublish" class="btn-action btn-publish-global" title="Đồng bộ ngay sang Tab ẩn danh, điện thoại và mọi khách hàng">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>Xuất Bản Website Toàn Cầu</span>
+                </button>
+
                 <span style="font-size: 0.85rem; color: var(--gold-light); display: flex; align-items: center; gap: 6px;">
                     <i class="fa-solid fa-user-shield"></i> KTS Nguyễn Văn Hướng
                 </span>
-                <button onclick="saveAllToStorage()" class="btn-action btn-gold-admin" title="Lưu toàn bộ thay đổi">
+                <button onclick="saveAllToStorage(true)" class="btn-action btn-gold-admin" title="Lưu toàn bộ thay đổi vào trình duyệt">
                     <i class="fa-solid fa-floppy-disk"></i> Lưu Thay Đổi
                 </button>
             </div>
@@ -1127,25 +1276,100 @@
 
             <!-- TAB 6: XUẤT BẢN & SAO LƯU (SYNC & BACKUP) -->
             <section id="tab-sync" class="tab-section">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px;">
+                <!-- HERO CARD: GLOBAL PUBLISHING -->
+                <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1.5px solid rgba(16, 185, 129, 0.35); border-radius: 14px; padding: 28px; margin-bottom: 30px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+                        <div style="max-width: 680px;">
+                            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 20px; padding: 4px 14px; font-size: 0.82rem; font-weight: 700; color: #10b981; margin-bottom: 12px;">
+                                <i class="fa-solid fa-bolt"></i> CÔNG NGHỆ ĐỒNG BỘ ĐÁM MÂY TỰ ĐỘNG
+                            </div>
+                            <h2 style="color: #f1f5f9; font-size: 1.45rem; font-weight: 700; margin-bottom: 8px;">
+                                Trung Tâm Xuất Bản Dữ Liệu Toàn Cầu
+                            </h2>
+                            <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 16px;">
+                                Toàn bộ chỉnh sửa về sản phẩm, giá cả, dự án và bài viết của bạn sẽ được đóng gói và xuất bản lên mạng lưới máy chủ <b>Vercel Edge CDN</b> toàn cầu. Giúp tất cả các khách hàng, thiết bị điện thoại, máy tính khác và <b>Tab Ẩn Danh</b> đều xem được dữ liệu mới nhất tức thì.
+                            </p>
+                            <div style="display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 20px;">
+                                <div><i class="fa-solid fa-server" style="color:#10b981; margin-right:6px;"></i>Máy chủ: <b>Vercel CDN Edge Network</b></div>
+                                <div><i class="fa-brands fa-github" style="color:#c5a059; margin-right:6px;"></i>Kho mã nguồn: <b>kientrucdatamlinh-svg</b></div>
+                                <div><i class="fa-solid fa-clock-rotate-left" style="color:#60a5fa; margin-right:6px;"></i>Lần xuất bản gần nhất: <b id="lblLastPublishedTime">Chưa ghi nhận</b></div>
+                            </div>
+                        </div>
+
+                        <!-- Right Card Controls -->
+                        <div style="display: flex; flex-direction: column; gap: 12px; align-items: flex-end;">
+                            <button onclick="openPublishModal()" class="btn-action btn-publish-global" style="padding: 14px 28px; font-size: 1.05rem; font-weight: 700; box-shadow: 0 6px 25px rgba(16,185,129,0.4);">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.2rem;"></i> Xuất Bản Lên Toàn Cầu Ngay
+                            </button>
+                            <a href="san-pham.html" target="_blank" class="btn-action btn-outline-admin" style="font-size: 0.85rem;">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở Tab Mới Kiểm Tra
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Auto publish toggle setting -->
+                    <div style="margin-top: 15px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <label class="switch-toggle" style="position: relative; display: inline-block; width: 44px; height: 24px; margin: 0;">
+                                <input type="checkbox" id="chkAutoPublishSyncTab" onchange="toggleAutoPublishSetting(this.checked)" checked style="opacity: 0; width: 0; height: 0;">
+                                <span class="slider-round" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; transition: .3s; border-radius: 24px;"></span>
+                            </label>
+                            <div>
+                                <span style="font-weight: 600; color: #f1f5f9; font-size: 0.9rem;">⚡ Tự động xuất bản lên toàn cầu sau mỗi lần nhấn Lưu</span>
+                                <span style="display: block; font-size: 0.78rem; color: #94a3b8;">Khuyên dùng: Bạn không cần phải bấm nút xuất bản thủ công mỗi khi sửa sản phẩm</span>
+                            </div>
+                        </div>
+                        <button onclick="pullCloudData()" class="btn-action btn-outline-admin" style="font-size: 0.82rem;" title="Tải dữ liệu mới nhất từ máy chủ đám mây về nếu bạn thao tác trên máy tính khác">
+                            <i class="fa-solid fa-rotate"></i> Cập Nhật Từ Đám Mây Về Trình Duyệt
+                        </button>
+                    </div>
+                </div>
+
+                <!-- EXPLANATION BANNER -->
+                <div style="background: rgba(30, 41, 59, 0.6); border-left: 4px solid var(--gold-primary); border-radius: 0 10px 10px 0; padding: 18px 22px; margin-bottom: 30px;">
+                    <h4 style="color: var(--gold-light); font-size: 0.98rem; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-circle-info"></i> Tại sao khi chỉnh sửa xong mở Tab Ẩn Danh hoặc điện thoại lại chưa thấy ngay?
+                    </h4>
+                    <p style="color: #94a3b8; font-size: 0.86rem; line-height: 1.6; margin: 0;">
+                        Trình duyệt phân tách vùng nhớ hoàn toàn độc lập: <b>Tab Ẩn Danh</b> và các thiết bị di động của khách hàng không dùng chung bộ nhớ LocalStorage của bạn. Khi bạn bấm <b>Lưu & Xuất Bản Toàn Cầu</b>, hệ thống sẽ đẩy trực tiếp dữ liệu mới lên máy chủ Vercel. Sau khoảng <b>15 - 20 giây</b>, máy chủ phân phối xong thì tất cả các thiết bị trên thế giới và mọi Tab Ẩn Danh đều sẽ nhìn thấy dữ liệu mới nhất của bạn!
+                    </p>
+                </div>
+
+                <!-- BACKUP & RESTORE GRID -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+                    <!-- Backup JSON -->
                     <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px;">
-                        <h3 style="color: var(--gold-light); font-size: 1.2rem; margin-bottom: 10px;">
-                            <i class="fa-solid fa-download" style="color: var(--gold-primary);"></i> Tải File Sao Lưu JSON
+                        <h3 style="color: var(--gold-light); font-size: 1.15rem; margin-bottom: 10px;">
+                            <i class="fa-solid fa-file-code" style="color: var(--gold-primary);"></i> Tải File Sao Lưu JSON
                         </h3>
-                        <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px;">
-                            Xuất toàn bộ dữ liệu gồm 112+ sản phẩm, 43+ dự án và 8+ bài viết SEO ra file JSON để lưu trữ an toàn trên máy tính.
+                        <p style="color: var(--text-muted); font-size: 0.86rem; line-height: 1.6; margin-bottom: 20px;">
+                            Xuất toàn bộ dữ liệu gồm sản phẩm, dự án, bài viết và cấu hình SEO ra file JSON để lưu trữ an toàn trên máy tính cá nhân.
                         </p>
                         <button onclick="downloadBackupJSON()" class="btn-action btn-gold-admin">
                             <i class="fa-solid fa-file-arrow-down"></i> Tải Bản Sao Lưu (.JSON)
                         </button>
                     </div>
 
+                    <!-- Backup default_data.js -->
                     <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px;">
-                        <h3 style="color: var(--gold-light); font-size: 1.2rem; margin-bottom: 10px;">
+                        <h3 style="color: var(--gold-light); font-size: 1.15rem; margin-bottom: 10px;">
+                            <i class="fa-brands fa-js" style="color: #f7df1e;"></i> Tải File default_data.js
+                        </h3>
+                        <p style="color: var(--text-muted); font-size: 0.86rem; line-height: 1.6; margin-bottom: 20px;">
+                            Tải file mã nguồn JavaScript cơ sở chứa toàn bộ dữ liệu để dự phòng nếu cần thay thế trực tiếp vào mã nguồn website.
+                        </p>
+                        <button onclick="downloadDefaultDataJs()" class="btn-action btn-outline-admin">
+                            <i class="fa-solid fa-download"></i> Tải File default_data.js
+                        </button>
+                    </div>
+
+                    <!-- Restore Default -->
+                    <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px;">
+                        <h3 style="color: var(--gold-light); font-size: 1.15rem; margin-bottom: 10px;">
                             <i class="fa-solid fa-rotate-left" style="color: var(--accent-red);"></i> Khôi Phục Dữ Liệu Gốc
                         </h3>
-                        <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px;">
-                            Đặt lại toàn bộ dữ liệu về trạng thái ban đầu của website nếu bạn muốn hủy các chỉnh sửa thử nghiệm.
+                        <p style="color: var(--text-muted); font-size: 0.86rem; line-height: 1.6; margin-bottom: 20px;">
+                            Đặt lại toàn bộ dữ liệu về trạng thái ban đầu của website nếu bạn muốn hủy bỏ toàn bộ các chỉnh sửa thử nghiệm.
                         </p>
                         <button onclick="resetToDefaultData()" class="btn-action btn-danger-admin">
                             <i class="fa-solid fa-arrows-rotate"></i> Khôi Phục Mặc Định
@@ -1475,8 +1699,125 @@
         <span id="adminToastMsg">Thao tác thành công!</span>
     </div>
 
+    <!-- GLOBAL PUBLISH MODAL -->
+    <div id="publishModal" class="admin-modal-overlay">
+        <div class="admin-modal-box" style="max-width: 620px;">
+            <div class="modal-header-admin">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="width: 38px; height: 38px; border-radius: 8px; background: rgba(16, 185, 129, 0.15); color: #10b981; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <div>
+                        <h2 style="font-size: 1.25rem; color: #f1f5f9; margin: 0;">Xuất Bản Website Toàn Cầu</h2>
+                        <span style="font-size: 0.8rem; color: #94a3b8;">Đồng bộ dữ liệu sang Tab Ẩn Danh, Điện Thoại và Mọi Khách Hàng</span>
+                    </div>
+                </div>
+                <span onclick="closePublishModal()" style="color: var(--text-silver); font-size: 26px; cursor: pointer;">&times;</span>
+            </div>
+
+            <div style="padding: 20px 24px;">
+                <!-- Explanation / Stats Box -->
+                <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 0.82rem; color: #94a3b8;">Dữ liệu sẽ xuất bản:</div>
+                        <div style="font-size: 1.05rem; font-weight: 700; color: #c5a059; margin-top: 2px;">
+                            <span id="pubCountProducts">0</span> Sản Phẩm • <span id="pubCountProjects">0</span> Dự Án • <span id="pubCountArticles">0</span> Bài Viết
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 0.78rem; color: #64748b;">Hệ thống phân phối:</div>
+                        <div style="font-size: 0.85rem; font-weight: 600; color: #10b981; display: flex; align-items: center; gap: 5px; justify-content: flex-end;">
+                            <i class="fa-solid fa-bolt"></i> Vercel Edge CDN
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step Checklist -->
+                <div id="publishStepsContainer" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+                    <div class="pub-step-item" id="pubStep1">
+                        <div class="pub-step-icon"><i class="fa-solid fa-database"></i></div>
+                        <div class="pub-step-content">
+                            <div class="pub-step-title">1. Đóng gói dữ liệu toàn hệ thống</div>
+                            <div class="pub-step-sub" id="pubStepSub1">Chuẩn bị xuất bản sản phẩm, dự án và bài viết</div>
+                        </div>
+                        <div class="pub-step-status" id="pubStepStatus1"><i class="fa-regular fa-circle" style="color:#64748b;"></i></div>
+                    </div>
+
+                    <div class="pub-step-item" id="pubStep2">
+                        <div class="pub-step-icon"><i class="fa-brands fa-github"></i></div>
+                        <div class="pub-step-content">
+                            <div class="pub-step-title">2. Đẩy mã nguồn lên máy chủ GitHub</div>
+                            <div class="pub-step-sub" id="pubStepSub2">Cập nhật kho lưu trữ kientrucdatamlinh-svg</div>
+                        </div>
+                        <div class="pub-step-status" id="pubStepStatus2"><i class="fa-regular fa-circle" style="color:#64748b;"></i></div>
+                    </div>
+
+                    <div class="pub-step-item" id="pubStep3">
+                        <div class="pub-step-icon"><i class="fa-solid fa-globe"></i></div>
+                        <div class="pub-step-content">
+                            <div class="pub-step-title">3. Vercel CDN biên dịch & phủ sóng toàn cầu</div>
+                            <div class="pub-step-sub" id="pubStepSub3">Tự động phân phối tới các Edge Server (khoảng 15-20 giây)</div>
+                        </div>
+                        <div class="pub-step-status" id="pubStepStatus3"><i class="fa-regular fa-circle" style="color:#64748b;"></i></div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div id="pubProgressWrapper" style="display: none; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.82rem; color: #94a3b8; margin-bottom: 6px;">
+                        <span id="pubProgressText">Đang tiến hành...</span>
+                        <span id="pubProgressPercent" style="font-weight: 700; color: #c5a059;">0%</span>
+                    </div>
+                    <div style="width: 100%; height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;">
+                        <div id="pubProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #10b981, #059669); transition: width 0.3s;"></div>
+                    </div>
+                </div>
+
+                <!-- Success Box (Initially Hidden) -->
+                <div id="pubSuccessBox" style="display: none; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 16px; margin-bottom: 20px; text-align: center;">
+                    <div style="font-size: 1.8rem; color: #10b981; margin-bottom: 6px;">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div style="font-weight: 700; color: #f1f5f9; font-size: 1.05rem; margin-bottom: 4px;">Xuất Bản Website Toàn Cầu Thành Công!</div>
+                    <p style="font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin-bottom: 12px;">
+                        Dữ liệu mới đã được cập nhật trực tiếp lên máy chủ Vercel CDN. Giờ đây bạn có thể mở <b>Tab Ẩn Danh</b>, trình duyệt khác hoặc điện thoại để kiểm tra kết quả ngay lập tức.
+                    </p>
+                    <a href="san-pham.html" target="_blank" class="btn-action btn-gold-admin" style="display: inline-flex; justify-content: center; padding: 10px 22px; font-size: 0.9rem;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Mở Trang Sản Phẩm Kiểm Tra
+                    </a>
+                </div>
+
+                <!-- Auto-Publish Toggle Setting -->
+                <div style="background: rgba(197, 160, 89, 0.08); border: 1px solid rgba(197, 160, 89, 0.2); border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-bolt" style="color: var(--gold-primary);"></i>
+                        <div>
+                            <div style="font-size: 0.88rem; font-weight: 600; color: #f1f5f9;">Tự động xuất bản khi bấm Lưu</div>
+                            <div style="font-size: 0.78rem; color: #94a3b8;">Tự động đồng bộ lên Vercel mỗi khi bạn thêm/sửa sản phẩm</div>
+                        </div>
+                    </div>
+                    <label class="switch-toggle" style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                        <input type="checkbox" id="chkAutoPublishModal" onchange="toggleAutoPublishSetting(this.checked)" checked style="opacity: 0; width: 0; height: 0;">
+                        <span class="slider-round" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; transition: .3s; border-radius: 24px;"></span>
+                    </label>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                    <button type="button" onclick="closePublishModal()" class="btn-action btn-outline-admin">
+                        Đóng
+                    </button>
+                    <button type="button" id="btnStartPublishNow" onclick="startGlobalPublishProcess()" class="btn-action btn-publish-global" style="padding: 11px 24px; font-size: 0.95rem;">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Bắt Đầu Xuất Bản Ngay
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts: load default baseline data, then app logic -->
     <script src="default_data.js"></script>
+    <script src="ktdtl_sync.js"></script>
     <script>
         // Admin State
         let adminProducts = [];
@@ -1528,6 +1869,11 @@
             }
         }
 
+        // Auto Publish & Sync State
+        let isAutoPublish = localStorage.getItem('ktdtl_auto_publish') !== 'false'; // default true
+        let hasUnpublishedChanges = false;
+        let autoPublishTimer = null;
+
         // 2. Data Initialization
         function initAdminData() {
             // Products
@@ -1553,6 +1899,7 @@
             populateConfigForm();
             loadAnalyticsData();
             setupDropzones();
+            initSyncState();
         }
 
         function updateDashboardCounts() {
@@ -1565,13 +1912,27 @@
             document.getElementById('badgeArticleCount').innerText = adminArticles.length;
         }
 
-        function saveAllToStorage() {
+        function saveAllToStorage(isManual = false) {
+            const now = Date.now();
+            localStorage.setItem('ktdtl_last_saved_ts', now.toString());
             localStorage.setItem('ktdtl_products', JSON.stringify(adminProducts));
             localStorage.setItem('ktdtl_projects', JSON.stringify(adminProjects));
             localStorage.setItem('ktdtl_articles', JSON.stringify(adminArticles));
             localStorage.setItem('ktdtl_config', JSON.stringify(adminConfig));
             updateDashboardCounts();
-            showToast("Đã lưu tất cả thay đổi thành công!");
+
+            hasUnpublishedChanges = true;
+            updateSyncUI();
+
+            if (isAutoPublish) {
+                scheduleAutoPublish();
+            } else {
+                if (isManual) {
+                    showToast("Đã lưu tạm vào trình duyệt! Nhấn 'Xuất Bản Website Toàn Cầu' để cập nhật cho mọi người.");
+                } else {
+                    showToast("Đã lưu thay đổi vào trình duyệt!");
+                }
+            }
         }
 
         // 3. Tab Switching
@@ -2157,7 +2518,267 @@
             showToast("Đã lưu cấu hình hệ thống & SEO!");
         }
 
-        // 8. Backup & Reset
+        // ==========================================
+        // 8. GLOBAL PUBLISHING & CLOUD SYNC LOGIC
+        // ==========================================
+
+        function initSyncState() {
+            // Update toggle checkboxes
+            const chkModal = document.getElementById('chkAutoPublishModal');
+            const chkTab = document.getElementById('chkAutoPublishSyncTab');
+            if (chkModal) chkModal.checked = isAutoPublish;
+            if (chkTab) chkTab.checked = isAutoPublish;
+
+            // Check last published time
+            const lastTs = localStorage.getItem('ktdtl_last_published_ts');
+            const lblTime = document.getElementById('lblLastPublishedTime');
+            if (lblTime) {
+                if (lastTs) {
+                    lblTime.innerText = new Date(parseInt(lastTs)).toLocaleString('vi-VN');
+                } else {
+                    lblTime.innerText = "Chưa ghi nhận";
+                }
+            }
+
+            // Check if there are unsaved/unpublished changes
+            const localSavedTs = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
+            const lastPublishedTs = parseInt(lastTs || '0');
+            hasUnpublishedChanges = localSavedTs > lastPublishedTs;
+            updateSyncUI();
+        }
+
+        function toggleAutoPublishSetting(enabled) {
+            isAutoPublish = !!enabled;
+            localStorage.setItem('ktdtl_auto_publish', isAutoPublish ? 'true' : 'false');
+            const chkModal = document.getElementById('chkAutoPublishModal');
+            const chkTab = document.getElementById('chkAutoPublishSyncTab');
+            if (chkModal) chkModal.checked = isAutoPublish;
+            if (chkTab) chkTab.checked = isAutoPublish;
+
+            if (isAutoPublish) {
+                showToast("Đã bật tự động xuất bản website toàn cầu khi lưu!");
+                if (hasUnpublishedChanges) {
+                    scheduleAutoPublish();
+                }
+            } else {
+                showToast("Đã tắt tự động xuất bản (bạn có thể bấm nút Xuất bản thủ công)");
+            }
+        }
+
+        function updateSyncUI() {
+            const badge = document.getElementById('badgeSyncStatus');
+            const btn = document.getElementById('btnTopGlobalPublish');
+
+            if (hasUnpublishedChanges) {
+                if (badge) {
+                    badge.className = 'badge-sync pending';
+                    badge.innerHTML = '<i class="fa-solid fa-arrows-rotate fa-spin"></i> <span>Chưa xuất bản toàn cầu</span>';
+                }
+                if (btn) {
+                    btn.classList.add('has-changes');
+                    btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> <span>Xuất Bản Website Toàn Cầu</span>';
+                }
+            } else {
+                if (badge) {
+                    badge.className = 'badge-sync live';
+                    badge.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>Toàn Cầu: Đã Đồng Bộ</span>';
+                }
+                if (btn) {
+                    btn.classList.remove('has-changes');
+                    btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> <span>Xuất Bản Website Toàn Cầu</span>';
+                }
+            }
+        }
+
+        function scheduleAutoPublish() {
+            if (autoPublishTimer) clearTimeout(autoPublishTimer);
+            autoPublishTimer = setTimeout(() => {
+                executeAutoPublish();
+            }, 1200);
+        }
+
+        async function executeAutoPublish() {
+            if (!window.KtdtlSync) return;
+            const badge = document.getElementById('badgeSyncStatus');
+            if (badge) {
+                badge.className = 'badge-sync syncing';
+                badge.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Đang tự động xuất bản...</span>';
+            }
+            showToast("⚡ Đang tự động xuất bản lên máy chủ toàn cầu...");
+
+            try {
+                const res = await KtdtlSync.publishGlobal({
+                    products: adminProducts,
+                    projects: adminProjects,
+                    articles: adminArticles,
+                    config: adminConfig
+                });
+                hasUnpublishedChanges = false;
+                localStorage.setItem('ktdtl_last_published_ts', res.timestamp.toString());
+                const lblTime = document.getElementById('lblLastPublishedTime');
+                if (lblTime) lblTime.innerText = new Date(res.timestamp).toLocaleString('vi-VN');
+                updateSyncUI();
+                showToast("✅ Đã xuất bản lên toàn cầu thành công! (Mở Tab ẩn danh để xem)");
+            } catch (err) {
+                console.error("Auto publish error:", err);
+                if (badge) {
+                    badge.className = 'badge-sync pending';
+                    badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <span>Xuất bản lỗi - Bấm để thử lại</span>';
+                }
+                showToast("Lỗi khi tự động xuất bản: " + err.message);
+            }
+        }
+
+        function openPublishModal() {
+            document.getElementById('pubCountProducts').innerText = adminProducts.length;
+            document.getElementById('pubCountProjects').innerText = adminProjects.length;
+            document.getElementById('pubCountArticles').innerText = adminArticles.length;
+
+            // Reset modal steps
+            resetPublishModalSteps();
+            document.getElementById('publishModal').classList.add('active');
+        }
+
+        function closePublishModal() {
+            document.getElementById('publishModal').classList.remove('active');
+        }
+
+        function resetPublishModalSteps() {
+            document.getElementById('pubStep1').className = 'pub-step-item';
+            document.getElementById('pubStepStatus1').innerHTML = '<i class="fa-regular fa-circle" style="color:#64748b;"></i>';
+            document.getElementById('pubStepSub1').innerText = `Chuẩn bị xuất bản ${adminProducts.length} sản phẩm, ${adminProjects.length} dự án, ${adminArticles.length} bài viết`;
+
+            document.getElementById('pubStep2').className = 'pub-step-item';
+            document.getElementById('pubStepStatus2').innerHTML = '<i class="fa-regular fa-circle" style="color:#64748b;"></i>';
+            document.getElementById('pubStepSub2').innerText = 'Cập nhật kho lưu trữ kientrucdatamlinh-svg';
+
+            document.getElementById('pubStep3').className = 'pub-step-item';
+            document.getElementById('pubStepStatus3').innerHTML = '<i class="fa-regular fa-circle" style="color:#64748b;"></i>';
+            document.getElementById('pubStepSub3').innerText = 'Tự động phân phối tới các Edge Server (khoảng 15-20 giây)';
+
+            document.getElementById('pubProgressWrapper').style.display = 'none';
+            document.getElementById('pubSuccessBox').style.display = 'none';
+            document.getElementById('btnStartPublishNow').style.display = 'inline-flex';
+            document.getElementById('btnStartPublishNow').disabled = false;
+            document.getElementById('btnStartPublishNow').innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Bắt Đầu Xuất Bản Ngay';
+        }
+
+        async function startGlobalPublishProcess() {
+            if (!window.KtdtlSync) {
+                alert("Không tìm thấy bộ công cụ ktdtl_sync.js!");
+                return;
+            }
+
+            const btn = document.getElementById('btnStartPublishNow');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xuất bản...';
+
+            const progressWrapper = document.getElementById('pubProgressWrapper');
+            const progressBar = document.getElementById('pubProgressBar');
+            const progressPercent = document.getElementById('pubProgressPercent');
+            const progressText = document.getElementById('pubProgressText');
+            progressWrapper.style.display = 'block';
+
+            try {
+                // Step 1: Packaging
+                document.getElementById('pubStep1').className = 'pub-step-item active';
+                document.getElementById('pubStepStatus1').innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="color:var(--gold-primary);"></i>';
+                progressBar.style.width = '20%';
+                progressPercent.innerText = '20%';
+                progressText.innerText = 'Đang đóng gói dữ liệu...';
+
+                await new Promise(r => setTimeout(r, 400));
+                document.getElementById('pubStep1').className = 'pub-step-item done';
+                document.getElementById('pubStepStatus1').innerHTML = '<i class="fa-solid fa-circle-check" style="color:#10b981;"></i>';
+
+                // Step 2: Committing to GitHub
+                document.getElementById('pubStep2').className = 'pub-step-item active';
+                document.getElementById('pubStepStatus2').innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="color:var(--gold-primary);"></i>';
+                progressBar.style.width = '55%';
+                progressPercent.innerText = '55%';
+                progressText.innerText = 'Đang kết nối và đẩy mã nguồn lên GitHub...';
+
+                const res = await KtdtlSync.publishGlobal({
+                    products: adminProducts,
+                    projects: adminProjects,
+                    articles: adminArticles,
+                    config: adminConfig,
+                    onProgress: (p) => {
+                        progressBar.style.width = p.percent + '%';
+                        progressPercent.innerText = p.percent + '%';
+                        progressText.innerText = p.message;
+                    }
+                });
+
+                document.getElementById('pubStep2').className = 'pub-step-item done';
+                document.getElementById('pubStepStatus2').innerHTML = '<i class="fa-solid fa-circle-check" style="color:#10b981;"></i>';
+
+                // Step 3: Vercel CDN distribution countdown (20s)
+                document.getElementById('pubStep3').className = 'pub-step-item active';
+                document.getElementById('pubStepStatus3').innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="color:#10b981;"></i>';
+
+                let countdown = 20;
+                const countdownInterval = setInterval(() => {
+                    countdown--;
+                    const pct = Math.min(98, 70 + Math.floor((20 - countdown) * 1.4));
+                    progressBar.style.width = pct + '%';
+                    progressPercent.innerText = pct + '%';
+                    progressText.innerText = `Vercel đang triển khai toàn cầu... (${countdown} giây)`;
+
+                    if (countdown <= 0) {
+                        clearInterval(countdownInterval);
+                        progressBar.style.width = '100%';
+                        progressPercent.innerText = '100%';
+                        progressText.innerText = 'Hoàn tất xuất bản toàn cầu!';
+
+                        document.getElementById('pubStep3').className = 'pub-step-item done';
+                        document.getElementById('pubStepStatus3').innerHTML = '<i class="fa-solid fa-circle-check" style="color:#10b981;"></i>';
+
+                        hasUnpublishedChanges = false;
+                        localStorage.setItem('ktdtl_last_published_ts', res.timestamp.toString());
+                        const lblTime = document.getElementById('lblLastPublishedTime');
+                        if (lblTime) lblTime.innerText = new Date(res.timestamp).toLocaleString('vi-VN');
+                        updateSyncUI();
+
+                        document.getElementById('pubSuccessBox').style.display = 'block';
+                        btn.style.display = 'none';
+                        showToast("✅ Xuất bản website toàn cầu hoàn tất!");
+                    }
+                }, 1000);
+
+            } catch (err) {
+                console.error("Publish error:", err);
+                alert("Lỗi xuất bản: " + err.message);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Thử Lại';
+            }
+        }
+
+        function pullCloudData() {
+            if (confirm("Hệ thống sẽ tải lại dữ liệu mới nhất từ file default_data.js trên máy chủ. Bạn có muốn tiếp tục?")) {
+                localStorage.removeItem('ktdtl_products');
+                localStorage.removeItem('ktdtl_projects');
+                localStorage.removeItem('ktdtl_articles');
+                localStorage.removeItem('ktdtl_config');
+                localStorage.removeItem('ktdtl_last_saved_ts');
+                initAdminData();
+                showToast("Đã tải dữ liệu mới nhất từ máy chủ đám mây!");
+            }
+        }
+
+        function downloadDefaultDataJs() {
+            if (!window.KtdtlSync) return;
+            const content = KtdtlSync.buildDefaultDataJs(adminProducts, adminProjects, adminArticles, adminConfig);
+            const str = "data:text/javascript;charset=utf-8," + encodeURIComponent(content);
+            const a = document.createElement('a');
+            a.setAttribute("href", str);
+            a.setAttribute("download", "default_data.js");
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            showToast("Đã tải xuống file default_data.js!");
+        }
+
         function downloadBackupJSON() {
             const backup = {
                 exportedAt: new Date().toISOString(),
@@ -2182,6 +2803,7 @@
                 localStorage.removeItem('ktdtl_projects');
                 localStorage.removeItem('ktdtl_articles');
                 localStorage.removeItem('ktdtl_config');
+                localStorage.removeItem('ktdtl_last_saved_ts');
                 initAdminData();
                 showToast("Đã khôi phục dữ liệu gốc!");
             }

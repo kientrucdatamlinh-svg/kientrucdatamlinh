@@ -13497,8 +13497,12 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
 
         if (typeof localStorage !== 'undefined') {
             try {
-                if (localStorage.getItem('ktdtl_products')) groupedProductsData = JSON.parse(localStorage.getItem('ktdtl_products'));
-                if (localStorage.getItem('ktdtl_projects')) projectsData = JSON.parse(localStorage.getItem('ktdtl_projects'));
+                const localTs = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
+                const defaultTs = (typeof DEFAULT_DATA_TIMESTAMP !== 'undefined') ? DEFAULT_DATA_TIMESTAMP : 0;
+                if (localTs > defaultTs) {
+                    if (localStorage.getItem('ktdtl_products')) groupedProductsData = JSON.parse(localStorage.getItem('ktdtl_products'));
+                    if (localStorage.getItem('ktdtl_projects')) projectsData = JSON.parse(localStorage.getItem('ktdtl_projects'));
+                }
             } catch(e) { console.warn('LocalStorage load error', e); }
         }
 

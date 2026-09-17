@@ -12218,8 +12218,14 @@
         // Get 5 recommended products matching article content
         function getRecommendedProducts(article) {
             let prods = (typeof DEFAULT_PRODUCTS !== 'undefined') ? DEFAULT_PRODUCTS : [];
-            if (typeof localStorage !== 'undefined' && localStorage.getItem('ktdtl_products')) {
-                try { prods = JSON.parse(localStorage.getItem('ktdtl_products')); } catch(e){}
+            if (typeof localStorage !== 'undefined') {
+                try {
+                    const localTs = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
+                    const defaultTs = (typeof DEFAULT_DATA_TIMESTAMP !== 'undefined') ? DEFAULT_DATA_TIMESTAMP : 0;
+                    if (localTs > defaultTs && localStorage.getItem('ktdtl_products')) {
+                        prods = JSON.parse(localStorage.getItem('ktdtl_products'));
+                    }
+                } catch(e){}
             }
             if (!prods || prods.length === 0) return [];
 
