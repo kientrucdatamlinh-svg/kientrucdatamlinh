@@ -11766,6 +11766,7 @@
 
     <!-- ARTICLES DATA & SCRIPTS -->
     <script src="default_data.js"></script>
+    <script src="ktdtl_tracker.js"></script>
     <script>
         let ARTICLES_DATA = [
             {
@@ -12046,7 +12047,9 @@
             const grid = document.getElementById('articlesGrid');
             const searchVal = (document.getElementById('newsSearchInput').value || '').toLowerCase().trim();
             
-            const filtered = ARTICLES_DATA.filter(item => {
+            // Filter out hidden/draft articles
+            const visibleArticles = ARTICLES_DATA.filter(a => !a.hidden && a.status !== 'hidden');
+            const filtered = visibleArticles.filter(item => {
                 const matchCat = (currentCat === 'all') || (item.category === currentCat);
                 const matchSearch = !searchVal || 
                     item.title.toLowerCase().includes(searchVal) || 
@@ -12094,7 +12097,7 @@
                 function renderPopularArticles() {
             const list = document.getElementById('popularArticlesList');
             if (!list) return;
-            const popular = [...ARTICLES_DATA].sort((a, b) => getArticleTotalViews(b) - getArticleTotalViews(a)).slice(0, 4);
+            const popular = [...ARTICLES_DATA].filter(a => !a.hidden && a.status !== 'hidden').sort((a, b) => getArticleTotalViews(b) - getArticleTotalViews(a)).slice(0, 4);
             
             list.innerHTML = popular.map(item => `
                 <div class="popular-item" onclick="openArticleModal(${item.id})">

@@ -10127,6 +10127,7 @@
             color: var(--gold-primary);
         }
     </style>
+    <script src="ktdtl_tracker.js"></script>
 </head>
 <body>
     <header id="mainHeader">
@@ -10908,6 +10909,14 @@
 
         function submitForm(e) {
             e.preventDefault();
+            try {
+                const name = document.getElementById('name')?.value || 'Khách liên hệ';
+                const phone = document.getElementById('phone')?.value || '';
+                const note = document.getElementById('message')?.value || 'Liên hệ tư vấn';
+                if (typeof window.ktdtlSaveLead === 'function') {
+                    window.ktdtlSaveLead({ name, phone, note, source: 'lien-he.html' });
+                }
+            } catch(err) {}
             alert('Cảm ơn bạn đã gửi thông tin! KTS Nguyễn Văn Hướng sẽ liên hệ tư vấn và gửi bản vẽ 3D tới bạn trong vòng 15 phút.');
             document.getElementById('contactForm').reset();
         }

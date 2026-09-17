@@ -10149,6 +10149,7 @@
             font-weight: 700;
         }
     </style>
+    <script src="ktdtl_tracker.js"></script>
 </head>
 <body>
     <header id="mainHeader">
@@ -11537,6 +11538,15 @@
 
         function submitFengshuiConsult(e) {
             e.preventDefault();
+            try {
+                const form = document.getElementById('fengshuiConsultForm');
+                const name = form.querySelector('input[type="text"]')?.value || 'Khách phong thủy';
+                const phone = form.querySelector('input[type="tel"]')?.value || '';
+                const note = form.querySelector('textarea')?.value || 'Yêu cầu tư vấn phong thủy đặt mộ';
+                if (typeof window.ktdtlSaveLead === 'function') {
+                    window.ktdtlSaveLead({ name, phone, note, source: 'tu-van-phong-thuy.html' });
+                }
+            } catch(err) {}
             alert('Cảm ơn bạn! KTS Nguyễn Văn Hướng sẽ trực tiếp gọi điện tư vấn phong thủy đặt mộ cho gia đình bạn trong vòng 15 phút.');
             document.getElementById('fengshuiConsultForm').reset();
         }

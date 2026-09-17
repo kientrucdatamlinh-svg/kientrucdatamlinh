@@ -583,6 +583,86 @@
                 margin-left: 0;
             }
         }
+    
+        /* DROPZONE & GALLERY MANAGER */
+        .admin-dropzone {
+            border: 2px dashed var(--gold-primary);
+            background: rgba(197, 160, 89, 0.05);
+            border-radius: 8px;
+            padding: 24px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+        }
+        .admin-dropzone:hover, .admin-dropzone.dragover {
+            background: rgba(197, 160, 89, 0.15);
+            border-color: var(--gold-light);
+            box-shadow: 0 0 15px rgba(197, 160, 89, 0.3);
+        }
+        .admin-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .gallery-card {
+            position: relative;
+            background: var(--navy-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            cursor: grab;
+        }
+        .gallery-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        .gallery-card.is-avatar {
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+        }
+        .gallery-card img {
+            width: 100%;
+            height: 95px;
+            object-fit: cover;
+            display: block;
+        }
+        .gallery-card-controls {
+            padding: 5px;
+            display: flex;
+            gap: 3px;
+            justify-content: space-between;
+            background: rgba(5, 11, 26, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .gallery-btn {
+            border: none;
+            border-radius: 3px;
+            padding: 4px 6px;
+            cursor: pointer;
+            font-size: 0.72rem;
+            transition: all 0.2s;
+        }
+        .gallery-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c5a059, #e5c07b);
+            border-radius: 4px;
+        }
+
     </style>
 </head>
 <body>
@@ -647,6 +727,13 @@
                     <i class="fa-solid fa-newspaper"></i>
                     <span>Bài Viết & SEO</span>
                     <span class="badge-count" id="badgeArticleCount">0</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a class="menu-link" onclick="switchAdminTab('analytics', this)">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Phân Tích & Khách Hàng</span>
+                    <span class="badge-count" id="badgeLeadsCount" style="background:#e11d48; color:#fff;">0</span>
                 </a>
             </li>
             <li class="menu-item">
@@ -861,8 +948,9 @@
                                 <th>Tiêu Đề Bài Viết</th>
                                 <th>Chuyên Mục</th>
                                 <th>Ngày Đăng</th>
+                                <th style="width: 110px;">Trạng Thái</th>
                                 <th>Lượt Xem</th>
-                                <th style="text-align: right;">Thao Tác</th>
+                                <th style="text-align: right; width: 140px;">Thao Tác</th>
                             </tr>
                         </thead>
                         <tbody id="articlesTableBody">
@@ -873,7 +961,109 @@
             </section>
 
             <!-- TAB 5: CÀI ĐẶT SEO & WEBSITE (CONFIG) -->
-            <section id="tab-config" class="tab-section">
+            
+        <!-- 4. ANALYTICS & LEADS MANAGEMENT TAB -->
+        <section id="tab-analytics" class="tab-section">
+            <div class="section-header-admin">
+                <div>
+                    <h2>Phân Tích Truy Cập & Quản Lý Khách Hàng (CRM)</h2>
+                    <p>Theo dõi lượt truy cập theo thời gian thực, nút bấm tương tác nhiều nhất và quản lý yêu cầu tư vấn</p>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-action btn-outline-admin" onclick="exportLeadsToCSV()"><i class="fa-solid fa-file-excel"></i> Xuất Excel / CSV</button>
+                    <button class="btn-action btn-gold-admin" onclick="openAddLeadModal()"><i class="fa-solid fa-user-plus"></i> Thêm Khách Hàng</button>
+                </div>
+            </div>
+
+            <!-- Analytics KPI Grid -->
+            <div class="stats-grid" style="margin-bottom: 25px;">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="stat-info">
+                        <h3 id="statAnalyticsViews">0</h3>
+                        <p>Tổng Lượt Xem Website</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.15); color: #10b981;"><i class="fa-solid fa-mouse-pointer"></i></div>
+                    <div class="stat-info">
+                        <h3 id="statAnalyticsClicks">0</h3>
+                        <p>Tổng Lượt Click (Hotline, Zalo...)</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-info">
+                        <h3 id="statAnalyticsLeads">0</h3>
+                        <p>Yêu Cầu Tư Vấn Nhận Được</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(225, 29, 72, 0.15); color: #e11d48;"><i class="fa-solid fa-phone-volume"></i></div>
+                    <div class="stat-info">
+                        <h3 id="statAnalyticsPending" style="color: #e11d48;">0</h3>
+                        <p>Yêu Cầu Chờ Xử Lý (Chưa Gọi)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side-by-side Page Views & Top Clicks Grid -->
+            <div class="form-row" style="margin-bottom: 30px; gap: 20px;">
+                <!-- Pageviews Breakdown -->
+                <div class="admin-card" style="flex: 1; margin: 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="color: var(--gold-light); font-size: 1.05rem; margin: 0;"><i class="fa-solid fa-file-lines" style="color: var(--gold-primary);"></i> Lượt Xem Theo Từng Trang</h3>
+                        <span id="pageviewsTotalLabel" style="font-size: 0.8rem; color: var(--text-silver);"></span>
+                    </div>
+                    <div id="pageviewsListContainer" style="display: flex; flex-direction: column; gap: 12px;"></div>
+                </div>
+
+                <!-- Top Clicked Links / CTAs -->
+                <div class="admin-card" style="flex: 1; margin: 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="color: var(--gold-light); font-size: 1.05rem; margin: 0;"><i class="fa-solid fa-bullseye" style="color: var(--gold-primary);"></i> Nút Bấm & Liên Kết Được Click Nhiều Nhất</h3>
+                        <span id="clicksTotalLabel" style="font-size: 0.8rem; color: var(--text-silver);"></span>
+                    </div>
+                    <div id="clicksListContainer" style="display: flex; flex-direction: column; gap: 12px;"></div>
+                </div>
+            </div>
+
+            <!-- Customer Inquiries CRM Table -->
+            <div class="admin-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 12px;">
+                    <h3 style="color: var(--gold-light); font-size: 1.15rem; margin: 0;"><i class="fa-solid fa-address-book" style="color: var(--gold-primary);"></i> Danh Sách Yêu Cầu Khách Hàng Đã Gửi</h3>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <input type="text" id="leadSearchInput" class="admin-input" placeholder="Tìm kiếm tên, SĐT, nội dung..." style="width: 240px; font-size: 0.85rem;" oninput="renderLeadsTable()">
+                        <select id="leadStatusFilter" class="admin-select" style="font-size: 0.85rem;" onchange="renderLeadsTable()">
+                            <option value="all">Tất cả trạng thái</option>
+                            <option value="pending">🟡 Chờ gọi lại</option>
+                            <option value="called">🔵 Đã liên hệ</option>
+                            <option value="success">🟢 Đã chốt đơn</option>
+                            <option value="cancelled">🔴 Đã hủy</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 140px;">Thời Gian</th>
+                                <th style="width: 160px;">Khách Hàng</th>
+                                <th style="width: 150px;">Số Điện Thoại</th>
+                                <th>Nội Dung & Nhu Cầu</th>
+                                <th style="width: 120px;">Trang Gửi</th>
+                                <th style="width: 150px;">Trạng Thái</th>
+                                <th style="width: 110px; text-align: center;">Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leadsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="tab-config" class="tab-section">
                 <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; max-width: 900px;">
                     <h2 style="font-family: 'Lora', serif; color: var(--gold-light); margin-bottom: 20px; font-size: 1.4rem;">
                         <i class="fa-solid fa-gear" style="color: var(--gold-primary);"></i> Cấu Hình Toàn Trang & Thẻ SEO Mặc Định
@@ -1028,11 +1218,26 @@
                     <textarea id="prodDesc" class="form-textarea" style="min-height: 140px;"></textarea>
                 </div>
 
-                <!-- Product Images Manager -->
+                <!-- Product Images Drag & Drop Manager -->
                 <div class="form-group">
-                    <label>Danh Sách Link Ảnh Cloudinary (Mỗi link một dòng)</label>
-                    <textarea id="prodImgsText" class="form-textarea" style="min-height: 100px;" oninput="previewProductImages()"></textarea>
-                    <div id="prodImgsPreview" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
+                    <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span><i class="fa-solid fa-images" style="color: var(--gold-primary);"></i> Quản Lý Bộ Ảnh Sản Phẩm (Kéo thả ảnh trực tiếp)</span>
+                        <span style="font-size: 0.8rem; color: var(--gold-light);">Ảnh đầu tiên (★ ĐẠI DIỆN) sẽ làm Avatar</span>
+                    </label>
+
+                    <div id="prodDropZone" class="admin-dropzone" onclick="document.getElementById('prodFileInput').click()">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.2rem; color: var(--gold-primary); margin-bottom: 8px;"></i>
+                        <div style="font-weight: 700; color: var(--text-light); font-size: 1.05rem;">Kéo & Thả Ảnh Vào Đây Hoặc Bấm Để Chọn Từ Máy</div>
+                        <div style="font-size: 0.82rem; color: var(--text-silver); margin-top: 4px;">Hỗ trợ nhiều ảnh (.jpg, .png, .webp). Sau khi ấn Lưu sẽ tự động đẩy lên Cloudinary.</div>
+                        <input type="file" id="prodFileInput" multiple accept="image/*" style="display: none;" onchange="handleProdFiles(this.files)">
+                    </div>
+
+                    <div id="prodGalleryContainer" class="admin-gallery-grid"></div>
+
+                    <details style="margin-top: 12px; background: rgba(5,11,26,0.4); border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 12px;">
+                        <summary style="cursor: pointer; color: var(--gold-primary); font-size: 0.82rem; font-weight: 600;"><i class="fa-solid fa-code"></i> Nhập/sửa danh sách link ảnh thủ công (URL)</summary>
+                        <textarea id="prodImgsText" class="form-textarea" style="min-height: 70px; margin-top: 8px; font-size: 0.82rem;" oninput="syncProdTextToGallery()"></textarea>
+                    </details>
                 </div>
 
                 <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px;">
@@ -1100,11 +1305,26 @@
                     <div id="projSpecsContainer" style="display: flex; flex-direction: column; gap: 8px;"></div>
                 </div>
 
-                <!-- Project Images List -->
+                <!-- Project Images Drag & Drop Manager -->
                 <div class="form-group">
-                    <label>Tất Cả Ảnh Dự Án (Mỗi link Cloudinary một dòng)</label>
-                    <textarea id="projImgsText" class="form-textarea" style="min-height: 100px;" oninput="previewProjectImages()"></textarea>
-                    <div id="projImgsPreview" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;"></div>
+                    <label style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <span><i class="fa-solid fa-images" style="color: var(--gold-primary);"></i> Quản Lý Bộ Ảnh Dự Án (Kéo thả ảnh trực tiếp)</span>
+                        <span style="font-size: 0.8rem; color: var(--gold-light);">Ảnh đầu tiên (★ ĐẠI DIỆN) sẽ làm Avatar</span>
+                    </label>
+
+                    <div id="projDropZone" class="admin-dropzone" onclick="document.getElementById('projFileInput').click()">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2.2rem; color: var(--gold-primary); margin-bottom: 8px;"></i>
+                        <div style="font-weight: 700; color: var(--text-light); font-size: 1.05rem;">Kéo Thả Ảnh Vào Đây Hoặc Bấm Để Chọn Từ Máy</div>
+                        <div style="font-size: 0.82rem; color: var(--text-silver); margin-top: 4px;">Hỗ trợ nhiều ảnh (.jpg, .png, .webp). Sau khi ấn Lưu sẽ tự động đẩy lên Cloudinary.</div>
+                        <input type="file" id="projFileInput" multiple accept="image/*" style="display: none;" onchange="handleProjFiles(this.files)">
+                    </div>
+
+                    <div id="projGalleryContainer" class="admin-gallery-grid"></div>
+
+                    <details style="margin-top: 12px; background: rgba(5,11,26,0.4); border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 12px;">
+                        <summary style="cursor: pointer; color: var(--gold-primary); font-size: 0.82rem; font-weight: 600;"><i class="fa-solid fa-code"></i> Nhập/sửa danh sách link ảnh thủ công (URL)</summary>
+                        <textarea id="projImgsText" class="form-textarea" style="min-height: 70px; margin-top: 8px; font-size: 0.82rem;" oninput="syncProjTextToGallery()"></textarea>
+                    </details>
                 </div>
 
                 <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 25px; border-top: 1px solid var(--border-color); padding-top: 20px;">
@@ -1167,6 +1387,16 @@
                     <textarea id="artExcerpt" class="form-textarea" style="min-height: 80px;" oninput="updateSerpPreview()"></textarea>
                 </div>
 
+                <div class="form-group" style="background: rgba(197,160,89,0.08); border: 1px solid rgba(197,160,89,0.3); border-radius: 6px; padding: 12px 15px;">
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; margin: 0;">
+                        <input type="checkbox" id="artHidden" style="width: 18px; height: 18px; accent-color: var(--gold-primary); cursor: pointer;">
+                        <div>
+                            <span style="font-weight: 700; color: var(--gold-light); font-size: 0.92rem;"><i class="fa-solid fa-eye-slash"></i> Ẩn Bài Viết Khỏi Trang Tin Tức & Website</span>
+                            <div style="font-size: 0.8rem; color: var(--text-silver); margin-top: 2px;">Khi chọn mục này, bài viết sẽ ở chế độ Nháp/Ẩn và chỉ nhìn thấy trong trang quản trị Admin, khách bên ngoài sẽ không thấy.</div>
+                        </div>
+                    </label>
+                </div>
+
                 <!-- GOOGLE SERP PREVIEW -->
                 <div style="border: 1px solid var(--border-color); border-radius: 8px; padding: 18px; margin-bottom: 20px; background: rgba(5,11,26,0.5);">
                     <h4 style="color: var(--gold-light); margin-bottom: 8px; font-size: 0.95rem;">
@@ -1204,6 +1434,42 @@
     </div>
 
     <!-- TOAST NOTIFICATION -->
+        <!-- MODAL ADD MANUAL LEAD -->
+    <div id="addLeadModal" class="admin-modal-overlay">
+        <div class="admin-modal-box" style="max-width: 500px;">
+            <div class="modal-header-admin">
+                <h2>Thêm Khách Hàng Tư Vấn Thủ Công</h2>
+                <span onclick="closeAddLeadModal()" style="color: var(--gold-primary); font-size: 28px; cursor: pointer;">&times;</span>
+            </div>
+            <form onsubmit="saveManualLead(event)">
+                <div class="form-group">
+                    <label>Họ Tên Khách Hàng (*)</label>
+                    <input type="text" id="manualLeadName" class="admin-input" required placeholder="Ví dụ: Bác Tuấn - Hà Nội">
+                </div>
+                <div class="form-group">
+                    <label>Số Điện Thoại (*)</label>
+                    <input type="tel" id="manualLeadPhone" class="admin-input" required placeholder="0912...">
+                </div>
+                <div class="form-group">
+                    <label>Nhu Cầu / Ghi Chú Tư Vấn</label>
+                    <textarea id="manualLeadNote" class="form-textarea" placeholder="Khách gọi trực tiếp hỏi lăng mộ đá xanh rêu..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Trạng Thái Ban Đầu</label>
+                    <select id="manualLeadStatus" class="admin-select" style="width: 100%;">
+                        <option value="pending">🟡 Chờ gọi lại</option>
+                        <option value="called">🔵 Đã liên hệ</option>
+                        <option value="success">🟢 Đã chốt đơn</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px;">
+                    <button type="button" onclick="closeAddLeadModal()" class="btn-action btn-outline-admin">Hủy</button>
+                    <button type="submit" class="btn-action btn-gold-admin"><i class="fa-solid fa-check"></i> Lưu Khách Hàng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div id="adminToast">
         <i class="fa-solid fa-circle-check" style="color: var(--accent-green); font-size: 1.2rem;"></i>
         <span id="adminToastMsg">Thao tác thành công!</span>
@@ -1285,6 +1551,8 @@
             renderProjectsTable();
             renderArticlesTable();
             populateConfigForm();
+            loadAnalyticsData();
+            setupDropzones();
         }
 
         function updateDashboardCounts() {
@@ -1315,8 +1583,13 @@
             if (target) target.classList.add('active');
             if (linkEl) linkEl.classList.add('active');
 
+            if (tabId === 'analytics') {
+                renderAnalyticsTab();
+            }
+
             const titles = {
                 'overview': 'Tổng Quan Hệ Thống',
+                'analytics': 'Phân Tích & Quản Lý Khách Hàng (CRM)',
                 'products': 'Quản Lý Sản Phẩm Đá',
                 'projects': 'Quản Lý Dự Án Đã Thi Công',
                 'articles': 'Quản Lý Bài Viết & Tối Ưu SEO',
@@ -1379,7 +1652,8 @@
                 document.getElementById('prodMaterial').value = p.material || '';
                 document.getElementById('prodSpec').value = p.spec || '';
                 document.getElementById('prodDesc').value = p.desc || '';
-                document.getElementById('prodImgsText').value = (p.imgs || []).join('\n');
+                currentProdImages = (p.imgs && p.imgs.length > 0) ? [...p.imgs] : (p.img ? [p.img] : []);
+                document.getElementById('prodImgsText').value = currentProdImages.join('\n');
             } else {
                 document.getElementById('productModalTitle').innerText = "Thêm Sản Phẩm Mới";
                 document.getElementById('prodTitle').value = '';
@@ -1389,9 +1663,10 @@
                 document.getElementById('prodMaterial').value = 'Đá Xanh Rêu Tự Nhiên';
                 document.getElementById('prodSpec').value = 'Chuẩn Thước Lỗ Ban 38.8cm';
                 document.getElementById('prodDesc').value = '';
+                currentProdImages = [];
                 document.getElementById('prodImgsText').value = '';
             }
-            previewProductImages();
+            renderProdGallery();
             modal.style.display = 'flex';
         }
 
@@ -1423,37 +1698,55 @@
             `).join('') + (urls.length > 8 ? `<span style="font-size:0.8rem; color:var(--gold-light); align-self:center;">+${urls.length - 8} ảnh khác</span>` : '');
         }
 
-        function saveProductItem(e) {
+        async function saveProductItem(e) {
             e.preventDefault();
-            const index = parseInt(document.getElementById('prodEditIndex').value);
-            const catCode = document.getElementById('prodCatCode').value;
-            const catName = updateProdCatName();
-            const imgs = document.getElementById('prodImgsText').value.split('\n').map(u => u.trim()).filter(Boolean);
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalBtnHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang đẩy ảnh lên Cloudinary & Lưu...';
+            btn.disabled = true;
 
-            const item = {
-                cat_code: catCode,
-                cat_name: catName,
-                folder_key: catCode + '/' + document.getElementById('prodTitle').value,
-                title: document.getElementById('prodTitle').value,
-                price: document.getElementById('prodPrice').value,
-                price_cat: document.getElementById('prodPriceCat').value,
-                material: document.getElementById('prodMaterial').value,
-                spec: document.getElementById('prodSpec').value,
-                desc: document.getElementById('prodDesc').value,
-                imgs: imgs
-            };
+            try {
+                const index = parseInt(document.getElementById('prodEditIndex').value);
+                const catCode = document.getElementById('prodCatCode').value;
+                const catName = updateProdCatName();
 
-            if (index >= 0) {
-                adminProducts[index] = item;
-                showToast("Đã cập nhật sản phẩm thành công!");
-            } else {
-                adminProducts.unshift(item);
-                showToast("Đã thêm sản phẩm mới thành công!");
+                // Upload any newly added local/base64 images
+                const uploadedImgs = [];
+                for (const img of currentProdImages) {
+                    uploadedImgs.push(await uploadImageToCloudinary(img));
+                }
+
+                const item = {
+                    cat_code: catCode,
+                    cat_name: catName,
+                    folder_key: catCode + '/' + document.getElementById('prodTitle').value,
+                    title: document.getElementById('prodTitle').value,
+                    price: document.getElementById('prodPrice').value,
+                    price_cat: document.getElementById('prodPriceCat').value,
+                    material: document.getElementById('prodMaterial').value,
+                    spec: document.getElementById('prodSpec').value,
+                    desc: document.getElementById('prodDesc').value,
+                    imgs: uploadedImgs
+                };
+
+                if (index >= 0) {
+                    adminProducts[index] = item;
+                    showToast("Đã cập nhật sản phẩm thành công!");
+                } else {
+                    adminProducts.unshift(item);
+                    showToast("Đã thêm sản phẩm mới thành công!");
+                }
+
+                saveAllToStorage();
+                closeProductModal();
+                renderProductsTable();
+            } catch(err) {
+                console.error("Save product error:", err);
+                showToast("Lỗi khi lưu sản phẩm: " + err.message);
+            } finally {
+                btn.innerHTML = originalBtnHtml;
+                btn.disabled = false;
             }
-
-            saveAllToStorage();
-            closeProductModal();
-            renderProductsTable();
         }
 
         function editProduct(idx) {
@@ -1519,7 +1812,8 @@
                 document.getElementById('projMainImg').value = p.img || (p.imgs && p.imgs[0]) || '';
                 document.getElementById('projShortDesc').value = p.short_desc || '';
                 document.getElementById('projDetailDesc').value = p.detail_desc || '';
-                document.getElementById('projImgsText').value = (p.imgs || []).join('\n');
+                currentProjImages = (p.imgs && p.imgs.length > 0) ? [...p.imgs] : (p.img ? [p.img] : []);
+                document.getElementById('projImgsText').value = currentProjImages.join('\n');
                 renderSpecsRows(p.specs || []);
             } else {
                 document.getElementById('projectModalTitle').innerText = "Thêm Dự Án Mới";
@@ -1529,6 +1823,7 @@
                 document.getElementById('projMainImg').value = '';
                 document.getElementById('projShortDesc').value = 'Công Trình Khu Lăng Mộ | Đá xanh rêu Ninh Vân';
                 document.getElementById('projDetailDesc').value = 'Công trình được thiết kế quy hoạch chuẩn phong thủy bởi KTS Nguyễn Văn Hướng.';
+                currentProjImages = [];
                 document.getElementById('projImgsText').value = '';
                 renderSpecsRows([
                     ["Hạng Mục Công Trình", "Khu Lăng Mộ Gia Tộc"],
@@ -1537,7 +1832,7 @@
                     ["Đơn Vị Thi Công", "Kiến Trúc Đá Tâm Linh (0397.247.333)"]
                 ]);
             }
-            previewProjectImages();
+            renderProjGallery();
             modal.style.display = 'flex';
         }
 
@@ -1590,47 +1885,67 @@
             `).join('') + (urls.length > 8 ? `<span style="font-size:0.8rem; color:var(--gold-light); align-self:center;">+${urls.length - 8} ảnh</span>` : '');
         }
 
-        function saveProjectItem(e) {
+        async function saveProjectItem(e) {
             e.preventDefault();
-            const index = parseInt(document.getElementById('projEditIndex').value);
-            const catCode = document.getElementById('projCatCode').value;
-            const catName = updateProjCatName();
-            const imgs = document.getElementById('projImgsText').value.split('\n').map(u => u.trim()).filter(Boolean);
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalBtnHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang đẩy ảnh lên Cloudinary & Lưu...';
+            btn.disabled = true;
 
-            // Collect specs
-            const specs = [];
-            document.querySelectorAll('.spec-row').forEach(row => {
-                const k = row.querySelector('.spec-key').value.trim();
-                const v = row.querySelector('.spec-val').value.trim();
-                if (k || v) specs.push([k, v]);
-            });
+            try {
+                const index = parseInt(document.getElementById('projEditIndex').value);
+                const catCode = document.getElementById('projCatCode').value;
+                const catName = updateProjCatName();
 
-            const item = {
-                id: index >= 0 ? adminProjects[index].id : Date.now(),
-                cat_code: catCode,
-                cat_name: catName,
-                top_folder: catCode,
-                sub_folder: document.getElementById('projTitle').value,
-                title: document.getElementById('projTitle').value,
-                location: document.getElementById('projLocation').value,
-                img: document.getElementById('projMainImg').value,
-                imgs: imgs,
-                short_desc: document.getElementById('projShortDesc').value,
-                detail_desc: document.getElementById('projDetailDesc').value,
-                specs: specs
-            };
+                // Upload any newly added local/base64 images
+                const uploadedImgs = [];
+                for (const img of currentProjImages) {
+                    uploadedImgs.push(await uploadImageToCloudinary(img));
+                }
 
-            if (index >= 0) {
-                adminProjects[index] = item;
-                showToast("Đã cập nhật dự án thành công!");
-            } else {
-                adminProjects.unshift(item);
-                showToast("Đã thêm dự án mới thành công!");
+                // Collect specs
+                const specs = [];
+                document.querySelectorAll('.spec-row').forEach(row => {
+                    const k = row.querySelector('.spec-key').value.trim();
+                    const v = row.querySelector('.spec-val').value.trim();
+                    if (k || v) specs.push([k, v]);
+                });
+
+                const mainImg = (uploadedImgs.length > 0) ? uploadedImgs[0] : (document.getElementById('projMainImg')?.value || '');
+
+                const item = {
+                    id: index >= 0 ? adminProjects[index].id : Date.now(),
+                    cat_code: catCode,
+                    cat_name: catName,
+                    top_folder: catCode,
+                    sub_folder: document.getElementById('projTitle').value,
+                    title: document.getElementById('projTitle').value,
+                    location: document.getElementById('projLocation').value,
+                    img: mainImg,
+                    imgs: uploadedImgs,
+                    short_desc: document.getElementById('projShortDesc').value,
+                    detail_desc: document.getElementById('projDetailDesc').value,
+                    specs: specs
+                };
+
+                if (index >= 0) {
+                    adminProjects[index] = item;
+                    showToast("Đã cập nhật dự án thành công!");
+                } else {
+                    adminProjects.unshift(item);
+                    showToast("Đã thêm dự án mới thành công!");
+                }
+
+                saveAllToStorage();
+                closeProjectModal();
+                renderProjectsTable();
+            } catch(err) {
+                console.error("Save project error:", err);
+                showToast("Lỗi khi lưu dự án: " + err.message);
+            } finally {
+                btn.innerHTML = originalBtnHtml;
+                btn.disabled = false;
             }
-
-            saveAllToStorage();
-            closeProjectModal();
-            renderProjectsTable();
         }
 
         function editProject(idx) {
@@ -1695,6 +2010,7 @@
                 document.getElementById('artReadTime').value = a.readTime || '8 phút';
                 document.getElementById('artImage').value = a.image || '';
                 document.getElementById('artExcerpt').value = a.excerpt || '';
+                document.getElementById('artHidden').checked = !!(a && (a.hidden || a.status === 'hidden'));
                 document.getElementById('artKeyword').value = a.keyword || 'lăng mộ đá chuẩn phong thủy';
                 document.getElementById('artSlug').value = a.slug || generateSlug(a.title || '');
                 document.getElementById('artContent').value = a.content || '';
@@ -1766,6 +2082,8 @@
                 views: index >= 0 ? adminArticles[index].views : '1,250',
                 image: document.getElementById('artImage').value,
                 excerpt: document.getElementById('artExcerpt').value,
+                hidden: document.getElementById('artHidden').checked,
+                status: document.getElementById('artHidden').checked ? 'hidden' : 'published',
                 keyword: document.getElementById('artKeyword').value,
                 slug: document.getElementById('artSlug').value,
                 content: document.getElementById('artContent').value
@@ -1794,6 +2112,16 @@
                 saveAllToStorage();
                 renderArticlesTable();
                 showToast("Đã xóa bài viết!");
+            }
+        }
+
+        function toggleArticleVisibility(idx) {
+            if (adminArticles[idx]) {
+                adminArticles[idx].hidden = !adminArticles[idx].hidden;
+                adminArticles[idx].status = adminArticles[idx].hidden ? 'hidden' : 'published';
+                saveAllToStorage();
+                renderArticlesTable();
+                showToast(adminArticles[idx].hidden ? "Đã ẩn bài viết khỏi website!" : "Đã hiển thị công khai bài viết!");
             }
         }
 
@@ -1860,6 +2188,540 @@
         }
 
         // 9. Toast Notification
+        
+        // ==========================================
+        // DRAG & DROP GALLERY & CLOUDINARY LOGIC
+        // ==========================================
+        let currentProdImages = [];
+        let currentProjImages = [];
+        let adminLeads = [];
+        let adminStatsViews = {};
+        let adminStatsClicks = {};
+        let draggedImgIdx = null;
+        let draggedType = null;
+
+        function setupDropzones() {
+            const prodDrop = document.getElementById('prodDropZone');
+            if (prodDrop) {
+                ['dragenter', 'dragover'].forEach(name => {
+                    prodDrop.addEventListener(name, (e) => { e.preventDefault(); e.stopPropagation(); prodDrop.classList.add('dragover'); }, false);
+                });
+                ['dragleave', 'drop'].forEach(name => {
+                    prodDrop.addEventListener(name, (e) => { e.preventDefault(); e.stopPropagation(); prodDrop.classList.remove('dragover'); }, false);
+                });
+                prodDrop.addEventListener('drop', (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    if (e.dataTransfer.files && e.dataTransfer.files.length) handleProdFiles(e.dataTransfer.files);
+                }, false);
+            }
+
+            const projDrop = document.getElementById('projDropZone');
+            if (projDrop) {
+                ['dragenter', 'dragover'].forEach(name => {
+                    projDrop.addEventListener(name, (e) => { e.preventDefault(); e.stopPropagation(); projDrop.classList.add('dragover'); }, false);
+                });
+                ['dragleave', 'drop'].forEach(name => {
+                    projDrop.addEventListener(name, (e) => { e.preventDefault(); e.stopPropagation(); projDrop.classList.remove('dragover'); }, false);
+                });
+                projDrop.addEventListener('drop', (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    if (e.dataTransfer.files && e.dataTransfer.files.length) handleProjFiles(e.dataTransfer.files);
+                }, false);
+            }
+        }
+
+        // Product Images
+        function handleProdFiles(files) {
+            if (!files || !files.length) return;
+            Array.from(files).forEach(file => {
+                if (!file.type.startsWith('image/')) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    currentProdImages.push(e.target.result);
+                    renderProdGallery();
+                    syncProdGalleryToText();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderProdGallery() {
+            const container = document.getElementById('prodGalleryContainer');
+            if (!container) return;
+            if (!currentProdImages.length) {
+                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-silver); font-size: 0.85rem; padding: 15px; border: 1px dashed rgba(255,255,255,0.1); border-radius: 6px;">Chưa có ảnh nào. Hãy kéo thả ảnh vào ô trên hoặc nhập link URL bên dưới.</div>';
+                return;
+            }
+
+            container.innerHTML = currentProdImages.map((imgUrl, idx) => {
+                const isAvatar = (idx === 0);
+                return `
+                <div class="gallery-card ${isAvatar ? 'is-avatar' : ''}" draggable="true"
+                     ondragstart="handleImgDragStart(event, ${idx}, 'prod')"
+                     ondragover="handleImgDragOver(event)"
+                     ondrop="handleImgDrop(event, ${idx}, 'prod')">
+                    ${isAvatar ? '<div style="position: absolute; top: 4px; left: 4px; background: var(--gold-primary); color: var(--navy-deep); font-size: 0.68rem; font-weight: 800; padding: 2px 5px; border-radius: 3px; z-index: 3;"><i class="fa-solid fa-crown"></i> AVATAR</div>' : ''}
+                    <img src="${imgUrl}" alt="Ảnh ${idx + 1}" onerror="this.src='https://res.cloudinary.com/g3beqqle/image/upload/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg'">
+                    <div class="gallery-card-controls">
+                        <button type="button" class="gallery-btn" title="Đặt làm ảnh đại diện" onclick="setProdAvatar(${idx})" style="background:${isAvatar ? 'var(--gold-primary)' : '#1e293b'}; color:${isAvatar ? '#050b1a' : '#c5a059'}; font-weight: 700;">
+                            <i class="fa-solid fa-crown"></i> Avt
+                        </button>
+                        <button type="button" class="gallery-btn" title="Chuyển sang trái" onclick="moveProdImg(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} style="background: #1e293b; color: #fff;">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <button type="button" class="gallery-btn" title="Chuyển sang phải" onclick="moveProdImg(${idx}, 1)" ${idx === currentProdImages.length - 1 ? 'disabled' : ''} style="background: #1e293b; color: #fff;">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button type="button" class="gallery-btn" title="Xóa ảnh này" onclick="removeProdImg(${idx})" style="background: #dc2626; color: #fff;">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function setProdAvatar(idx) {
+            if (idx < 0 || idx >= currentProdImages.length) return;
+            const [item] = currentProdImages.splice(idx, 1);
+            currentProdImages.unshift(item);
+            renderProdGallery();
+            syncProdGalleryToText();
+        }
+
+        function moveProdImg(idx, dir) {
+            const newIdx = idx + dir;
+            if (newIdx < 0 || newIdx >= currentProdImages.length) return;
+            const temp = currentProdImages[idx];
+            currentProdImages[idx] = currentProdImages[newIdx];
+            currentProdImages[newIdx] = temp;
+            renderProdGallery();
+            syncProdGalleryToText();
+        }
+
+        function removeProdImg(idx) {
+            if (confirm('Xóa ảnh này khỏi sản phẩm?')) {
+                currentProdImages.splice(idx, 1);
+                renderProdGallery();
+                syncProdGalleryToText();
+            }
+        }
+
+        function syncProdGalleryToText() {
+            const txt = document.getElementById('prodImgsText');
+            if (txt) txt.value = currentProdImages.join('\n');
+        }
+
+        function syncProdTextToGallery() {
+            const txt = document.getElementById('prodImgsText');
+            if (!txt) return;
+            currentProdImages = txt.value.split('\n').map(u => u.trim()).filter(Boolean);
+            renderProdGallery();
+        }
+
+        // Project Images
+        function handleProjFiles(files) {
+            if (!files || !files.length) return;
+            Array.from(files).forEach(file => {
+                if (!file.type.startsWith('image/')) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    currentProjImages.push(e.target.result);
+                    renderProjGallery();
+                    syncProjGalleryToText();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderProjGallery() {
+            const container = document.getElementById('projGalleryContainer');
+            if (!container) return;
+            if (!currentProjImages.length) {
+                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-silver); font-size: 0.85rem; padding: 15px; border: 1px dashed rgba(255,255,255,0.1); border-radius: 6px;">Chưa có ảnh nào. Hãy kéo thả ảnh vào ô trên hoặc nhập link URL bên dưới.</div>';
+                return;
+            }
+
+            container.innerHTML = currentProjImages.map((imgUrl, idx) => {
+                const isAvatar = (idx === 0);
+                return `
+                <div class="gallery-card ${isAvatar ? 'is-avatar' : ''}" draggable="true"
+                     ondragstart="handleImgDragStart(event, ${idx}, 'proj')"
+                     ondragover="handleImgDragOver(event)"
+                     ondrop="handleImgDrop(event, ${idx}, 'proj')">
+                    ${isAvatar ? '<div style="position: absolute; top: 4px; left: 4px; background: var(--gold-primary); color: var(--navy-deep); font-size: 0.68rem; font-weight: 800; padding: 2px 5px; border-radius: 3px; z-index: 3;"><i class="fa-solid fa-crown"></i> AVATAR</div>' : ''}
+                    <img src="${imgUrl}" alt="Ảnh ${idx + 1}" onerror="this.src='https://res.cloudinary.com/g3beqqle/image/upload/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg'">
+                    <div class="gallery-card-controls">
+                        <button type="button" class="gallery-btn" title="Đặt làm ảnh đại diện" onclick="setProjAvatar(${idx})" style="background:${isAvatar ? 'var(--gold-primary)' : '#1e293b'}; color:${isAvatar ? '#050b1a' : '#c5a059'}; font-weight: 700;">
+                            <i class="fa-solid fa-crown"></i> Avt
+                        </button>
+                        <button type="button" class="gallery-btn" title="Chuyển sang trái" onclick="moveProjImg(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} style="background: #1e293b; color: #fff;">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <button type="button" class="gallery-btn" title="Chuyển sang phải" onclick="moveProjImg(${idx}, 1)" ${idx === currentProjImages.length - 1 ? 'disabled' : ''} style="background: #1e293b; color: #fff;">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button type="button" class="gallery-btn" title="Xóa ảnh này" onclick="removeProjImg(${idx})" style="background: #dc2626; color: #fff;">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function setProjAvatar(idx) {
+            if (idx < 0 || idx >= currentProjImages.length) return;
+            const [item] = currentProjImages.splice(idx, 1);
+            currentProjImages.unshift(item);
+            renderProjGallery();
+            syncProjGalleryToText();
+        }
+
+        function moveProjImg(idx, dir) {
+            const newIdx = idx + dir;
+            if (newIdx < 0 || newIdx >= currentProjImages.length) return;
+            const temp = currentProjImages[idx];
+            currentProjImages[idx] = currentProjImages[newIdx];
+            currentProjImages[newIdx] = temp;
+            renderProjGallery();
+            syncProjGalleryToText();
+        }
+
+        function removeProjImg(idx) {
+            if (confirm('Xóa ảnh này khỏi dự án?')) {
+                currentProjImages.splice(idx, 1);
+                renderProjGallery();
+                syncProjGalleryToText();
+            }
+        }
+
+        function syncProjGalleryToText() {
+            const txt = document.getElementById('projImgsText');
+            if (txt) txt.value = currentProjImages.join('\n');
+        }
+
+        function syncProjTextToGallery() {
+            const txt = document.getElementById('projImgsText');
+            if (!txt) return;
+            currentProjImages = txt.value.split('\n').map(u => u.trim()).filter(Boolean);
+            renderProjGallery();
+        }
+
+        // Drag & Drop Reordering
+        function handleImgDragStart(e, idx, type) {
+            draggedImgIdx = idx;
+            draggedType = type;
+            e.dataTransfer.effectAllowed = 'move';
+        }
+        function handleImgDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+        function handleImgDrop(e, targetIdx, type) {
+            e.preventDefault();
+            if (draggedType !== type || draggedImgIdx === null || draggedImgIdx === targetIdx) return;
+            const list = (type === 'prod') ? currentProdImages : currentProjImages;
+            const [moved] = list.splice(draggedImgIdx, 1);
+            list.splice(targetIdx, 0, moved);
+            if (type === 'prod') {
+                renderProdGallery();
+                syncProdGalleryToText();
+            } else {
+                renderProjGallery();
+                syncProjGalleryToText();
+            }
+            draggedImgIdx = null;
+            draggedType = null;
+        }
+
+        // Cloudinary Upload & Canvas Compression Helper
+        async function uploadImageToCloudinary(imgData) {
+            if (!imgData || !imgData.startsWith('data:image/')) return imgData;
+
+            try {
+                const cName = (adminConfig && adminConfig.cloudinaryName) || 'g3beqqle';
+                const preset = (adminConfig && adminConfig.cloudinaryPreset) || 'ml_default';
+
+                const formData = new FormData();
+                formData.append('file', imgData);
+                formData.append('upload_preset', preset);
+
+                const res = await fetch(`https://api.cloudinary.com/v1_1/${cName}/image/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.secure_url) return data.secure_url;
+                }
+            } catch (err) {
+                console.warn('Cloudinary direct upload failed, saving compressed image:', err);
+            }
+
+            return await compressImageCanvas(imgData, 1200, 0.75);
+        }
+
+        function compressImageCanvas(dataUrl, maxWidth = 1200, quality = 0.75) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    let w = img.width;
+                    let h = img.height;
+                    if (w > maxWidth) {
+                        h = Math.round((h * maxWidth) / w);
+                        w = maxWidth;
+                    }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.onerror = () => resolve(dataUrl);
+                img.src = dataUrl;
+            });
+        }
+
+        // ==========================================
+        // ANALYTICS & LEADS CRM LOGIC
+        // ==========================================
+        function loadAnalyticsData() {
+            try {
+                adminStatsViews = JSON.parse(localStorage.getItem('ktdtl_stats_pageviews') || '{}');
+                adminStatsClicks = JSON.parse(localStorage.getItem('ktdtl_stats_clicks') || '{}');
+                adminLeads = JSON.parse(localStorage.getItem('ktdtl_leads') || '[]');
+            } catch(e) {}
+            updateAnalyticsBadge();
+        }
+
+        function updateAnalyticsBadge() {
+            const pendingCount = adminLeads.filter(l => l.status === 'pending').length;
+            const badge = document.getElementById('badgeLeadsCount');
+            if (badge) {
+                badge.innerText = pendingCount;
+                badge.style.display = pendingCount > 0 ? 'inline-block' : 'none';
+            }
+        }
+
+        function renderAnalyticsTab() {
+            loadAnalyticsData();
+
+            // 1. KPI Cards
+            const totalViews = adminStatsViews['__total__'] || 0;
+            let totalClicks = 0;
+            Object.values(adminStatsClicks).forEach(c => totalClicks += c);
+            const totalLeads = adminLeads.length;
+            const pendingLeads = adminLeads.filter(l => l.status === 'pending').length;
+
+            if (document.getElementById('statAnalyticsViews')) document.getElementById('statAnalyticsViews').innerText = totalViews.toLocaleString('vi-VN');
+            if (document.getElementById('statAnalyticsClicks')) document.getElementById('statAnalyticsClicks').innerText = totalClicks.toLocaleString('vi-VN');
+            if (document.getElementById('statAnalyticsLeads')) document.getElementById('statAnalyticsLeads').innerText = totalLeads.toLocaleString('vi-VN');
+            if (document.getElementById('statAnalyticsPending')) document.getElementById('statAnalyticsPending').innerText = pendingLeads.toLocaleString('vi-VN');
+
+            // 2. Pageviews Breakdown
+            const pvContainer = document.getElementById('pageviewsListContainer');
+            if (pvContainer) {
+                const pages = Object.entries(adminStatsViews)
+                    .filter(([k]) => k !== '__total__')
+                    .sort((a, b) => b[1] - a[1]);
+
+                const pageNamesMap = {
+                    'index.html': 'Trang Chủ',
+                    'san-pham.html': 'Sản Phẩm Đá',
+                    'du-an.html': 'Dự Án Đã Thi Công & 3D',
+                    'phong-thuy.html': 'Phong Thủy Âm Trạch',
+                    'tin-tuc.html': 'Tin Tức & Cẩm Nang',
+                    'lien-he.html': 'Liên Hệ',
+                    'bao-gia.html': 'Báo Giá Lăng Mộ',
+                    'gioi-thieu.html': 'Giới Thiệu Nghệ Nhân'
+                };
+
+                if (pages.length === 0) {
+                    pvContainer.innerHTML = '<div style="color:var(--text-silver); font-size:0.85rem;">Chưa có dữ liệu truy cập.</div>';
+                } else {
+                    pvContainer.innerHTML = pages.map(([page, count]) => {
+                        const pct = totalViews > 0 ? Math.round((count / totalViews) * 100) : 0;
+                        const label = pageNamesMap[page] || page;
+                        return `
+                        <div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.88rem; font-weight:600;">
+                                <span style="color:var(--text-light);">${label} <small style="color:var(--text-silver); font-weight:normal;">(${page})</small></span>
+                                <span style="color:var(--gold-light);">${count.toLocaleString('vi-VN')} lượt (${pct}%)</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width:${pct}%;"></div>
+                            </div>
+                        </div>`;
+                    }).join('');
+                }
+            }
+
+            // 3. Top Clicked Links
+            const clicksContainer = document.getElementById('clicksListContainer');
+            if (clicksContainer) {
+                const clickEntries = Object.entries(adminStatsClicks).sort((a, b) => b[1] - a[1]).slice(0, 8);
+                if (clickEntries.length === 0) {
+                    clicksContainer.innerHTML = '<div style="color:var(--text-silver); font-size:0.85rem;">Chưa có tương tác click nào.</div>';
+                } else {
+                    clicksContainer.innerHTML = clickEntries.map(([label, count]) => {
+                        const pct = totalClicks > 0 ? Math.round((count / totalClicks) * 100) : 0;
+                        return `
+                        <div>
+                            <div style="display:flex; justify-content:space-between; font-size:0.88rem; font-weight:600;">
+                                <span style="color:var(--text-light);"><i class="fa-solid fa-arrow-pointer" style="color:var(--gold-primary); font-size:0.75rem; margin-right:6px;"></i> ${label}</span>
+                                <span style="color:var(--gold-light);">${count.toLocaleString('vi-VN')} click (${pct}%)</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width:${pct}%; background:linear-gradient(90deg,#3b82f6,#60a5fa);"></div>
+                            </div>
+                        </div>`;
+                    }).join('');
+                }
+            }
+
+            renderLeadsTable();
+        }
+
+        function renderLeadsTable() {
+            const tbody = document.getElementById('leadsTableBody');
+            if (!tbody) return;
+
+            const search = (document.getElementById('leadSearchInput')?.value || '').toLowerCase().trim();
+            const filter = document.getElementById('leadStatusFilter')?.value || 'all';
+
+            const filtered = adminLeads.filter(l => {
+                const matchStatus = (filter === 'all') || (l.status === filter);
+                const matchSearch = !search ||
+                    (l.name && l.name.toLowerCase().includes(search)) ||
+                    (l.phone && l.phone.includes(search)) ||
+                    (l.note && l.note.toLowerCase().includes(search));
+                return matchStatus && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:30px; color:var(--text-silver);">Không tìm thấy yêu cầu tư vấn nào phù hợp.</td></tr>';
+                return;
+            }
+
+            const statusLabels = {
+                'pending': { text: '🟡 Chờ gọi lại', color: '#f59e0b', bg: 'rgba(245,158,11,0.15)' },
+                'called': { text: '🔵 Đã liên hệ', color: '#3b82f6', bg: 'rgba(59,130,246,0.15)' },
+                'success': { text: '🟢 Đã chốt đơn', color: '#10b981', bg: 'rgba(16,185,129,0.15)' },
+                'cancelled': { text: '🔴 Đã hủy', color: '#ef4444', bg: 'rgba(239,68,68,0.15)' }
+            };
+
+            tbody.innerHTML = filtered.map(l => {
+                const st = statusLabels[l.status] || statusLabels['pending'];
+                return `
+                <tr>
+                    <td style="font-size:0.82rem; color:var(--text-silver); white-space:nowrap;">${l.date || ''}</td>
+                    <td><strong style="color:var(--text-light); font-size:0.92rem;">${l.name || 'Khách Hàng'}</strong></td>
+                    <td>
+                        <a href="tel:${l.phone}" style="color:var(--gold-primary); font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:5px;">
+                            <i class="fa-solid fa-phone"></i> ${l.phone || 'Chưa có SĐT'}
+                        </a>
+                    </td>
+                    <td style="font-size:0.88rem; max-width:300px; color:var(--text-silver);">${l.note || ''}</td>
+                    <td><span class="tag-pill" style="font-size:0.75rem;">${l.source || 'index.html'}</span></td>
+                    <td>
+                        <select onchange="changeLeadStatus(${l.id}, this.value)" class="admin-select" style="padding:4px 8px; font-size:0.8rem; background:${st.bg}; color:${st.color}; border:1px solid ${st.color};">
+                            <option value="pending" ${l.status === 'pending' ? 'selected' : ''}>🟡 Chờ gọi lại</option>
+                            <option value="called" ${l.status === 'called' ? 'selected' : ''}>🔵 Đã liên hệ</option>
+                            <option value="success" ${l.status === 'success' ? 'selected' : ''}>🟢 Đã chốt đơn</option>
+                            <option value="cancelled" ${l.status === 'cancelled' ? 'selected' : ''}>🔴 Đã hủy</option>
+                        </select>
+                    </td>
+                    <td style="text-align:center; white-space:nowrap;">
+                        <a href="tel:${l.phone}" class="btn-action" style="background:#10b981; color:#fff; padding:6px 9px; font-size:0.8rem; text-decoration:none; display:inline-block;" title="Gọi ngay">
+                            <i class="fa-solid fa-phone"></i>
+                        </a>
+                        <button onclick="deleteLeadItem(${l.id})" class="btn-action btn-danger-admin" style="padding:6px 9px; font-size:0.8rem;" title="Xóa yêu cầu">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function changeLeadStatus(leadId, newStatus) {
+            const lead = adminLeads.find(l => l.id === leadId);
+            if (lead) {
+                lead.status = newStatus;
+                localStorage.setItem('ktdtl_leads', JSON.stringify(adminLeads));
+                updateAnalyticsBadge();
+                renderAnalyticsTab();
+                showToast('Đã cập nhật trạng thái khách hàng!');
+            }
+        }
+
+        function deleteLeadItem(leadId) {
+            if (confirm('Bạn có chắc chắn muốn xóa yêu cầu tư vấn này?')) {
+                adminLeads = adminLeads.filter(l => l.id !== leadId);
+                localStorage.setItem('ktdtl_leads', JSON.stringify(adminLeads));
+                updateAnalyticsBadge();
+                renderAnalyticsTab();
+                showToast('Đã xóa yêu cầu khách hàng!');
+            }
+        }
+
+        function exportLeadsToCSV() {
+            if (!adminLeads.length) {
+                alert('Không có dữ liệu khách hàng để xuất!');
+                return;
+            }
+            let csvContent = "\uFEFFThời Gian,Họ Tên,Số Điện Thoại,Nhu Cầu,Nguồn,Trạng Thái\n";
+            adminLeads.forEach(l => {
+                const row = [
+                    `"${l.date || ''}"`,
+                    `"${l.name || ''}"`,
+                    `"${l.phone || ''}"`,
+                    `"${(l.note || '').replace(/"/g, '""')}"`,
+                    `"${l.source || ''}"`,
+                    `"${l.status || ''}"`
+                ].join(',');
+                csvContent += row + "\n";
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ktdtl_khach_hang_${Date.now()}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showToast('Đã xuất file Excel / CSV thành công!');
+        }
+
+        function openAddLeadModal() {
+            document.getElementById('addLeadModal').style.display = 'flex';
+        }
+        function closeAddLeadModal() {
+            document.getElementById('addLeadModal').style.display = 'none';
+        }
+        function saveManualLead(e) {
+            e.preventDefault();
+            const name = document.getElementById('manualLeadName').value.trim();
+            const phone = document.getElementById('manualLeadPhone').value.trim();
+            const note = document.getElementById('manualLeadNote').value.trim();
+            const status = document.getElementById('manualLeadStatus').value;
+
+            const newLead = {
+                id: Date.now(),
+                date: new Date().toLocaleString('vi-VN'),
+                name, phone, note,
+                source: 'Nhập thủ công',
+                status
+            };
+            adminLeads.unshift(newLead);
+            localStorage.setItem('ktdtl_leads', JSON.stringify(adminLeads));
+            closeAddLeadModal();
+            updateAnalyticsBadge();
+            renderAnalyticsTab();
+            showToast('Đã thêm khách hàng tư vấn mới thành công!');
+        }
+
         function showToast(msg) {
             const toast = document.getElementById('adminToast');
             document.getElementById('adminToastMsg').innerText = msg;

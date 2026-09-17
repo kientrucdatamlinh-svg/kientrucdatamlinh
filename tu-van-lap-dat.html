@@ -10169,6 +10169,7 @@
             margin-top: 10px;
         }
     </style>
+    <script src="ktdtl_tracker.js"></script>
 </head>
 <body>
     <header id="mainHeader">
@@ -10923,6 +10924,18 @@
             e.preventDefault();
             const name = document.getElementById('contactName').value;
             const phone = document.getElementById('contactPhone').value;
+            try {
+                const province = document.getElementById('installProvince')?.value || '';
+                const district = document.getElementById('installDistrict')?.value || '';
+                const demand = document.getElementById('installDemand')?.value || 'Tư vấn lắp đặt';
+                if (typeof window.ktdtlSaveLead === 'function') {
+                    window.ktdtlSaveLead({
+                        name, phone,
+                        note: 'Địa điểm: ' + district + ', ' + province + ' | Nhu cầu: ' + demand,
+                        source: 'tu-van-lap-dat.html'
+                    });
+                }
+            } catch(err) {}
             const province = document.getElementById('installProvince').value;
             const district = document.getElementById('installDistrict').value;
             const addressDetail = document.getElementById('installAddressDetail').value;
