@@ -11650,28 +11650,28 @@
                                 </div>
                             </div>
 
-                            <!-- 2. Recommended Products (Horizontal cards) -->
-                            <div class="sidebar-box rec-products-sidebar-box" id="readingRecommendedSidebarBox">
-                                <div class="sidebar-box-header" style="justify-content: space-between;">
+                            <!-- 2. Most Read Articles (Dynamically sorted by click count) - LÊN TRÊN -->
+                            <div class="sidebar-box popular-articles-box" style="border: 1px solid rgba(245, 158, 11, 0.35); box-shadow: 0 6px 20px rgba(0,0,0,0.4);">
+                                <div class="sidebar-box-header" style="border-bottom: 1px solid rgba(245, 158, 11, 0.3);">
+                                    <i class="fa-solid fa-fire" style="color: #f59e0b;"></i>
+                                    <span style="color: #f59e0b;">Bài Viết Đọc Nhiều Nhất</span>
+                                </div>
+                                <div id="readingSidebarPopularList" class="reading-popular-list">
+                                    <!-- Injected dynamically by clicks count -->
+                                </div>
+                            </div>
+
+                            <!-- 3. Recommended Products (Horizontal cards) - XUỐNG DƯỚI - TÁCH HẲN RA -->
+                            <div class="sidebar-box rec-products-sidebar-box" id="readingRecommendedSidebarBox" style="border: 1px solid rgba(197, 160, 89, 0.35); box-shadow: 0 6px 20px rgba(0,0,0,0.4); margin-top: 5px;">
+                                <div class="sidebar-box-header" style="justify-content: space-between; border-bottom: 1px solid rgba(197, 160, 89, 0.3);">
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <i class="fa-solid fa-gem" style="color: var(--gold-primary);"></i>
-                                        <span>Sản Phẩm Đề Xuất Phù Hợp</span>
+                                        <span>Sản Phẩm Liên Quan Đề Xuất</span>
                                     </div>
                                     <span style="font-size: 0.72rem; background: rgba(197,160,89,0.2); border: 1px solid var(--gold-primary); color: var(--gold-light); padding: 2px 8px; border-radius: 12px; font-weight: 700;">5 Mẫu</span>
                                 </div>
                                 <div id="readingRecommendedProductsList" class="sidebar-rec-list">
                                     <!-- Injected by JS: 5 horizontal product cards -->
-                                </div>
-                            </div>
-
-                            <!-- 3. Most Read Articles (Dynamically sorted by click count) -->
-                            <div class="sidebar-box popular-articles-box">
-                                <div class="sidebar-box-header">
-                                    <i class="fa-solid fa-fire" style="color: #f59e0b;"></i>
-                                    <span>Bài Viết Đọc Nhiều Nhất</span>
-                                </div>
-                                <div id="readingSidebarPopularList" class="reading-popular-list">
-                                    <!-- Injected dynamically by clicks count -->
                                 </div>
                             </div>
 
