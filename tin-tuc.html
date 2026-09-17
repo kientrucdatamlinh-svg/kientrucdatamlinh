@@ -12036,10 +12036,24 @@
             }
         ];
 
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('ktdtl_articles')) {
-            try { ARTICLES_DATA = JSON.parse(localStorage.getItem('ktdtl_articles')); } catch(e) {}
-        }
-
+        // --- Ưu tiên live_overrides.json > localStorage > DEFAULT_ARTICLES inline ---
+        (function loadLiveTinTucData() {
+            if (typeof localStorage !== 'undefined' && localStorage.getItem('ktdtl_articles')) {
+                try { ARTICLES_DATA = JSON.parse(localStorage.getItem('ktdtl_articles')); } catch(e) {}
+            }
+            fetch('/live_overrides.json?t=' + Date.now(), { cache: 'no-store' })
+                .then(function(r) { return r.ok ? r.json() : null; })
+                .then(function(data) {
+                    if (!data || !data.timestamp || data.timestamp === 0) return;
+                    var liveTs = data.timestamp;
+                    var localTs = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
+                    if (liveTs > localTs) {
+                        if (Array.isArray(data.articles) && data.articles.length > 0) ARTICLES_DATA = data.articles;
+                        renderArticles();
+                    }
+                })
+                .catch(function(e) { console.warn('live_overrides fetch error', e); });
+        })();
 
         let currentCat = 'all';
 
@@ -12218,15 +12232,14 @@
         // Get 5 recommended products matching article content
         function getRecommendedProducts(article) {
             let prods = (typeof DEFAULT_PRODUCTS !== 'undefined') ? DEFAULT_PRODUCTS : [];
-            if (typeof localStorage !== 'undefined') {
-                try {
-                    const localTs = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
-                    const defaultTs = (typeof DEFAULT_DATA_TIMESTAMP !== 'undefined') ? DEFAULT_DATA_TIMESTAMP : 0;
-                    if (localTs > defaultTs && localStorage.getItem('ktdtl_products')) {
-                        prods = JSON.parse(localStorage.getItem('ktdtl_products'));
-                    }
-                } catch(e){}
-            }
+            try {
+                const localTs = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
+                const defaultTs = (typeof DEFAULT_DATA_TIMESTAMP !== 'undefined') ? DEFAULT_DATA_TIMESTAMP : 0;
+                if (localTs > defaultTs && localStorage.getItem('ktdtl_products')) {
+                    prods = JSON.parse(localStorage.getItem('ktdtl_products'));
+                }
+            } catch(e){}
+
             if (!prods || prods.length === 0) return [];
 
             const title = (article.title || '').toLowerCase();

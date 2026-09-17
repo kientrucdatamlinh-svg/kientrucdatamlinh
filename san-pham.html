@@ -13495,7 +13495,9 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
         let projectsData = (typeof DEFAULT_PROJECTS !== 'undefined') ? DEFAULT_PROJECTS : [];
         let groupedProductsData = (typeof DEFAULT_PRODUCTS !== 'undefined') ? DEFAULT_PRODUCTS : [];
 
-        if (typeof localStorage !== 'undefined') {
+        // --- Load dữ liệu: ưu tiên live_overrides.json (toàn cầu) > localStorage (admin browser) > default_data.js ---
+        (function loadLiveData() {
+            // 1. Thử load từ localStorage cho admin browser
             try {
                 const localTs = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
                 const defaultTs = (typeof DEFAULT_DATA_TIMESTAMP !== 'undefined') ? DEFAULT_DATA_TIMESTAMP : 0;
@@ -13504,7 +13506,24 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
                     if (localStorage.getItem('ktdtl_projects')) projectsData = JSON.parse(localStorage.getItem('ktdtl_projects'));
                 }
             } catch(e) { console.warn('LocalStorage load error', e); }
-        }
+
+            // 2. Fetch live_overrides.json để đồng bộ tất cả trình duyệt (bao gồm ẩn danh)
+            fetch('/live_overrides.json?t=' + Date.now(), { cache: 'no-store' })
+                .then(function(r) { return r.ok ? r.json() : null; })
+                .then(function(data) {
+                    if (!data || !data.timestamp || data.timestamp === 0) return;
+                    var liveTs = data.timestamp;
+                    var localTs2 = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
+                    var defaultTs2 = (typeof DEFAULT_DATA_TIMESTAMP !== 'undefined') ? DEFAULT_DATA_TIMESTAMP : 0;
+                    if (liveTs > localTs2 || liveTs > defaultTs2) {
+                        if (Array.isArray(data.products) && data.products.length > 0) groupedProductsData = data.products;
+                        if (Array.isArray(data.projects) && data.projects.length > 0) projectsData = data.projects;
+                        renderAllProductCards();
+                        initFilters();
+                    }
+                })
+                .catch(function(e) { console.warn('live_overrides fetch error', e); });
+        })();
 
         function renderAllProductCards() {
             const grid = document.getElementById('productGrid');

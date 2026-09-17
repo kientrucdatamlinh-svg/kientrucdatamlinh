@@ -2594,7 +2594,7 @@
             if (autoPublishTimer) clearTimeout(autoPublishTimer);
             autoPublishTimer = setTimeout(() => {
                 executeAutoPublish();
-            }, 1200);
+            }, 2500);
         }
 
         async function executeAutoPublish() {
@@ -2654,7 +2654,7 @@
 
             document.getElementById('pubStep3').className = 'pub-step-item';
             document.getElementById('pubStepStatus3').innerHTML = '<i class="fa-regular fa-circle" style="color:#64748b;"></i>';
-            document.getElementById('pubStepSub3').innerText = 'Tự động phân phối tới các Edge Server (khoảng 15-20 giây)';
+            document.getElementById('pubStepSub3').innerText = 'Vercel phân phối live_overrides.json tức thì (~5 giây)';
 
             document.getElementById('pubProgressWrapper').style.display = 'none';
             document.getElementById('pubSuccessBox').style.display = 'none';
@@ -2713,23 +2713,23 @@
                 document.getElementById('pubStep2').className = 'pub-step-item done';
                 document.getElementById('pubStepStatus2').innerHTML = '<i class="fa-solid fa-circle-check" style="color:#10b981;"></i>';
 
-                // Step 3: Vercel CDN distribution countdown (20s)
+                // Step 3: Vercel phục vụ file ngay lập tức (không cần rebuild)
                 document.getElementById('pubStep3').className = 'pub-step-item active';
                 document.getElementById('pubStepStatus3').innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="color:#10b981;"></i>';
 
-                let countdown = 20;
+                let countdown = 5;
                 const countdownInterval = setInterval(() => {
                     countdown--;
-                    const pct = Math.min(98, 70 + Math.floor((20 - countdown) * 1.4));
+                    const pct = Math.min(98, 70 + Math.floor((5 - countdown) * 5.6));
                     progressBar.style.width = pct + '%';
                     progressPercent.innerText = pct + '%';
-                    progressText.innerText = `Vercel đang triển khai toàn cầu... (${countdown} giây)`;
+                    progressText.innerText = `Vercel đang phân phối live_overrides.json toàn cầu... (${countdown} giây)`;
 
                     if (countdown <= 0) {
                         clearInterval(countdownInterval);
                         progressBar.style.width = '100%';
                         progressPercent.innerText = '100%';
-                        progressText.innerText = 'Hoàn tất xuất bản toàn cầu!';
+                        progressText.innerText = 'Hoàn tất! Dữ liệu mới sẽ hiển thị ngay ở mọi trình duyệt.';
 
                         document.getElementById('pubStep3').className = 'pub-step-item done';
                         document.getElementById('pubStepStatus3').innerHTML = '<i class="fa-solid fa-circle-check" style="color:#10b981;"></i>';
@@ -2745,6 +2745,7 @@
                         showToast("✅ Xuất bản website toàn cầu hoàn tất!");
                     }
                 }, 1000);
+
 
             } catch (err) {
                 console.error("Publish error:", err);
