@@ -884,6 +884,13 @@
                     <span>Xuất Bản & Sao Lưu</span>
                 </a>
             </li>
+            <li class="menu-item">
+                <a class="menu-link" onclick="switchAdminTab('trash', this); renderTrashTable();">
+                    <i class="fa-solid fa-trash-can"></i>
+                    <span>Thùng Rác</span>
+                    <span class="badge-count" id="badgeTrashCount" style="background:#64748b;">0</span>
+                </a>
+            </li>
         </ul>
 
         <div class="sidebar-footer">
@@ -1377,6 +1384,53 @@
                     </div>
                 </div>
             </section>
+
+    <!-- ================================ -->
+    <!-- TAB: THÙNG RÁC (UNDO HISTORY)   -->
+    <!-- ================================ -->
+    <section id="tab-trash" class="tab-section">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px;">
+            <div>
+                <h2 style="color:var(--gold-light); font-size:1.5rem; margin-bottom:4px;">
+                    <i class="fa-solid fa-trash-can" style="color:var(--gold-primary);"></i> Thùng Rác & Lịch Sử Hoàn Tác
+                </h2>
+                <p style="color:var(--text-muted); font-size:0.88rem; margin:0;">
+                    Lưu lại tối đa <b>20</b> thao tác xóa gần nhất. Bấm <b>Khôi Phục</b> để lấy lại dữ liệu bị xóa nhầm. Hoặc nhấn <kbd style="background:#1e293b; border:1px solid #334155; border-radius:4px; padding:2px 6px; font-size:0.8rem; color:#e2e8f0;">Ctrl+Z</kbd> bất cứ lúc nào.
+                </p>
+            </div>
+            <button onclick="clearAllTrash()" class="btn-action btn-danger-admin" style="font-size:0.85rem;">
+                <i class="fa-solid fa-trash"></i> Dọn Sạch Thùng Rác
+            </button>
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--border-color); border-radius:14px; overflow:hidden;">
+            <table style="width:100%; border-collapse:collapse;">
+                <thead>
+                    <tr style="background:rgba(197,160,89,0.08); border-bottom:1px solid var(--border-color);">
+                        <th style="padding:14px 18px; text-align:left; color:var(--gold-primary); font-size:0.85rem; width:110px;">Loại</th>
+                        <th style="padding:14px 18px; text-align:left; color:var(--gold-primary); font-size:0.85rem;">Nội Dung</th>
+                        <th style="padding:14px 18px; text-align:left; color:var(--gold-primary); font-size:0.85rem; width:170px;">Thời Gian Xóa</th>
+                        <th style="padding:14px 18px; text-align:right; color:var(--gold-primary); font-size:0.85rem; width:180px;">Thao Tác</th>
+                    </tr>
+                </thead>
+                <tbody id="trashTableBody" style="color:var(--text-primary);">
+                    <tr><td colspan="4" style="text-align:center; padding:50px; color:#64748b;">
+                        <i class="fa-solid fa-trash-can" style="font-size:2.5rem; display:block; margin-bottom:14px; opacity:0.25;"></i>
+                        Thùng rác trống — chưa có mục nào bị xóa.
+                    </td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top:20px; background:rgba(16,185,129,0.07); border:1px solid rgba(16,185,129,0.2); border-radius:10px; padding:16px 20px; display:flex; align-items:flex-start; gap:12px;">
+            <i class="fa-solid fa-lightbulb" style="color:#10b981; margin-top:2px;"></i>
+            <div style="font-size:0.85rem; color:#94a3b8; line-height:1.6;">
+                <b style="color:#e2e8f0;">Mẹo hoàn tác nhanh:</b> Sau khi xóa, một thanh thông báo vàng sẽ xuất hiện ở cuối màn hình với nút <b style="color:#c5a059;">Hoàn Tác</b> — bạn có <b>10 giây</b> để bấm lấy lại.
+                Ngoài ra nhấn <kbd style="background:#1e293b; border:1px solid #334155; border-radius:4px; padding:1px 5px; font-family:monospace; color:#e2e8f0;">Ctrl+Z</kbd> bất cứ lúc nào (không đang gõ vào ô nhập) để hoàn tác bước xóa gần nhất.
+            </div>
+        </div>
+    </section>
+
         </div>
     </main>
 
@@ -1699,6 +1753,17 @@
         <span id="adminToastMsg">Thao tác thành công!</span>
     </div>
 
+    <!-- UNDO TOAST — nổi bên dưới, có nút Hoàn Tác 10s -->
+    <div id="undoToast" style="display:none; position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:#1e293b; border:1.5px solid rgba(197,160,89,0.4); border-radius:12px; padding:14px 20px; display:none; align-items:center; gap:14px; z-index:99999; box-shadow:0 8px 32px rgba(0,0,0,0.6); min-width:320px; max-width:520px;">
+        <span id="undoToastMsg" style="color:#e2e8f0; font-size:0.9rem; flex:1;"></span>
+        <button onclick="performUndo(); closeUndoToast();" style="background:linear-gradient(135deg,#c5a059,#e5c07b); color:#0a0f1e; font-weight:800; border:none; border-radius:7px; padding:7px 16px; cursor:pointer; font-size:0.85rem; white-space:nowrap; display:flex; align-items:center; gap:6px;">
+            <i class="fa-solid fa-rotate-left"></i> Hoàn Tác
+        </button>
+        <button onclick="closeUndoToast()" style="background:transparent; border:1px solid rgba(255,255,255,0.15); color:#94a3b8; border-radius:6px; padding:7px 10px; cursor:pointer; font-size:0.8rem;">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
     <!-- GLOBAL PUBLISH MODAL -->
     <div id="publishModal" class="admin-modal-overlay">
         <div class="admin-modal-box" style="max-width: 620px;">
@@ -1874,6 +1939,72 @@
         let hasUnpublishedChanges = false;
         let autoPublishTimer = null;
 
+        // =============================================
+        // UNDO / TRASH SYSTEM
+        // =============================================
+        const MAX_UNDO = 20;
+        let undoStack = [];          // [{type, data, label, ts}]
+        let undoToastTimer = null;
+
+        function pushUndo(type, data, label) {
+            // Lưu snapshot toàn bộ dữ liệu trước khi xóa
+            undoStack.push({
+                type: type,                      // 'product' | 'project' | 'article'
+                data: JSON.parse(JSON.stringify(data)),  // deep clone
+                label: label,
+                ts: Date.now()
+            });
+            if (undoStack.length > MAX_UNDO) undoStack.shift();
+            // Lưu vào localStorage để giữ qua reload
+            try { localStorage.setItem('ktdtl_undo_stack', JSON.stringify(undoStack)); } catch(e) {}
+        }
+
+        function loadUndoStack() {
+            try {
+                const saved = localStorage.getItem('ktdtl_undo_stack');
+                if (saved) undoStack = JSON.parse(saved);
+            } catch(e) {}
+        }
+
+        function performUndo() {
+            if (undoStack.length === 0) {
+                showToast('Không có hành động nào để hoàn tác!');
+                return;
+            }
+            const last = undoStack.pop();
+            try { localStorage.setItem('ktdtl_undo_stack', JSON.stringify(undoStack)); } catch(e) {}
+
+            if (last.type === 'product') {
+                adminProducts = last.data;
+                localStorage.setItem('ktdtl_products', JSON.stringify(adminProducts));
+                renderProductsTable();
+                updateDashboardCounts();
+            } else if (last.type === 'project') {
+                adminProjects = last.data;
+                localStorage.setItem('ktdtl_projects', JSON.stringify(adminProjects));
+                renderProjectsTable();
+                updateDashboardCounts();
+            } else if (last.type === 'article') {
+                adminArticles = last.data;
+                localStorage.setItem('ktdtl_articles', JSON.stringify(adminArticles));
+                renderArticlesTable();
+                updateDashboardCounts();
+            }
+            showToast('↩️ Đã hoàn tác: ' + (last.label || 'hành động vừa rồi'));
+            renderTrashTable();
+        }
+
+        // Phím tắt Ctrl+Z
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+                // Không hoàn tác khi đang nhập vào ô input/textarea
+                const tag = document.activeElement && document.activeElement.tagName;
+                if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+                e.preventDefault();
+                performUndo();
+            }
+        });
+
         // 2. Data Initialization
         function initAdminData() {
             // Products
@@ -1900,6 +2031,7 @@
             loadAnalyticsData();
             setupDropzones();
             initSyncState();
+            loadUndoStack();
         }
 
         function updateDashboardCounts() {
@@ -1910,6 +2042,14 @@
             document.getElementById('badgeProductCount').innerText = adminProducts.length;
             document.getElementById('badgeProjectCount').innerText = adminProjects.length;
             document.getElementById('badgeArticleCount').innerText = adminArticles.length;
+
+            // Cập nhật badge thùng rác
+            const trashBadge = document.getElementById('badgeTrashCount');
+            if (trashBadge) {
+                trashBadge.innerText = undoStack.length;
+                trashBadge.style.background = undoStack.length > 0 ? '#e11d48' : '#64748b';
+                trashBadge.style.display = undoStack.length > 0 ? '' : 'none';
+            }
         }
 
         function saveAllToStorage(isManual = false) {
@@ -2115,11 +2255,16 @@
         }
 
         function deleteProduct(idx) {
-            if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+            const item = adminProducts[idx];
+            const label = item ? (item.title || 'Sản phẩm') : 'Sản phẩm';
+            if (confirm('Xóa sản phẩm "' + label + '"?\n\nBạn có thể hoàn tác bằng Ctrl+Z hoặc nút Hoàn Tác.')) {
+                pushUndo('product', adminProducts, 'Xóa sản phẩm: ' + label);
                 adminProducts.splice(idx, 1);
                 saveAllToStorage();
                 renderProductsTable();
-                showToast("Đã xóa sản phẩm!");
+                updateDashboardCounts();
+                showUndoToast('🗑️ Đã xóa sản phẩm: <b>' + label + '</b>');
+                renderTrashTable();
             }
         }
 
@@ -2314,11 +2459,16 @@
         }
 
         function deleteProject(idx) {
-            if (confirm("Bạn có chắc chắn muốn xóa dự án này?")) {
+            const item = adminProjects[idx];
+            const label = item ? (item.title || 'Dự án') : 'Dự án';
+            if (confirm('Xóa dự án "' + label + '"?\n\nBạn có thể hoàn tác bằng Ctrl+Z hoặc nút Hoàn Tác.')) {
+                pushUndo('project', adminProjects, 'Xóa dự án: ' + label);
                 adminProjects.splice(idx, 1);
                 saveAllToStorage();
                 renderProjectsTable();
-                showToast("Đã xóa dự án!");
+                updateDashboardCounts();
+                showUndoToast('🗑️ Đã xóa dự án: <b>' + label + '</b>');
+                renderTrashTable();
             }
         }
 
@@ -2468,11 +2618,16 @@
         }
 
         function deleteArticle(idx) {
-            if (confirm("Bạn có chắc chắn muốn xóa bài viết này?")) {
+            const item = adminArticles[idx];
+            const label = item ? (item.title || 'Bài viết') : 'Bài viết';
+            if (confirm('Xóa bài viết "' + label + '"?\n\nBạn có thể hoàn tác bằng Ctrl+Z hoặc nút Hoàn Tác.')) {
+                pushUndo('article', adminArticles, 'Xóa bài viết: ' + label);
                 adminArticles.splice(idx, 1);
                 saveAllToStorage();
                 renderArticlesTable();
-                showToast("Đã xóa bài viết!");
+                updateDashboardCounts();
+                showUndoToast('🗑️ Đã xóa bài viết: <b>' + label + '</b>');
+                renderTrashTable();
             }
         }
 
@@ -3353,6 +3508,96 @@
                 toast.style.display = 'none';
             }, 3000);
         }
+
+        // Toast hoàn tác đặc biệt — có nút "Hoàn Tác" trong 10 giây
+        function showUndoToast(htmlMsg) {
+            const toast = document.getElementById('undoToast');
+            if (!toast) return;
+            document.getElementById('undoToastMsg').innerHTML = htmlMsg;
+            toast.style.display = 'flex';
+            if (undoToastTimer) clearTimeout(undoToastTimer);
+            undoToastTimer = setTimeout(() => { toast.style.display = 'none'; }, 10000);
+        }
+
+        function closeUndoToast() {
+            const toast = document.getElementById('undoToast');
+            if (toast) toast.style.display = 'none';
+            if (undoToastTimer) clearTimeout(undoToastTimer);
+        }
+
+        // Render bảng thùng rác (lịch sử undo)
+        function renderTrashTable() {
+            const tbody = document.getElementById('trashTableBody');
+            if (!tbody) return;
+            if (undoStack.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:40px; color:#64748b;"><i class="fa-solid fa-trash-can" style="font-size:2rem; display:block; margin-bottom:12px; opacity:0.3;"></i>Thùng rác trống — chưa có mục nào bị xóa.</td></tr>';
+                return;
+            }
+            // Hiển thị từ mới nhất đến cũ nhất
+            const reversed = [...undoStack].reverse();
+            tbody.innerHTML = reversed.map((entry, i) => {
+                const realIdx = undoStack.length - 1 - i;
+                const typeIcon = entry.type === 'product' ? '📦' : entry.type === 'project' ? '🏗️' : '📰';
+                const typeLabel = entry.type === 'product' ? 'Sản phẩm' : entry.type === 'project' ? 'Dự án' : 'Bài viết';
+                const time = new Date(entry.ts).toLocaleString('vi-VN');
+                return `<tr>
+                    <td>${typeIcon} <span style="color:#c5a059;">${typeLabel}</span></td>
+                    <td><strong>${entry.label || 'Không rõ'}</strong></td>
+                    <td style="color:#64748b; font-size:0.85rem;">${time}</td>
+                    <td style="text-align:right; white-space:nowrap;">
+                        <button onclick="restoreFromTrash(${realIdx})" class="btn-action btn-outline-admin" style="padding:5px 12px; font-size:0.8rem;">
+                            <i class="fa-solid fa-rotate-left"></i> Khôi Phục
+                        </button>
+                        <button onclick="removeFromTrash(${realIdx})" class="btn-action btn-danger-admin" style="padding:5px 10px; font-size:0.8rem; margin-left:4px;" title="Xóa vĩnh viễn khỏi thùng rác">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function restoreFromTrash(stackIdx) {
+            if (stackIdx < 0 || stackIdx >= undoStack.length) return;
+            const entry = undoStack[stackIdx];
+            // Restore data
+            if (entry.type === 'product') {
+                adminProducts = entry.data;
+                localStorage.setItem('ktdtl_products', JSON.stringify(adminProducts));
+                renderProductsTable();
+            } else if (entry.type === 'project') {
+                adminProjects = entry.data;
+                localStorage.setItem('ktdtl_projects', JSON.stringify(adminProjects));
+                renderProjectsTable();
+            } else if (entry.type === 'article') {
+                adminArticles = entry.data;
+                localStorage.setItem('ktdtl_articles', JSON.stringify(adminArticles));
+                renderArticlesTable();
+            }
+            // Remove this entry from stack
+            undoStack.splice(stackIdx, 1);
+            try { localStorage.setItem('ktdtl_undo_stack', JSON.stringify(undoStack)); } catch(e) {}
+            updateDashboardCounts();
+            renderTrashTable();
+            showToast('✅ Đã khôi phục: ' + (entry.label || 'mục đã xóa'));
+        }
+
+        function removeFromTrash(stackIdx) {
+            undoStack.splice(stackIdx, 1);
+            try { localStorage.setItem('ktdtl_undo_stack', JSON.stringify(undoStack)); } catch(e) {}
+            renderTrashTable();
+            showToast('🗑️ Đã xóa vĩnh viễn khỏi thùng rác.');
+        }
+
+        function clearAllTrash() {
+            if (undoStack.length === 0) { showToast('Thùng rác đã trống!'); return; }
+            if (confirm('Xóa toàn bộ lịch sử thùng rác? Các mục đã xóa sẽ không thể khôi phục!')) {
+                undoStack = [];
+                localStorage.removeItem('ktdtl_undo_stack');
+                renderTrashTable();
+                showToast('🗑️ Đã dọn sạch thùng rác!');
+            }
+        }
+
 
         // Initialize on load
         window.addEventListener('DOMContentLoaded', () => {
