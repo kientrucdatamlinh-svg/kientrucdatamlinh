@@ -10556,97 +10556,253 @@
             border: 1px solid #e74c3c;
         }
 
-        /* ARTICLE FULL READING MODAL */
-        .reading-modal {
+                /* ==========================================================================
+           FULLSCREEN READING ARTICLE EXPERIENCE
+           ========================================================================== */
+        .reading-fullscreen-modal {
             display: none;
             position: fixed;
-            z-index: 99999;
-            left: 0;
             top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(5, 11, 26, 0.94);
-            backdrop-filter: blur(8px);
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 999999;
+            background: #050b1a;
+            flex-direction: column;
+            overflow: hidden;
+            color: #e2e8f0;
         }
 
-        .reading-modal-content {
-            background: var(--navy-medium);
-            border: 2px solid var(--gold-primary);
-            border-radius: 12px;
-            max-width: 900px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
+        /* Sticky top bar */
+        .reading-top-bar {
             position: relative;
-            padding: 35px 40px;
-            box-sizing: border-box;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.9);
+            width: 100%;
+            height: 62px;
+            background: rgba(8, 16, 36, 0.96);
+            backdrop-filter: blur(12px);
+            border-bottom: 1.5px solid rgba(197, 160, 89, 0.35);
+            z-index: 50;
+            flex-shrink: 0;
         }
 
-        .reading-close-btn {
-            position: absolute;
-            top: 15px;
-            right: 22px;
-            color: var(--gold-primary);
-            font-size: 36px;
-            font-weight: bold;
+        .reading-top-bar-inner {
+            max-width: 1440px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            gap: 15px;
+        }
+
+        .reading-top-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 0;
+        }
+
+        .reading-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(197, 160, 89, 0.12);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            padding: 7px 15px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            font-weight: 600;
             cursor: pointer;
-            z-index: 10;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
         }
 
-        .reading-close-btn:hover {
+        .reading-back-btn:hover {
+            background: var(--gold-primary);
+            color: #050b1a;
+            transform: translateX(-3px);
+        }
+
+        .reading-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            color: var(--text-silver);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .crumb-brand {
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+
+        .crumb-sep {
+            color: #64748b;
+        }
+
+        .crumb-title {
+            color: #cbd5e1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .reading-top-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .reading-close-action {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 7px 16px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition-smooth);
+        }
+
+        .reading-close-action:hover {
+            background: #ef4444;
             color: #fff;
         }
 
+        /* Progress bar at bottom of top-bar */
+        .reading-progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 0%;
+            background: linear-gradient(90deg, var(--gold-primary), #fbbf24);
+            transition: width 0.1s ease-out;
+        }
+
+        /* Main scrollable body */
+        .reading-main-scroll {
+            flex: 1;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 60px;
+        }
+
+        .reading-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 30px 24px;
+        }
+
+        .reading-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 350px;
+            gap: 40px;
+            align-items: start;
+        }
+
+        @media (max-width: 1080px) {
+            .reading-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .reading-breadcrumb {
+                display: none;
+            }
+        }
+
+        /* Content column styling */
+        .reading-content-col {
+            min-width: 0;
+            background: var(--navy-medium);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 35px 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 768px) {
+            .reading-content-col {
+                padding: 22px 18px;
+            }
+        }
+
+        .article-hero-img-wrap {
+            width: 100%;
+            height: 420px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 25px 0 30px;
+            border: 1.5px solid var(--gold-primary);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+        }
+
+        .article-hero-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .article-hero-img-wrap {
+                height: 240px;
+            }
+        }
+
         .article-content-body {
-            color: #d1d5db;
-            font-size: 1.05rem;
-            line-height: 1.8;
+            color: #e2e8f0;
+            font-size: 17px;
+            line-height: 1.85;
+            transition: font-size 0.2s ease;
         }
 
         .article-content-body h2 {
             color: var(--gold-light);
-            font-size: 1.5rem;
-            margin: 30px 0 15px;
+            font-size: 1.55em;
+            margin: 32px 0 16px;
             border-left: 4px solid var(--gold-primary);
-            padding-left: 12px;
+            padding-left: 14px;
+            font-family: 'Playfair Display', serif;
         }
 
         .article-content-body h3 {
-            color: #f3f4f6;
-            font-size: 1.25rem;
-            margin: 22px 0 10px;
+            color: #f8fafc;
+            font-size: 1.28em;
+            margin: 24px 0 12px;
         }
 
         .article-content-body p {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .article-content-body ul, .article-content-body ol {
-            margin-bottom: 20px;
-            padding-left: 25px;
+            margin-bottom: 22px;
+            padding-left: 28px;
         }
 
         .article-content-body li {
-            margin-bottom: 8px;
-            list-style: disc;
+            margin-bottom: 10px;
         }
 
         .article-callout {
-            background: var(--navy-dark);
+            background: rgba(10, 20, 44, 0.85);
             border: 1px solid var(--gold-primary);
+            border-left: 5px solid var(--gold-primary);
             border-radius: 8px;
             padding: 18px 22px;
-            margin: 25px 0;
-            border-left: 5px solid var(--gold-primary);
-        }
-
-        .article-callout strong {
-            color: var(--gold-light);
+            margin: 28px 0;
+            color: #e2e8f0;
+            font-size: 0.96em;
         }
 
         .article-table {
@@ -10663,25 +10819,449 @@
 
         .article-table th {
             background: var(--navy-dark);
-            color: var(--gold-primary);
+            color: var(--gold-light);
         }
 
-        @media (max-width: 992px) {
-            .featured-card {
+        /* RIGHT SIDEBAR STYLING */
+        .reading-sidebar-sticky {
+            position: sticky;
+            top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .sidebar-box {
+            background: var(--navy-medium);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        .sidebar-box-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gold-light);
+            font-size: 1.05rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.25);
+        }
+
+        /* Font size control styling */
+        .font-size-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .control-label {
+            color: var(--text-silver);
+            font-size: 0.88rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .font-btn-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .font-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 6px;
+            background: var(--navy-dark);
+            border: 1px solid var(--glass-border);
+            color: var(--gold-light);
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .font-btn:hover {
+            background: var(--gold-primary);
+            color: #050b1a;
+            border-color: var(--gold-primary);
+        }
+
+        .font-size-val {
+            min-width: 44px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+            background: rgba(5,11,26,0.6);
+            padding: 6px 4px;
+            border-radius: 4px;
+            border: 1px solid rgba(197,160,89,0.25);
+        }
+
+        .font-btn.reset-btn {
+            font-size: 0.8rem;
+            color: var(--text-silver);
+        }
+
+        .font-btn.reset-btn:hover {
+            color: #fff;
+        }
+
+        /* Share control buttons */
+        .share-control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .share-buttons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 9px 12px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition-smooth);
+        }
+
+        .share-btn.share-fb {
+            background: #1877f2;
+            color: #fff;
+        }
+
+        .share-btn.share-fb:hover {
+            background: #1464cc;
+            transform: translateY(-2px);
+        }
+
+        .share-btn.share-zalo {
+            background: #0068ff;
+            color: #fff;
+        }
+
+        .share-btn.share-zalo:hover {
+            background: #0052cc;
+            transform: translateY(-2px);
+        }
+
+        .share-btn.share-copy {
+            grid-column: 1 / -1;
+            background: rgba(197, 160, 89, 0.15);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+        }
+
+        .share-btn.share-copy:hover {
+            background: var(--gold-primary);
+            color: #050b1a;
+        }
+
+        /* Most read articles sidebar list */
+        .reading-popular-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .reading-popular-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(5, 11, 26, 0.4);
+            border: 1px solid rgba(197,160,89,0.12);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .reading-popular-item:hover {
+            background: rgba(197, 160, 89, 0.1);
+            border-color: var(--gold-primary);
+            transform: translateX(4px);
+        }
+
+        .reading-popular-rank {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(197, 160, 89, 0.2);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            font-weight: 800;
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .reading-popular-rank.top-1 {
+            background: linear-gradient(135deg, #ef4444, #f59e0b);
+            color: #fff;
+            border: none;
+        }
+
+        .reading-popular-rank.top-2 {
+            background: linear-gradient(135deg, #f59e0b, #eab308);
+            color: #050b1a;
+            border: none;
+        }
+
+        .reading-popular-rank.top-3 {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            color: #fff;
+            border: none;
+        }
+
+        .reading-popular-thumb {
+            width: 58px;
+            height: 50px;
+            border-radius: 6px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .reading-popular-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .reading-popular-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .reading-popular-title {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            line-height: 1.35;
+            margin: 0 0 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .reading-popular-views {
+            font-size: 0.74rem;
+            color: var(--gold-light);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 5 RECOMMENDED PRODUCTS SECTION */
+        .reading-recommended-products {
+            margin-top: 45px;
+            padding-top: 30px;
+            border-top: 1.5px solid rgba(197, 160, 89, 0.35);
+        }
+
+        .rec-products-header {
+            margin-bottom: 22px;
+            text-align: left;
+        }
+
+        .rec-products-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(197, 160, 89, 0.15);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .rec-products-title {
+            font-size: 1.4rem;
+            color: var(--gold-light);
+            font-family: 'Playfair Display', serif;
+            margin: 0 0 6px;
+        }
+
+        .rec-products-desc {
+            color: var(--text-silver);
+            font-size: 0.88rem;
+            margin: 0;
+        }
+
+        .rec-products-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+        }
+
+        @media (max-width: 1280px) {
+            .rec-products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .rec-products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .rec-products-grid {
                 grid-template-columns: 1fr;
             }
-            .featured-img-wrap {
-                min-height: 250px;
-            }
-            .featured-body {
-                padding: 25px;
-            }
-            .news-main-grid {
-                grid-template-columns: 1fr;
-            }
-            .article-grid {
-                grid-template-columns: 1fr;
-            }
+        }
+
+        .rec-product-card {
+            background: var(--navy-dark);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.35);
+        }
+
+        .rec-product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold-primary);
+            box-shadow: 0 10px 25px rgba(197, 160, 89, 0.25);
+        }
+
+        .rec-product-img {
+            width: 100%;
+            height: 135px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .rec-product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .rec-product-card:hover .rec-product-img img {
+            transform: scale(1.08);
+        }
+
+        .rec-product-tag {
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            background: rgba(5, 11, 26, 0.85);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 4px;
+        }
+
+        .rec-product-body {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .rec-product-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            margin: 0 0 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.35;
+            min-height: 2.7em;
+        }
+
+        .rec-product-material {
+            font-size: 0.74rem;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .rec-product-price {
+            font-size: 0.8rem;
+            color: var(--gold-light);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .rec-product-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 6px;
+        }
+
+        .rec-product-btn {
+            flex: 1;
+            text-align: center;
+            padding: 7px 4px;
+            border-radius: 4px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+
+        .rec-btn-detail {
+            background: rgba(197, 160, 89, 0.15);
+            border: 1px solid var(--gold-primary);
+            color: var(--gold-light);
+        }
+
+        .rec-btn-detail:hover {
+            background: var(--gold-primary);
+            color: #050b1a;
+        }
+
+        .rec-btn-contact {
+            background: #0068ff;
+            color: #fff;
+            border: none;
+        }
+
+        .rec-btn-contact:hover {
+            background: #0052cc;
         }
     </style>
 </head>
@@ -10815,14 +11395,119 @@
         </div>
     </section>
 
-    <!-- Reading Article Detail Modal -->
-    <div id="readingModal" class="reading-modal" onclick="closeArticleModal(event)">
-        <div class="reading-modal-content" onclick="event.stopPropagation()">
-            <span class="reading-close-btn" onclick="closeArticleModalForce()">&times;</span>
-            <div id="readingModalBody">
-                <!-- Injected by JS -->
+        <!-- Fullscreen Reading Article Experience -->
+    <div id="readingModal" class="reading-fullscreen-modal" style="display: none;">
+        <!-- Top bar sticky -->
+        <header class="reading-top-bar">
+            <div class="reading-top-bar-inner">
+                <div class="reading-top-left">
+                    <a href="javascript:void(0)" onclick="closeArticleModalForce()" class="reading-back-btn" title="Quay lại danh sách tin">
+                        <i class="fa-solid fa-arrow-left"></i> <span>Quay Lại</span>
+                    </a>
+                    <div class="reading-breadcrumb">
+                        <span class="crumb-brand"><i class="fa-solid fa-gem" style="color: var(--gold-primary);"></i> Kiến Trúc Đá Tâm Linh</span>
+                        <span class="crumb-sep">/</span>
+                        <span class="crumb-title" id="readingHeaderTitle">Đang đọc bài viết...</span>
+                    </div>
+                </div>
+                <div class="reading-top-right">
+                    <button type="button" onclick="closeArticleModalForce()" class="reading-close-action" title="Đóng bài viết (ESC)">
+                        <i class="fa-solid fa-xmark"></i> <span>Đóng (ESC)</span>
+                    </button>
+                </div>
             </div>
-        </div>
+            <!-- Reading Progress Bar -->
+            <div id="readingProgressBar" class="reading-progress-bar"></div>
+        </header>
+
+        <!-- Main Scrollable Content Area -->
+        <main class="reading-main-scroll" id="readingMainScroll">
+            <div class="reading-container">
+                <div class="reading-layout">
+                    <!-- LEFT / MAIN CONTENT COLUMN -->
+                    <div class="reading-content-col">
+                        <div id="readingModalBody">
+                            <!-- Injected by JS: Article Header, Meta, Hero Image, Body Content, CTA -->
+                        </div>
+
+                        <!-- 5 RECOMMENDED PRODUCTS SECTION -->
+                        <section class="reading-recommended-products" id="readingRecommendedProducts">
+                            <!-- Injected by JS: 5 relevant products -->
+                        </section>
+                    </div>
+
+                    <!-- RIGHT SIDEBAR COLUMN -->
+                    <aside class="reading-sidebar-col">
+                        <div class="reading-sidebar-sticky">
+                            <!-- 1. Reading Tools: Font size & Social Share -->
+                            <div class="sidebar-box reading-tools-box">
+                                <div class="sidebar-box-header">
+                                    <i class="fa-solid fa-sliders" style="color: var(--gold-primary);"></i>
+                                    <span>Tùy Chọn Đọc Báo</span>
+                                </div>
+                                <div class="font-size-control">
+                                    <span class="control-label"><i class="fa-solid fa-font"></i> Cỡ chữ:</span>
+                                    <div class="font-btn-group">
+                                        <button type="button" onclick="adjustFontSize(-1.5)" class="font-btn" title="Giảm cỡ chữ (A-)">
+                                            A<i class="fa-solid fa-minus" style="font-size: 0.65em; margin-left: 2px;"></i>
+                                        </button>
+                                        <span id="fontSizeDisplay" class="font-size-val">17px</span>
+                                        <button type="button" onclick="adjustFontSize(1.5)" class="font-btn" title="Tăng cỡ chữ (A+)">
+                                            A<i class="fa-solid fa-plus" style="font-size: 0.65em; margin-left: 2px;"></i>
+                                        </button>
+                                        <button type="button" onclick="resetFontSize()" class="font-btn reset-btn" title="Khôi phục mặc định">
+                                            <i class="fa-solid fa-rotate-left"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="share-control-group">
+                                    <span class="control-label"><i class="fa-solid fa-share-nodes"></i> Chia sẻ bài viết:</span>
+                                    <div class="share-buttons-grid">
+                                        <button type="button" onclick="shareArticleFacebook()" class="share-btn share-fb" title="Chia sẻ lên Facebook">
+                                            <i class="fa-brands fa-facebook-f"></i> <span>Facebook</span>
+                                        </button>
+                                        <button type="button" onclick="shareArticleZalo()" class="share-btn share-zalo" title="Chia sẻ qua Zalo">
+                                            <i class="fa-solid fa-comment-dots"></i> <span>Zalo</span>
+                                        </button>
+                                        <button type="button" onclick="copyArticleLink()" class="share-btn share-copy" title="Sao chép liên kết bài viết">
+                                            <i class="fa-solid fa-link"></i> <span id="copyLinkText">Sao Chép Link</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2. Most Read Articles (Dynamically sorted by click count) -->
+                            <div class="sidebar-box popular-articles-box">
+                                <div class="sidebar-box-header">
+                                    <i class="fa-solid fa-fire" style="color: #f59e0b;"></i>
+                                    <span>Bài Viết Đọc Nhiều Nhất</span>
+                                </div>
+                                <div id="readingSidebarPopularList" class="reading-popular-list">
+                                    <!-- Injected dynamically by clicks count -->
+                                </div>
+                            </div>
+
+                            <!-- 3. Direct Contact Card -->
+                            <div class="sidebar-box direct-contact-box">
+                                <h4 style="color: var(--gold-light); font-size: 1.05rem; margin-bottom: 8px;">
+                                    <i class="fa-solid fa-headset" style="color: var(--gold-primary);"></i> KTS Hướng Tư Vấn Trực Tiếp
+                                </h4>
+                                <p style="color: var(--text-silver); font-size: 0.85rem; line-height: 1.45; margin-bottom: 12px;">
+                                    Tư vấn quy hoạch lăng mộ đá, kích thước lỗ ban và phong thủy âm trạch miễn phí.
+                                </p>
+                                <a href="tel:0397247333" class="btn-gold" style="display: block; text-align: center; padding: 10px; font-size: 0.88rem; text-decoration: none; border-radius: 6px; margin-bottom: 8px;">
+                                    <i class="fa-solid fa-phone"></i> 0397.247.333
+                                </a>
+                                <a href="https://zalo.me/0397247333" target="_blank" class="btn-outline" style="display: block; text-align: center; padding: 8px; font-size: 0.85rem; text-decoration: none; border-radius: 6px; border-color: var(--gold-primary); color: var(--gold-light);">
+                                    <i class="fa-solid fa-comment-dots"></i> Nhắn Tin Zalo KTS
+                                </a>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </main>
     </div>
 
     <footer>
@@ -10905,6 +11590,7 @@
     </div>
 
     <!-- ARTICLES DATA & SCRIPTS -->
+    <script src="default_data.js"></script>
     <script>
         let ARTICLES_DATA = [
             {
@@ -11230,9 +11916,10 @@
             `).join('');
         }
 
-        function renderPopularArticles() {
+                function renderPopularArticles() {
             const list = document.getElementById('popularArticlesList');
-            const popular = [...ARTICLES_DATA].sort((a, b) => parseInt(b.views.replace(',', '')) - parseInt(a.views.replace(',', ''))).slice(0, 4);
+            if (!list) return;
+            const popular = [...ARTICLES_DATA].sort((a, b) => getArticleTotalViews(b) - getArticleTotalViews(a)).slice(0, 4);
             
             list.innerHTML = popular.map(item => `
                 <div class="popular-item" onclick="openArticleModal(${item.id})">
@@ -11241,7 +11928,7 @@
                     </div>
                     <div class="popular-info">
                         <h4>${item.title}</h4>
-                        <div class="popular-date"><i class="fa-regular fa-calendar"></i> ${item.date} • <i class="fa-regular fa-eye"></i> ${item.views}</div>
+                        <div class="popular-date"><i class="fa-regular fa-calendar"></i> ${item.date} • <i class="fa-regular fa-eye"></i> ${formatNumberViews(getArticleTotalViews(item))}</div>
                     </div>
                 </div>
             `).join('');
@@ -11258,26 +11945,203 @@
             renderArticles();
         }
 
-        function openArticleModal(id) {
+                // Track and get dynamic views based on click counter
+        function getArticleClicksMap() {
+            try {
+                return JSON.parse(localStorage.getItem('ktdtl_article_clicks') || '{}');
+            } catch(e) {
+                return {};
+            }
+        }
+
+        function recordArticleClick(id) {
+            try {
+                const map = getArticleClicksMap();
+                map[id] = (map[id] || 0) + 1;
+                localStorage.setItem('ktdtl_article_clicks', JSON.stringify(map));
+                return map[id];
+            } catch(e) {
+                return 1;
+            }
+        }
+
+        function getArticleTotalViews(article) {
+            const baseViews = parseInt((article.views || '1000').toString().replace(/,/g, '').replace(/\./g, '')) || 1000;
+            const clicksMap = getArticleClicksMap();
+            const extraClicks = clicksMap[article.id] || 0;
+            return baseViews + extraClicks;
+        }
+
+        function formatNumberViews(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Font size adjusters
+        let currentReadingFontSize = 17;
+        function adjustFontSize(delta) {
+            currentReadingFontSize = Math.min(25, Math.max(14, currentReadingFontSize + delta));
+            applyReadingFontSize();
+        }
+
+        function resetFontSize() {
+            currentReadingFontSize = 17;
+            applyReadingFontSize();
+        }
+
+        function applyReadingFontSize() {
+            const bodyEl = document.querySelector('.article-content-body');
+            if (bodyEl) {
+                bodyEl.style.fontSize = currentReadingFontSize + 'px';
+            }
+            const disp = document.getElementById('fontSizeDisplay');
+            if (disp) {
+                disp.innerText = currentReadingFontSize + 'px';
+            }
+        }
+
+        // Share handlers
+        function shareArticleFacebook() {
+            const url = window.location.origin + window.location.pathname + window.location.hash;
+            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), '_blank', 'width=650,height=550');
+        }
+
+        function shareArticleZalo() {
+            const url = window.location.origin + window.location.pathname + window.location.hash;
+            window.open('https://sp.zalo.me/share/base?url=' + encodeURIComponent(url), '_blank', 'width=650,height=550');
+        }
+
+        function copyArticleLink() {
+            const url = window.location.origin + window.location.pathname + window.location.hash;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(showCopySuccess).catch(() => fallbackCopy(url));
+            } else {
+                fallbackCopy(url);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); showCopySuccess(); } catch(e){}
+            document.body.removeChild(ta);
+        }
+
+        function showCopySuccess() {
+            const span = document.getElementById('copyLinkText');
+            if (span) {
+                const orig = span.innerText;
+                span.innerText = '✓ Đã Sao Chép!';
+                setTimeout(() => { span.innerText = orig; }, 2500);
+            }
+        }
+
+        // Get 5 recommended products matching article content
+        function getRecommendedProducts(article) {
+            let prods = (typeof DEFAULT_PRODUCTS !== 'undefined') ? DEFAULT_PRODUCTS : [];
+            if (typeof localStorage !== 'undefined' && localStorage.getItem('ktdtl_products')) {
+                try { prods = JSON.parse(localStorage.getItem('ktdtl_products')); } catch(e){}
+            }
+            if (!prods || prods.length === 0) return [];
+
+            const title = (article.title || '').toLowerCase();
+            const cat = (article.category || '').toLowerCase();
+
+            let matched = [];
+            if (cat === 'cam-nang' || title.includes('lăng mộ') || title.includes('gia tộc')) {
+                matched = prods.filter(p => p.cat_code === 'langtho' || p.cat_code === 'khulangmo' || p.cat_code === 'cuonthu');
+            } else if (cat === 'phong-thuy' || title.includes('lỗ ban') || title.includes('kích thước') || title.includes('hướng')) {
+                matched = prods.filter(p => p.cat_name.includes('Mộ') || p.cat_code === 'moda' || p.cat_code === 'thapda');
+            } else if (cat === 'chon-da' || title.includes('đá') || title.includes('xanh rêu') || title.includes('granite')) {
+                matched = prods.filter(p => (p.material || '').toLowerCase().includes('xanh rêu') || (p.title || '').toLowerCase().includes('rêu') || (p.material || '').toLowerCase().includes('granite'));
+            }
+
+            // Ensure 5 unique products
+            const result = [];
+            const seen = new Set();
+            for (let p of matched) {
+                if (!seen.has(p.title)) {
+                    seen.add(p.title);
+                    result.push(p);
+                    if (result.length >= 5) break;
+                }
+            }
+            if (result.length < 5) {
+                for (let p of prods) {
+                    if (!seen.has(p.title)) {
+                        seen.add(p.title);
+                        result.push(p);
+                        if (result.length >= 5) break;
+                    }
+                }
+            }
+            return result.slice(0, 5);
+        }
+
+        // Render popular articles in the sidebar sorted by click count
+        function renderReadingSidebarPopular(currentId) {
+            const listEl = document.getElementById('readingSidebarPopularList');
+            if (!listEl) return;
+
+            // Sort by total views (base + clicks)
+            const sorted = [...ARTICLES_DATA].sort((a, b) => getArticleTotalViews(b) - getArticleTotalViews(a));
+            const topArticles = sorted.slice(0, 5);
+
+            listEl.innerHTML = topArticles.map((item, idx) => {
+                const rankClass = idx === 0 ? 'top-1' : (idx === 1 ? 'top-2' : (idx === 2 ? 'top-3' : ''));
+                const viewsFormatted = formatNumberViews(getArticleTotalViews(item));
+                const isCurrent = item.id === currentId;
+                const borderStyle = isCurrent ? 'border-color: var(--gold-primary); background: rgba(197, 160, 89, 0.15);' : '';
+                return `
+                    <div class="reading-popular-item" style="${borderStyle}" onclick="openArticleModal(${item.id})">
+                        <div class="reading-popular-rank ${rankClass}">#${idx + 1}</div>
+                        <div class="reading-popular-thumb">
+                            <img src="${item.image}" alt="${item.title}">
+                        </div>
+                        <div class="reading-popular-info">
+                            <h4 class="reading-popular-title" title="${item.title}">${item.title}</h4>
+                            <div class="reading-popular-views">
+                                <i class="fa-regular fa-eye"></i> ${viewsFormatted} lượt xem
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // OPEN ARTICLE FULLSCREEN MODAL
+        function openArticleModal(id, updateHash = true) {
             const article = ARTICLES_DATA.find(a => a.id === id);
             if (!article) return;
 
+            // 1. Increment click counter
+            recordArticleClick(id);
+            const totalViews = getArticleTotalViews(article);
+            const viewsFormatted = formatNumberViews(totalViews);
+
+            // 2. Set Top Header Title
+            const headerTitle = document.getElementById('readingHeaderTitle');
+            if (headerTitle) headerTitle.innerText = article.title;
+
+            // 3. Inject Left Column Content
             const modalBody = document.getElementById('readingModalBody');
             modalBody.innerHTML = `
                 <div style="margin-bottom: 20px;">
                     <span class="article-tag">${article.categoryName}</span>
-                    <h1 style="color: var(--gold-light); font-size: 1.85rem; line-height: 1.35; margin: 12px 0;">
+                    <h1 style="color: var(--gold-light); font-size: 2.1rem; line-height: 1.35; margin: 14px 0 16px; font-family: 'Playfair Display', serif;">
                         ${article.title}
                     </h1>
-                    <div class="article-meta" style="border-bottom: 1px solid var(--navy-light); padding-bottom: 15px;">
+                    <div class="article-meta" style="border-bottom: 1px solid rgba(197, 160, 89, 0.25); padding-bottom: 15px; margin-bottom: 22px; flex-wrap: wrap; gap: 14px;">
                         <span><i class="fa-regular fa-calendar"></i> Ngày đăng: ${article.date}</span>
                         <span><i class="fa-solid fa-user-pen"></i> Tác giả: ${article.author}</span>
-                        <span><i class="fa-regular fa-eye"></i> ${article.views} lượt xem</span>
+                        <span style="color: var(--gold-light); font-weight: 600;"><i class="fa-regular fa-eye"></i> ${viewsFormatted} lượt xem</span>
+                        <span><i class="fa-regular fa-clock"></i> Thời gian đọc: ${article.readTime}</span>
                     </div>
                 </div>
 
-                <div style="width: 100%; height: 380px; border-radius: 8px; overflow: hidden; margin-bottom: 25px; border: 1.5px solid var(--gold-primary);">
-                    <img src="${article.image}" alt="${article.title}" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="article-hero-img-wrap">
+                    <img src="${article.image}" alt="${article.title}">
                 </div>
 
                 <div class="article-content-body">
@@ -11285,29 +12149,119 @@
                 </div>
 
                 <div style="margin-top: 35px; padding: 25px; background: linear-gradient(135deg, #102347 0%, #061126 100%); border: 1.5px solid var(--gold-primary); border-radius: 8px; text-align: center;">
-                    <h3 style="color: var(--gold-light); margin-bottom: 10px; font-size: 1.3rem;">Quý Khách Cần Tư Vấn Thiết Kế & Thi Công Lăng Mộ Đá?</h3>
-                    <p style="color: var(--text-silver); font-size: 0.95rem; margin-bottom: 20px;">Liên hệ ngay KTS Nguyễn Văn Hướng để nhận tư vấn phong thủy chính xác và bản vẽ phối cảnh 3D miễn phí.</p>
+                    <h3 style="color: var(--gold-light); margin-bottom: 10px; font-size: 1.3rem; font-family: 'Playfair Display', serif;">Quý Khách Cần Tư Vấn Thiết Kế & Quy Hoạch Lăng Mộ Đá?</h3>
+                    <p style="color: var(--text-silver); font-size: 0.95rem; margin-bottom: 20px;">Liên hệ ngay KTS Nguyễn Văn Hướng để nhận tư vấn phong thủy âm trạch chính xác và bản vẽ phối cảnh 3D miễn phí.</p>
                     <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                         <a href="tel:0397247333" class="btn-gold"><i class="fa-solid fa-phone"></i> Gọi Ngay: 0397.247.333</a>
-                        <a href="https://zalo.me/0397247333" target="_blank" class="btn-outline"><i class="fa-solid fa-comment-dots"></i> Nhắn Tin Zalo</a>
+                        <a href="https://zalo.me/0397247333" target="_blank" class="btn-outline"><i class="fa-solid fa-comment-dots"></i> Nhắn Tin Zalo KTS</a>
                     </div>
                 </div>
             `;
 
-            document.getElementById('readingModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
+            // 4. Inject 5 Recommended Products
+            const recContainer = document.getElementById('readingRecommendedProducts');
+            const recProducts = getRecommendedProducts(article);
+            
+            recContainer.innerHTML = `
+                <div class="rec-products-header">
+                    <div class="rec-products-badge">
+                        <i class="fa-solid fa-gem"></i> Gợi Ý Chuyên Gia KTS
+                    </div>
+                    <h3 class="rec-products-title">5 Sản Phẩm Đề Xuất Phù Hợp Với Bài Viết</h3>
+                    <p class="rec-products-desc">Các mẫu lăng mộ & cấu kiện đá tự nhiên nguyên khối được KTS khuyên dùng đồng bộ chuẩn phong thủy âm trạch</p>
+                </div>
+                <div class="rec-products-grid">
+                    ${recProducts.map(p => {
+                        const pImg = (p.imgs && p.imgs.length > 0) ? p.imgs[0] : (p.image || '');
+                        const pMat = p.material || 'Đá Xanh Tự Nhiên';
+                        const pPrice = p.price || 'Liên Hệ KTS';
+                        const pCat = p.cat_name || 'Lăng Mộ Đá';
+                        return `
+                            <div class="rec-product-card">
+                                <div class="rec-product-img">
+                                    <img src="${pImg}" alt="${p.title}" loading="lazy">
+                                    <span class="rec-product-tag">${pCat}</span>
+                                </div>
+                                <div class="rec-product-body">
+                                    <h4 class="rec-product-name" title="${p.title}">${p.title}</h4>
+                                    <div class="rec-product-material"><i class="fa-solid fa-layer-group" style="color: var(--gold-primary); font-size: 0.75rem;"></i> ${pMat}</div>
+                                    <div class="rec-product-price"><i class="fa-solid fa-tag" style="margin-right: 3px;"></i> ${pPrice}</div>
+                                    <div class="rec-product-actions">
+                                        <a href="san-pham.html" class="rec-product-btn rec-btn-detail">Xem Chi Tiết</a>
+                                        <a href="https://zalo.me/0397247333" target="_blank" class="rec-product-btn rec-btn-contact"><i class="fa-solid fa-comment-dots"></i> Zalo</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
 
-        function closeArticleModal(e) {
-            if (e.target.id === 'readingModal') {
-                closeArticleModalForce();
+            // 5. Update Right Sidebar Popular Articles (by clicks count)
+            renderReadingSidebarPopular(article.id);
+
+            // 6. Apply reading font size
+            applyReadingFontSize();
+
+            // 7. Show Fullscreen Modal
+            const modal = document.getElementById('readingModal');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            // 8. Reset scroll to top
+            const scrollEl = document.getElementById('readingMainScroll');
+            if (scrollEl) scrollEl.scrollTop = 0;
+            const progBar = document.getElementById('readingProgressBar');
+            if (progBar) progBar.style.width = '0%';
+
+            // 9. Update URL Hash
+            if (updateHash) {
+                history.replaceState(null, '', '#article-' + id);
             }
         }
 
         function closeArticleModalForce() {
-            document.getElementById('readingModal').style.display = 'none';
+            const modal = document.getElementById('readingModal');
+            if (modal) modal.style.display = 'none';
             document.body.style.overflow = 'auto';
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+            // Re-render main page popular articles to update click view counts
+            renderPopularArticles();
         }
+
+        function closeArticleModal(e) {
+            // Fullscreen modal close handled via buttons and ESC
+        }
+
+        // Setup scroll progress listener and ESC key
+        window.addEventListener('DOMContentLoaded', () => {
+            const scrollEl = document.getElementById('readingMainScroll');
+            const progBar = document.getElementById('readingProgressBar');
+            if (scrollEl && progBar) {
+                scrollEl.addEventListener('scroll', () => {
+                    const max = scrollEl.scrollHeight - scrollEl.clientHeight;
+                    const pct = max > 0 ? (scrollEl.scrollTop / max) * 100 : 0;
+                    progBar.style.width = pct + '%';
+                });
+            }
+
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    const modal = document.getElementById('readingModal');
+                    if (modal && modal.style.display === 'flex') {
+                        closeArticleModalForce();
+                    }
+                }
+            });
+
+            // Check URL hash for direct article opening
+            if (window.location.hash && window.location.hash.startsWith('#article-')) {
+                const artId = parseInt(window.location.hash.replace('#article-', ''));
+                if (artId) {
+                    setTimeout(() => openArticleModal(artId, false), 150);
+                }
+            }
+        });
 
         // Quick Lu Ban 38.8cm Checker function
         function checkLoBanDirect() {
