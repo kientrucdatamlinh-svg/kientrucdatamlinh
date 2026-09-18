@@ -3786,9 +3786,9 @@ const DEFAULT_ARTICLES = [
 
 <p>Tại làng nghề đá mỹ nghệ truyền thống Ninh Vân - Ninh Bình, xưởng <strong>Kiến Trúc Đá Tâm Linh</strong> dưới sự chỉ đạo của <strong>KTS Nguyễn Văn Hướng</strong> đã thiết kế và hưng công hàng trăm mẫu lăng mộ đá 3 mái tinh xảo, đáp ứng trọn vẹn 3 tiêu chí: <em>Thẩm mỹ cổ kính – Bền vững vĩnh cửu – Chuẩn phong thủy âm trạch Lỗ Ban</em>.</p>
 
-<figure style=\"margin: 25px 0; text-align: center;\">
-    <img src=\"https://res.cloudinary.com/g3beqqle/image/upload/v1789377576/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%203%20m%C3%A1i%20k%C3%ADch%20th%C6%B0%E1%BB%9Bc%203m2/FB_IMG_1767917136343.jpg\" alt=\"Mẫu lăng mộ đá 3 mái đẹp bề thế chế tác từ đá xanh rêu nguyên khối\" style=\"max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--gold-primary, #c5a059);\" loading=\"lazy\">
-    <figcaption style=\"font-size: 0.9rem; color: #a0aec0; margin-top: 8px; font-style: italic;\">Hình 1: Mẫu lăng mộ đá 3 mái xanh rêu bề thế, chạm khắc tinh xảo tại làng nghề Ninh Bình</figcaption>
+<figure style=\"margin: 30px auto; text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center;\">
+    <img src=\"https://res.cloudinary.com/g3beqqle/image/upload/v1789377575/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%203%20m%C3%A1i%20k%C3%ADch%20th%C6%B0%E1%BB%9Bc%203m2/20260429_112331%281%29.jpg\" alt=\"Mẫu lăng thờ 3 mái đá xanh rêu thực tế tại xưởng Ninh Bình\" style=\"max-width: 100%; max-height: 480px; width: auto; height: auto; object-fit: contain; border-radius: 8px; border: 1.5px solid var(--gold-primary, #c5a059); box-shadow: 0 4px 20px rgba(0,0,0,0.5);\" loading=\"lazy\">
+    <figcaption style=\"font-size: 0.9rem; color: #a0aec0; margin-top: 10px; font-style: italic; text-align: center;\">Hình 1: Mẫu lăng thờ đá 3 mái xanh rêu bề thế, chế tác tỉ mỉ tại xưởng đá Ninh Bình</figcaption>
 </figure>
 
 <h2>1. Đặc Điểm Kiến Trúc Cấu Tạo Của Mẫu Lăng Mộ Đá 3 Mái</h2>
@@ -3802,14 +3802,14 @@ const DEFAULT_ARTICLES = [
     <li><strong>Nụ Tấm Đỉnh Mái:</strong> Đỉnh mái cao nhất thường đặt Bình Hồ Lô tích tụ sinh khí hoặc Mặt Nguyệt Chầu Thái Cực âm dương hòa hợp.</li>
 </ul>
 
-<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; margin: 25px 0;\">
-    <figure style=\"margin: 0; text-align: center;\">
-        <img src=\"https://res.cloudinary.com/g3beqqle/image/upload/v1789377578/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%20c%C3%A1nh%203%20m%C3%A1i%20b%E1%BA%A1t%20b%C4%83m%20m%C3%A2u%20c%E1%BB%95/1782894586877_572956663515404064_7350006478341883347_57df39c8afa69614153e6dd2b1767e3e.jpg\" alt=\"Lăng cánh 3 mái bạt băm mâu cổ\" style=\"width: 100%; height: 210px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gold-primary, #c5a059);\" loading=\"lazy\">
-        <figcaption style=\"font-size: 0.85rem; color: #a0aec0; margin-top: 6px;\">Lăng cánh 3 mái bạt băm mâu cổ kính</figcaption>
+<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px 0;\">
+    <figure style=\"margin: 0; background: rgba(10, 20, 42, 0.6); border: 1px solid rgba(197, 160, 89, 0.4); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;\">
+        <img src=\"https://res.cloudinary.com/g3beqqle/image/upload/v1789377578/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%20c%C3%A1nh%203%20m%C3%A1i%20b%E1%BA%A1t%20b%C4%83m%20m%C3%A2u%20c%E1%BB%95/1782894586877_572956663515404064_7350006478341883347_57df39c8afa69614153e6dd2b1767e3e.jpg\" alt=\"Lăng cánh 3 mái bạt băm mâu cổ\" style=\"width: 100%; height: 220px; object-fit: cover; border-radius: 6px;\" loading=\"lazy\">
+        <figcaption style=\"font-size: 0.85rem; color: #cbd5e1; margin-top: 10px; text-align: center;\">Lăng cánh 3 mái bạt băm mâu cổ kính</figcaption>
     </figure>
-    <figure style=\"margin: 0; text-align: center;\">
-        <img src=\"https://res.cloudinary.com/g3beqqle/image/upload/v1789377582/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%20%C4%91%C6%A1n%203%20m%C3%A1i/FB_IMG_1763905852340.jpg\" alt=\"Lăng đơn 3 mái đá xanh rêu Ninh Bình\" style=\"width: 100%; height: 210px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gold-primary, #c5a059);\" loading=\"lazy\">
-        <figcaption style=\"font-size: 0.85rem; color: #a0aec0; margin-top: 6px;\">Lăng đơn 3 mái uy nghiêm thanh thoát</figcaption>
+    <figure style=\"margin: 0; background: rgba(10, 20, 42, 0.6); border: 1px solid rgba(197, 160, 89, 0.4); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; align-items: center; justify-content: space-between;\">
+        <img src=\"https://res.cloudinary.com/g3beqqle/image/upload/v1789377575/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%203%20m%C3%A1i%20k%C3%ADch%20th%C6%B0%E1%BB%9Bc%203m2/FB_IMG_1747103458459.jpg\" alt=\"Mẫu lăng đơn 3 mái uy nghiêm thanh thoát\" style=\"width: 100%; height: 220px; object-fit: cover; border-radius: 6px;\" loading=\"lazy\">
+        <figcaption style=\"font-size: 0.85rem; color: #cbd5e1; margin-top: 10px; text-align: center;\">Lăng đơn 3 mái uy nghiêm thanh thoát</figcaption>
     </figure>
 </div>
 
@@ -3866,9 +3866,9 @@ const DEFAULT_ARTICLES = [
     <li><strong>Kích thước mộ đá 3 mái lẻ:</strong> 89x147cm, 107x167cm, 127x217cm.</li>
 </ul>
 
-<figure style=\"margin: 25px 0; text-align: center;\">
-    <img src=\"https://res.cloudinary.com/g3beqqle/image/upload/v1789377575/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%203%20m%C3%A1i%20k%C3%ADch%20th%C6%B0%E1%BB%9Bc%203m2/20260429_112331%281%29.jpg\" alt=\"Chế tác lăng mộ đá 3 mái chuẩn thước Lỗ Ban âm trạch\" style=\"max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--gold-primary, #c5a059);\" loading=\"lazy\">
-    <figcaption style=\"font-size: 0.9rem; color: #a0aec0; margin-top: 8px; font-style: italic;\">Hình 2: Từng chi tiết lăng 3 mái được đục đẽo tỉ mỉ chuẩn từng milimet Lỗ Ban</figcaption>
+<figure style=\"margin: 30px auto; text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center;\">
+    <img src=\"https://res.cloudinary.com/g3beqqle/image/upload/v1789377576/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%203%20m%C3%A1i%20k%C3%ADch%20th%C6%B0%E1%BB%9Bc%203m2/FB_IMG_1747103468262.jpg\" alt=\"Chế tác lăng mộ đá 3 mái chuẩn thước Lỗ Ban âm trạch\" style=\"max-width: 100%; max-height: 480px; width: auto; height: auto; object-fit: contain; border-radius: 8px; border: 1.5px solid var(--gold-primary, #c5a059); box-shadow: 0 4px 20px rgba(0,0,0,0.5);\" loading=\"lazy\">
+    <figcaption style=\"font-size: 0.9rem; color: #a0aec0; margin-top: 10px; font-style: italic; text-align: center;\">Hình 2: Từng chi tiết lăng 3 mái được đục đẽo tỉ mỉ chuẩn từng milimet Lỗ Ban</figcaption>
 </figure>
 
 <h2>4. Ý Nghĩa Các Hoa Văn Tâm Linh Chạm Khắc Trên Lăng 3 Mái</h2>
