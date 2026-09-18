@@ -10780,6 +10780,55 @@
             transition: font-size 0.2s ease;
         }
 
+
+        /* ===== IMAGE LIGHTBOX ZOOM ===== */
+        .article-content-body figure img,
+        .article-hero-img-wrap img {
+            cursor: zoom-in;
+            transition: opacity 0.15s ease;
+        }
+        .article-content-body figure img:hover { opacity: 0.88; }
+        #imgLightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 999999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+            cursor: zoom-out;
+        }
+        #imgLightbox.active { display: flex; }
+        #imgLightboxImg {
+            max-width: 92vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.9);
+            animation: lbFadeIn 0.2s ease;
+            cursor: default;
+        }
+        @keyframes lbFadeIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+        #imgLightboxCaption {
+            color: #cbd5e1; font-size: 0.88rem;
+            margin-top: 12px; text-align: center; max-width: 700px;
+        }
+        #imgLightboxClose {
+            position: fixed; top: 18px; right: 24px;
+            color: #fff; font-size: 2rem; cursor: pointer;
+            background: rgba(0,0,0,0.5); border-radius: 50%;
+            width: 44px; height: 44px;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s; z-index: 1000000;
+        }
+        #imgLightboxClose:hover { background: rgba(197,160,89,0.7); }
+        #imgLightboxHint { color: #64748b; font-size: 0.78rem; margin-top: 8px; }
+
         .article-content-body h2 {
             color: var(--gold-light);
             font-size: 1.55em;
@@ -12331,6 +12380,51 @@
             }
             return result.slice(0, 10);
         }
+
+
+        // ===== IMAGE LIGHTBOX =====
+        function openLightbox(src, caption) {
+            const lb = document.getElementById('imgLightbox');
+            document.getElementById('imgLightboxImg').src = src;
+            document.getElementById('imgLightboxCaption').textContent = caption || '';
+            lb.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox(e) {
+            if (e && e.target && e.target.id === 'imgLightboxImg') return;
+            document.getElementById('imgLightbox').classList.remove('active');
+            document.getElementById('imgLightboxImg').src = '';
+            document.body.style.overflow = '';
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+        function attachLightboxToArticleImages() {
+            const body = document.querySelector('.article-content-body');
+            if (body) {
+                body.querySelectorAll('figure img, img').forEach(function(img) {
+                    if (img.dataset.lbAttached) return;
+                    img.dataset.lbAttached = '1';
+                    img.style.cursor = 'zoom-in';
+                    img.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const fig = img.closest('figure');
+                        const cap = fig ? (fig.querySelector('figcaption') || {}).textContent || img.alt : img.alt;
+                        openLightbox(img.src, cap);
+                    });
+                });
+            }
+            const heroImg = document.querySelector('.article-hero-img-wrap img');
+            if (heroImg && !heroImg.dataset.lbAttached) {
+                heroImg.dataset.lbAttached = '1';
+                heroImg.style.cursor = 'zoom-in';
+                heroImg.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    openLightbox(heroImg.src, heroImg.alt);
+                });
+            }
+        }
+        // ===== END LIGHTBOX =====
 
         // Render popular articles in the sidebar sorted by click count
         function renderReadingSidebarPopular(currentId) {
