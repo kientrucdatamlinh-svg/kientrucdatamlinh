@@ -3852,7 +3852,7 @@ const DEFAULT_ARTICLES = [
         <figcaption style="font-size: 0.85rem; color: #a0aec0; margin-top: 6px;">Cuốn thư đá xanh rêu chắn hung khí</figcaption>
     </figure>
     <figure style="margin: 0; text-align: center;">
-        <img src="https://res.cloudinary.com/g3beqqle/image/upload/v1789377605/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/4.%20C%E1%BB%95ng/c%E1%BB%95ng%20t%E1%BB%A3%20tr%E1%BB%A5%20%C4%91%C3%A1%20xanh%20r%C3%AAu/20241110_134523.jpg" alt="Cổng đá tứ trụ khu lăng mộ gia tộc" style="width: 100%; height: 220px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gold-primary, #c5a059);" loading="lazy">
+        <img src="https://res.cloudinary.com/g3beqqle/image/upload/v1789377605/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/4.%20C%E1%BB%95ng/c%E1%BB%95ng%20t%E1%BB%A9%20tr%E1%BB%A5%20%C4%91%C3%A1%20xanh%20r%C3%AAu/20241110_134523.jpg" alt="Cổng đá tứ trụ khu lăng mộ gia tộc" style="width: 100%; height: 220px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gold-primary, #c5a059);" loading="lazy">
         <figcaption style="font-size: 0.85rem; color: #a0aec0; margin-top: 6px;">Cổng đá tứ trụ bề thế, trang nghiêm</figcaption>
     </figure>
 </div>
