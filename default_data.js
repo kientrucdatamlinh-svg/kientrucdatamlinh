@@ -3772,94 +3772,131 @@ const DEFAULT_PROJECTS = [
 
 const DEFAULT_ARTICLES = [
             {
-                id: 1,
-                title: "Kinh Nghiệm Xây Dựng Khu Lăng Mộ Đá Gia Tộc Chuẩn Phong Thủy 2026",
-                category: "cam-nang",
-                categoryName: "Cẩm Nang Lăng Mộ",
-                date: "14/09/2026",
-                author: "KTS Nguyễn Văn Hướng",
-                readTime: "8 phút",
-                views: "3,820",
-                image: "https://res.cloudinary.com/g3beqqle/image/upload/v1789377577/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%20c%C3%A1nh%202%20m%C3%A1i%20%C4%91%C3%A1%20xanh%20r%C3%AAu/a.jpg",
-                excerpt: "Tổng hợp toàn bộ kinh nghiệm thực chiến khi quy hoạch và xây dựng khu lăng mộ đá gia tộc năm 2026: quy hoạch tổng thể không gian, so sánh 3 dòng đá tự nhiên (xanh rêu, xanh đen, granite), phong thủy hướng mộ chuẩn Lỗ Ban 38.8cm và các hạng mục kiến trúc tâm linh bắt buộc.",
-                content: `<p>Việc xây dựng hoặc tôn tạo khu lăng mộ đá gia tộc là một trong những việc trọng đại của con cháu để bày tỏ lòng thành kính với ông bà, tổ tiên. Một khu lăng mộ đẹp không chỉ mang lại tính thẩm mỹ, độ bền vững cùng thời gian mà còn ảnh hưởng trực tiếp đến phong thủy, tài vận của cả dòng họ. Đặc biệt, đây là công trình tâm linh mang tính trường tồn, kết nối các thế hệ, đòi hỏi sự đầu tư kỹ lưỡng về cả thiết kế, quy hoạch, chất liệu đá và các yếu tố phong thủy hướng mộ.</p>
+            "id": 1,
+            "title": "Mẫu Lăng Mộ Đá 3 mái đẹp, chất lượng - Ninh Bình",
+            "category": "cam-nang",
+            "categoryName": "Cẩm Nang Lăng Mộ",
+            "date": "18/09/2026",
+            "author": "KTS Nguyễn Văn Hướng",
+            "readTime": "8 phút",
+            "views": "3,820",
+            "image": "https://res.cloudinary.com/g3beqqle/image/upload/v1789377576/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%203%20m%C3%A1i%20k%C3%ADch%20th%C6%B0%E1%BB%9Bc%203m2/FB_IMG_1767917136343.jpg",
+            "excerpt": "Tổng hợp các mẫu lăng mộ đá 3 mái đẹp, bề thế nhất Ninh Bình năm 2026. Phân tích chi tiết kiến trúc mái đao rồng mây, chất liệu đá xanh rêu & xanh đen khối, kích thước chuẩn phong thủy thước Lỗ Ban 38.8cm và báo giá thi công trọn gói.",
+            "content": "<p>Trong văn hóa tâm linh âm trạch của người Việt, <strong>lăng mộ đá 3 mái</strong> (còn gọi là lăng thờ 3 mái hay mộ đá ba mái chìa) được coi là đỉnh cao của kiến trúc lăng tẩm truyền thống. Đây là công trình mang vẻ đẹp bề thế, nguy nga nhất trong các dòng mộ đá, thể hiện trọn vẹn sự uy nghiêm của thế hệ đi trước cũng như lòng hiếu kính, tri ân sâu sắc của con cháu dành cho tổ tiên gia tộc.</p>
 
-<h2>1. Tầm Quan Trọng Của Việc Quy Hoạch Tổng Thể Khu Lăng Mộ Gia Tộc</h2>
-<p>Trước khi tiến hành thi công, việc lên bản vẽ thiết kế tổng thể và quy hoạch không gian là bước không thể bỏ qua. Một khu lăng mộ đá hoặc khu nhà thờ kết hợp khuôn viên lăng tẩm gia tộc quy chuẩn sẽ mang lại những giá trị cốt lõi:</p>
-<ul>
-    <li><strong>Đảm bảo tính thống nhất và trang nghiêm:</strong> Sắp xếp vị trí các ngôi mộ đá theo đúng vai vế, thứ bậc trong dòng họ (ông bà, cha mẹ, các đời tiếp theo) theo nguyên tắc "Nam tả - Nữ hữu" hoặc tiền hậu rõ ràng.</li>
-    <li><strong>Tối ưu hóa không gian:</strong> Giúp lối đi, khu vực hành lễ, cổng đá, hàng rào bao quanh thông thoáng, trang nghiêm và thuận tiện cho con cháu thăm viếng mỗi dịp lễ Tết, giỗ chạp.</li>
-    <li><strong>Độ bền vững vượt thời gian:</strong> Sử dụng các vật liệu tự nhiên cao cấp giúp công trình chống chọi tốt với thời tiết khắc nghiệt, hạn chế tối đa việc tu sửa về sau.</li>
-</ul>
+<p>Tại làng nghề đá mỹ nghệ truyền thống Ninh Vân - Ninh Bình, xưởng <strong>Kiến Trúc Đá Tâm Linh</strong> dưới sự chỉ đạo của <strong>KTS Nguyễn Văn Hướng</strong> đã thiết kế và hưng công hàng trăm mẫu lăng mộ đá 3 mái tinh xảo, đáp ứng trọn vẹn 3 tiêu chí: <em>Thẩm mỹ cổ kính – Bền vững vĩnh cửu – Chuẩn phong thủy âm trạch Lỗ Ban</em>.</p>
 
-<figure style="margin: 25px 0; text-align: center;">
-    <img src="https://res.cloudinary.com/g3beqqle/image/upload/v1789377577/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%20c%C3%A1nh%202%20m%C3%A1i%20%C4%91%C3%A1%20xanh%20r%C3%AAu/a.jpg" alt="Quy hoạch khuôn viên khu lăng mộ đá gia tộc chuẩn phong thủy" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--gold-primary, #c5a059);" loading="lazy">
-    <figcaption style="font-size: 0.9rem; color: #a0aec0; margin-top: 8px; font-style: italic;">Hình 1: Quy hoạch tổng thể không gian khu lăng mộ đá gia tộc trang nghiêm và chuẩn phong thủy</figcaption>
+<figure style=\"margin: 25px 0; text-align: center;\">
+    <img src=\"https://res.cloudinary.com/g3beqqle/image/upload/v1789377576/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%203%20m%C3%A1i%20k%C3%ADch%20th%C6%B0%E1%BB%9Bc%203m2/FB_IMG_1767917136343.jpg\" alt=\"Mẫu lăng mộ đá 3 mái đẹp bề thế chế tác từ đá xanh rêu nguyên khối\" style=\"max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--gold-primary, #c5a059);\" loading=\"lazy\">
+    <figcaption style=\"font-size: 0.9rem; color: #a0aec0; margin-top: 8px; font-style: italic;\">Hình 1: Mẫu lăng mộ đá 3 mái xanh rêu bề thế, chạm khắc tinh xảo tại làng nghề Ninh Bình</figcaption>
 </figure>
 
-<h2>2. Lựa Chọn Chất Liệu Đá: So Sánh Ưu Nhược Điểm Đá Xanh Rêu, Đá Xanh Đen Và Đá Granite</h2>
-<p>Chất liệu đá là yếu tố quyết định tuổi thọ và tính thẩm mỹ của công trình. Năm 2026, xu hướng chế tác lăng mộ đá tập trung vào 3 dòng chất liệu chính với những đặc tính riêng biệt:</p>
+<h2>1. Đặc Điểm Kiến Trúc Cấu Tạo Của Mẫu Lăng Mộ Đá 3 Mái</h2>
+<p>Khác với các dòng mộ tam sơn đơn giản hay mộ 1 mái, 2 mái, mẫu <strong>lăng mộ đá 3 mái</strong> sở hữu chiều cao vượt trội cùng hệ thống mái đao uốn lượn 3 tầng đầy kiêu hãnh. Cấu tạo tổng thể của công trình bao gồm các phần chính:</p>
+
 <ul>
-    <li><strong>Đá xanh đen Thanh Hóa:</strong> Dòng đá truyền thống quen thuộc, có độ cứng cao, thớ đá mịn, dễ chạm trổ các hoa văn tinh xảo như tứ quý, rồng chầu, hoa sen. Ưu điểm lớn nhất là giá thành hợp lý, mang vẻ đẹp cổ kính, trầm mặc.</li>
-    <li><strong>Đá xanh rêu cao cấp:</strong> Nổi bật với màu sắc sang trọng, độ dai đá cực tốt, thớ đá mịn và ít bị rạn nứt trước tác động sốc nhiệt của thời tiết. Loại đá này rất thích hợp cho các khu lăng mộ bề thế, yêu cầu chạm khắc nổi bật.</li>
-    <li><strong>Đá Granite (Đá hoa cương):</strong> Thích hợp cho các mẫu mộ hiện đại, đường nét tối giản. Bề mặt bóng kính giúp chống bám rêu mốc cực tốt, dễ dàng vệ sinh, mang lại vẻ đẹp hiện đại và sang trọng.</li>
+    <li><strong>Phần Đế Lăng:</strong> Thi công từ các khối đá lớn nẹp bo viền, mặt đế chạm dải hoa văn cánh sen chóp nổi hoặc lớp sóng hồi văn kỷ hà vững chãi, chịu lực cho toàn bộ trọng lượng phần trên.</li>
+    <li><strong>Phần Bưng & Khám Thờ:</strong> Mặt bưng 4 bên được chạm khắc các bức tranh tâm linh như <em>Tứ Quý (Tùng - Cúc - Trúc - Mai)</em>, <em>Lưỡng Long Chầu Nguyệt</em> hoặc hoa sen nở rộ. Khám thờ là nơi đặt bài vị, bát hương và đồ cúng tế âm phần.</li>
+    <li><strong>Hệ Thống Cột Trụ:</strong> Cột tròn chạm rồng mây cuộn lượn 3D hoặc cột vuông đục vế câu đối Nho giáo, khẳng định gia phong truyền thống của dòng họ.</li>
+    <li><strong>Hệ Mái Đao 3 Tầng (Tam Đao):</strong> 3 tầng mái xếp chồng lên nhau theo tỷ lệ thu nhỏ dần lên đỉnh. Các góc mái uốn cong vút hình đao rồng, đầu đao chạm rồng mây hoặc nụ sen thanh thoát, tạo cảm giác bay bổng nhẹ nhàng dù công trình làm từ chất liệu đá khối hàng chục tấn.</li>
+    <li><strong>Nụ Tấm Đỉnh Mái:</strong> Đỉnh mái cao nhất thường đặt Bình Hồ Lô tích tụ sinh khí hoặc Mặt Nguyệt Chầu Thái Cực âm dương hòa hợp.</li>
 </ul>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin: 25px 0;">
-    <figure style="margin: 0; text-align: center;">
-        <img src="https://res.cloudinary.com/g3beqqle/image/upload/v1789377587/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/2.%20M%E1%BB%99/m%E1%BB%99%203%20%C4%91%C3%A1%20xanh%20r%C3%AAu/FB_IMG_1732020757427.jpg" alt="Mộ đá xanh rêu cao cấp" style="width: 100%; height: 200px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gold-primary, #c5a059);" loading="lazy">
-        <figcaption style="font-size: 0.85rem; color: #a0aec0; margin-top: 6px;">Đá xanh rêu sang trọng</figcaption>
+<div style=\"display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; margin: 25px 0;\">
+    <figure style=\"margin: 0; text-align: center;\">
+        <img src=\"https://res.cloudinary.com/g3beqqle/image/upload/v1789377578/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%20c%C3%A1nh%203%20m%C3%A1i%20b%E1%BA%A1t%20b%C4%83m%20m%C3%A2u%20c%E1%BB%95/1782894586877_572956663515404064_7350006478341883347_57df39c8afa69614153e6dd2b1767e3e.jpg\" alt=\"Lăng cánh 3 mái bạt băm mâu cổ\" style=\"width: 100%; height: 210px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gold-primary, #c5a059);\" loading=\"lazy\">
+        <figcaption style=\"font-size: 0.85rem; color: #a0aec0; margin-top: 6px;\">Lăng cánh 3 mái bạt băm mâu cổ kính</figcaption>
     </figure>
-    <figure style="margin: 0; text-align: center;">
-        <img src="https://res.cloudinary.com/g3beqqle/image/upload/v1789377586/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/2.%20M%E1%BB%99/m%E1%BB%99%203%20m%C3%A1i%20xanh%20%C4%91en/FB_IMG_1763802202067.jpg" alt="Mộ đá xanh đen truyền thống" style="width: 100%; height: 200px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gold-primary, #c5a059);" loading="lazy">
-        <figcaption style="font-size: 0.85rem; color: #a0aec0; margin-top: 6px;">Đá xanh đen cổ kính</figcaption>
-    </figure>
-    <figure style="margin: 0; text-align: center;">
-        <img src="https://res.cloudinary.com/g3beqqle/image/upload/v1789377589/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/2.%20M%E1%BB%99/m%E1%BB%99%20granit%20%C4%91en%20%E1%BA%A5n%20%C4%91%E1%BB%99%20kt%2081x127/20250515_081145.jpg" alt="Mộ đá Granite bóng kính" style="width: 100%; height: 200px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gold-primary, #c5a059);" loading="lazy">
-        <figcaption style="font-size: 0.85rem; color: #a0aec0; margin-top: 6px;">Đá Granite hiện đại</figcaption>
+    <figure style=\"margin: 0; text-align: center;\">
+        <img src=\"https://res.cloudinary.com/g3beqqle/image/upload/v1789377582/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%20%C4%91%C6%A1n%203%20m%C3%A1i/FB_IMG_1763905852340.jpg\" alt=\"Lăng đơn 3 mái đá xanh rêu Ninh Bình\" style=\"width: 100%; height: 210px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gold-primary, #c5a059);\" loading=\"lazy\">
+        <figcaption style=\"font-size: 0.85rem; color: #a0aec0; margin-top: 6px;\">Lăng đơn 3 mái uy nghiêm thanh thoát</figcaption>
     </figure>
 </div>
 
-<h2>3. Phong Thủy Hướng Mộ Và Kích Thước Chuẩn Thước Lỗ Ban 2026</h2>
-<p>Phong thủy lăng mộ là yếu tố tâm linh quan trọng hàng đầu, quyết định sự hưng thịnh, bình an của con cháu đời sau. Khi xây dựng, gia chủ cần lưu ý kỹ lưỡng:</p>
+<h2>2. So Sánh Chất Liệu Đá Chế Tác Lăng Mộ 3 Mái</h2>
+<p>Để đảm bảo công trình trường tồn cùng thời gian qua hàng trăm năm mưa nắng, việc chọn chất liệu phôi đá là yếu tố tiên quyết:</p>
 
-<h3>A. Chọn hướng mộ và thế đất</h3>
+<table style=\"width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.93rem; color: #e2e8f0; border: 1px solid var(--gold-primary, #c5a059);\">
+    <thead>
+        <tr style=\"background: rgba(197, 160, 89, 0.2); color: var(--gold-light, #f5d77f);\">
+            <th style=\"padding: 10px; border: 1px solid var(--gold-primary, #c5a059); text-align: left;\">Loại Đá</th>
+            <th style=\"padding: 10px; border: 1px solid var(--gold-primary, #c5a059); text-align: left;\">Đặc Tính Cơ Học</th>
+            <th style=\"padding: 10px; border: 1px solid var(--gold-primary, #c5a059); text-align: left;\">Ưu Điểm Thẩm Mỹ</th>
+            <th style=\"padding: 10px; border: 1px solid var(--gold-primary, #c5a059); text-align: left;\">Đánh Giá Chi Phí</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style=\"padding: 10px; border: 1px solid rgba(197,160,89,0.3); font-weight: bold; color: #68d391;\">Đá Xanh Rêu Tự Nhiên</td>
+            <td style=\"padding: 10px; border: 1px solid rgba(197,160,89,0.3);\">Độ dai cực cao, chống om nứt, chống nấm mốc tuyệt đối.</td>
+            <td style=\"padding: 10px; border: 1px solid rgba(197,160,89,0.3);\">Màu xanh bóng ngọc thạch, đường đục sâu nổi 3D rất rõ nét.</td>
+            <td style=\"padding: 10px; border: 1px solid rgba(197,160,89,0.3);\">Cao cấp (Thích hợp công trình trọng điểm)</td>
+        </tr>
+        <tr>
+            <td style=\"padding: 10px; border: 1px solid rgba(197,160,89,0.3); font-weight: bold; color: #63b3ed;\">Đá Xanh Đen Cổ Kính</td>
+            <td style=\"padding: 10px; border: 1px solid rgba(197,160,89,0.3);\">Đá khai thác nguyên khối, độ cứng cao, thớ mịn.</td>
+            <td style=\"padding: 10px; border: 1px solid rgba(197,160,89,0.3);\">Màu xám đen hoài cổ, đậm tính tôn nghiêm âm trạch.</td>
+            <td style=\"padding: 10px; border: 1px solid rgba(197,160,89,0.3);\">Hợp lý, tối ưu ngân sách dòng họ</td>
+        </tr>
+        <tr>
+            <td style=\"padding: 10px; border: 1px solid rgba(197,160,89,0.3); font-weight: bold; color: #f6ad55;\">Đá Hoa Cương (Granite)</td>
+            <td style=\"padding: 10px; border: 1px solid rgba(197,160,89,0.3);\">Độ siêu bóng kính, chống trầy xước và bám bẩn.</td>
+            <td style=\"padding: 10px; border: 1px solid rgba(197,160,89,0.3);\">Phong cách hiện đại, phẳng mịn, dễ lau chùi.</td>
+            <td style=\"padding: 10px; border: 1px solid rgba(197,160,89,0.3);\">Tùy xuất xứ đá (Bình Định / Ấn Độ)</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>3. Kích Thước Lăng Mộ Đá 3 Mái Chuẩn Thước Lỗ Ban 38.8cm (Âm Phần)</h2>
+<p>Để đem lại vượng khí, tài lộc và sự bình an cho gia tộc, mọi kích thước dài x rộng x cao của lăng 3 mái bắt buộc phải được cân chỉnh lọt vào các cung đỏ của thước Lỗ Ban âm trạch 38.8cm:</p>
+
 <ul>
-    <li><strong>Thế đất:</strong> Nên chọn nơi đất cao ráo, tụ khí, có Long mạch chạy qua (tránh nơi ngập úng, trũng thấp hoặc có mạch nước ngầm chảy xiết).</li>
-    <li><strong>Hướng lăng mộ:</strong> Cần tính toán dựa trên tuổi của người đã khuất hoặc hướng của toàn bộ khu lăng mộ gia tộc sao cho hợp với trạch vận năm 2026, tránh các phương vị xấu theo la bàn phong thủy.</li>
+    <li><strong>Kích thước lăng thờ đơn 3 mái:</strong>
+        <ul>
+            <li>Rộng 147cm x Sâu 107cm x Cao 320cm (Cung <em>Hỷ Sự - Đại Cát - Tiến Bảo</em>).</li>
+            <li>Rộng 167cm x Sâu 107cm x Cao 340cm (Cung <em>Tiến Bảo - Thêm Đinh</em>).</li>
+        </ul>
+    </li>
+    <li><strong>Kích thước lăng thờ cánh 3 mái (Lăng thờ chung gia tộc lớn):</strong>
+        <ul>
+            <li>Rộng 320cm x Sâu 107cm x Cao 350cm (Cung <em>Đại Cát - Lục Hợp - Đăng Khoa</em>).</li>
+            <li>Rộng 390cm x Sâu 117cm x Cao 380cm (Bề thế cho khuôn viên lăng mộ diện tích trên 100m²).</li>
+        </ul>
+    </li>
+    <li><strong>Kích thước mộ đá 3 mái lẻ:</strong> 89x147cm, 107x167cm, 127x217cm.</li>
 </ul>
 
-<h3>B. Kích thước chuẩn thước Lỗ Ban 38.8cm (Âm trạch)</h3>
-<p>Tất cả các hạng mục từ mộ đá, cuốn thư đá, lăng thờ chung cho đến cổng đá đều phải rơi vào các cung đỏ (Cung tốt) trên thước Lỗ Ban âm phần như: Tài Trí, Nghĩa Tỷ, Quan, Bản Lộc, Tiến Bảo, Đại Cát... mang lại bình an, tài lộc và vượng khí cho dòng họ.</p>
-
-<figure style="margin: 25px 0; text-align: center;">
-    <img src="https://res.cloudinary.com/g3beqqle/image/upload/v1789377585/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/2.%20M%E1%BB%99/m%E1%BB%99%202%20m%C3%A1i%20%C4%91%C3%A1%20xanh%20r%C3%AAu%20kt%20167x275/IMG_20230315_221542.jpg" alt="Mộ đá 2 mái chế tác chuẩn thước Lỗ Ban 38.8cm" style="max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--gold-primary, #c5a059);" loading="lazy">
-    <figcaption style="font-size: 0.9rem; color: #a0aec0; margin-top: 8px; font-style: italic;">Hình 2: Mộ đá 2 mái đá xanh rêu chế tác chuẩn kích thước Lỗ Ban âm trạch mang lại may mắn, vượng khí</figcaption>
+<figure style=\"margin: 25px 0; text-align: center;\">
+    <img src=\"https://res.cloudinary.com/g3beqqle/image/upload/v1789377575/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/1.%20L%C4%83ng%20th%E1%BB%9D/l%C4%83ng%203%20m%C3%A1i%20k%C3%ADch%20th%C6%B0%E1%BB%9Bc%203m2/20260429_112331%281%29.jpg\" alt=\"Chế tác lăng mộ đá 3 mái chuẩn thước Lỗ Ban âm trạch\" style=\"max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--gold-primary, #c5a059);\" loading=\"lazy\">
+    <figcaption style=\"font-size: 0.9rem; color: #a0aec0; margin-top: 8px; font-style: italic;\">Hình 2: Từng chi tiết lăng 3 mái được đục đẽo tỉ mỉ chuẩn từng milimet Lỗ Ban</figcaption>
 </figure>
 
-<h2>4. Các Hạng Mục Không Thể Thiếu Trong Một Khu Lăng Mộ Đá Gia Tộc</h2>
-<p>Một khu lăng mộ gia tộc hoàn chỉnh và chuẩn phong thủy thường bao gồm các thành phần chính sau:</p>
+<h2>4. Ý Nghĩa Các Hoa Văn Tâm Linh Chạm Khắc Trên Lăng 3 Mái</h2>
+<p>Mỗi chi tiết hoa văn điêu khắc trên phiến đá lăng mộ đều chứa đựng ước nguyện sâu sắc gửi gắm tới tiền nhân:</p>
 <ol>
-    <li><strong>Lăng thờ chung (Long đình đá):</strong> Nơi thờ thổ thần, thổ địa hoặc đặt bài vị chung của cả dòng họ, là tâm điểm tâm linh của toàn khu.</li>
-    <li><strong>Hệ thống mộ đá đơn / mộ đôi:</strong> Được thiết kế đồng bộ theo mẫu mộ tam sơn, mộ khổng tước hoặc mộ hai mái, ba mái tùy theo quy hoạch.</li>
-    <li><strong>Cuốn thư đá (Bình phong):</strong> Đặt ngay lối vào chính để che chắn các luồng khí xấu, tà khí xâm nhập vào khuôn viên.</li>
-    <li><strong>Cổng đá và hàng rào đá:</strong> Tạo sự khép kín, uy nghiêm, định ranh giới rõ ràng cho khu vực linh thiêng.</li>
+    <li><strong>Lưỡng Long Chầu Nguyệt:</strong> Biểu tượng cho sức mạnh vũ trụ, mang luồng sinh khí âm dương hòa hợp, trấn trạch bảo vệ phần âm khỏi tà khí.</li>
+    <li><strong>Bộ Tranh Tứ Quý Tùng Cúc Trúc Mai:</strong> Tượng trưng cho 4 mùa luân chuyển, khí tiết thanh cao và nguyện ước con cháu bốn mùa an lành, phát đạt.</li>
+    <li><strong>Đài Sen & Cánh Sen Thủy Mộc:</strong> Mang ý nghĩa thanh tịnh Phật giáo, giúp linh hồn gia tiên nhẹ nhàng thanh thản nơi cõi vĩnh hằng.</li>
 </ol>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin: 25px 0;">
-    <figure style="margin: 0; text-align: center;">
-        <img src="https://res.cloudinary.com/g3beqqle/image/upload/v1789377602/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/3.%20Cu%E1%BB%91n%20th%C6%B0%20%C4%91%C3%A1/cu%E1%BB%91n%20th%C6%B0%20%C4%91%C3%A1%20xanh%20r%C3%AAu/FB_IMG_1721413213970.jpg" alt="Cuốn thư đá xanh rêu chắn tà khí" style="width: 100%; height: 220px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gold-primary, #c5a059);" loading="lazy">
-        <figcaption style="font-size: 0.85rem; color: #a0aec0; margin-top: 6px;">Cuốn thư đá xanh rêu chắn hung khí</figcaption>
-    </figure>
-    <figure style="margin: 0; text-align: center;">
-        <img src="https://res.cloudinary.com/g3beqqle/image/upload/v1789377605/%E1%BA%A3nh%20s%E1%BA%A3n%20ph%E1%BA%A9m/4.%20C%E1%BB%95ng/c%E1%BB%95ng%20t%E1%BB%A9%20tr%E1%BB%A5%20%C4%91%C3%A1%20xanh%20r%C3%AAu/20241110_134523.jpg" alt="Cổng đá tứ trụ khu lăng mộ gia tộc" style="width: 100%; height: 220px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gold-primary, #c5a059);" loading="lazy">
-        <figcaption style="font-size: 0.85rem; color: #a0aec0; margin-top: 6px;">Cổng đá tứ trụ bề thế, trang nghiêm</figcaption>
-    </figure>
-</div>
+<h2>5. Vì Sao Nên Chọn Kiến Trúc Đá Tâm Linh Ninh Bình?</h2>
+<p>Với hành trình hơn 15 năm gắn bó cùng làng nghề đá truyền thống Ninh Vân, <strong>Kiến Trúc Đá Tâm Linh</strong> khẳng định thương hiệu bằng sự tận tâm và chất lượng công trình:</p>
+<ul>
+    <li><strong>100% Đá Khối Tự Nhiên Già Đá:</strong> Tuyển chọn khắt khe từ mỏ, nói KHÔNG với đá om nứt, đá chắp vá.</li>
+    <li><strong>Đội Ngũ Nghệ Nhân Kim Cổ:</strong> Đường nét điêu khắc bay bổng, có hồn và giàu tính nghệ thuật.</li>
+    <li><strong>Bản Vẽ Phối Cảnh 3D Chi Tiết:</strong> Giúp gia đình xem trước toàn bộ khuôn viên trước khi xuống móng thi công.</li>
+    <li><strong>Bảo Hành Trọn Đời – Lắp Đặt Toàn Quốc:</strong> Thi công trọn gói tận nơi bằng hệ thống xe cẩu và thiết bị chuyên dụng an toàn.</li>
+</ul>
 
-<h2>5. Lời Kết</h2>
-<p>Xây dựng khu lăng mộ đá gia tộc là công trình tâm linh mang ý nghĩa uống nước nhớ nguồn, kết nối quá khứ và tương lai. Việc đầu tư bài bản từ khâu quy hoạch, chọn chất liệu đến phong thủy sẽ giúp gia tộc luôn hưng thịnh, con cháu đời đời bình an. Hãy liên hệ với các đơn vị chế tác đá mỹ nghệ uy tín để được tư vấn thiết kế trọn gói và chi tiết nhất cho năm 2026.</p>`
-            },
+<div style=\"margin-top: 35px; padding: 25px; background: linear-gradient(135deg, #102347 0%, #061126 100%); border: 1.5px solid var(--gold-primary, #c5a059); border-radius: 8px; text-align: center;\">
+    <h3 style=\"color: var(--gold-light, #f5d77f); margin-bottom: 10px; font-size: 1.3rem; font-family: 'Playfair Display', serif;\">Quý Khách Cần Tư Vấn & Báo Giá Lăng Mộ Đá 3 Mái Ninh Bình?</h3>
+    <p style=\"color: #cbd5e1; font-size: 0.95rem; margin-bottom: 20px;\">Liên hệ ngay KTS Nguyễn Văn Hướng để nhận bảng vẽ 3D miễn phí và tư vấn phong thủy thước Lỗ Ban chính xác nhất.</p>
+    <div style=\"display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;\">
+        <a href=\"tel:0397247333\" style=\"padding: 10px 22px; background: var(--gold-primary, #c5a059); color: #050b1a; font-weight: bold; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;\"><i class=\"fa-solid fa-phone\"></i> Gọi Ngay: 0397.247.333</a>
+        <a href=\"https://zalo.me/0397247333\" target=\"_blank\" style=\"padding: 10px 22px; border: 1px solid var(--gold-primary, #c5a059); color: var(--gold-light, #f5d77f); font-weight: bold; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;\"><i class=\"fa-solid fa-comment-dots\"></i> Nhắn Zalo KTS Hướng</a>
+    </div>
+</div>"
+},
             {
                 id: 2,
                 title: "Kích Thước Mộ Chuẩn Thước Lỗ Ban 38.8cm (Âm Phần) Mang Lại Vượng Khí",
