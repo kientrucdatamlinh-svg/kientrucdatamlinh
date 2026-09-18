@@ -2746,7 +2746,7 @@
             if (hasUnpublishedChanges) {
                 if (badge) {
                     badge.className = 'badge-sync pending';
-                    badge.innerHTML = '<i class="fa-solid fa-arrows-rotate fa-spin"></i> <span>Chưa xuất bản toàn cầu</span>';
+                    badge.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> <span>Chưa xuất bản toàn cầu</span>';
                 }
                 if (btn) {
                     btn.classList.add('has-changes');
@@ -3617,6 +3617,150 @@
             }
         }
 
+
+        function updateArtImagePreview() {
+            const url = document.getElementById('artImage') ? document.getElementById('artImage').value.trim() : '';
+            let previewBox = document.getElementById('artImagePreviewBox');
+            if (!previewBox) {
+                const input = document.getElementById('artImage');
+                if (input && input.parentElement) {
+                    previewBox = document.createElement('div');
+                    previewBox.id = 'artImagePreviewBox';
+                    previewBox.style.cssText = 'margin-top: 8px; max-width: 200px; max-height: 120px; overflow: hidden; border-radius: 6px; border: 1px solid var(--border-color); display: none;';
+                    previewBox.innerHTML = '<img id="artImagePreviewImg" src="" style="width: 100%; height: 100%; object-fit: cover;">';
+                    input.parentElement.appendChild(previewBox);
+                }
+            }
+            if (previewBox) {
+                const img = document.getElementById('artImagePreviewImg');
+                if (url) {
+                    if (img) img.src = url;
+                    previewBox.style.display = 'block';
+                } else {
+                    previewBox.style.display = 'none';
+                }
+            }
+        }
+
+        // ===== CLOUDINARY IMAGE PICKER JS =====
+        var _pickerTarget = 'cover';
+
+        function openCloudinaryPicker(targetField) {
+            _pickerTarget = targetField || 'cover';
+            const modal = document.getElementById('cloudinaryPickerModal');
+            const targetLabel = document.getElementById('pickerTargetLabel');
+            if (targetLabel) {
+                targetLabel.innerText = _pickerTarget === 'cover' ? 'Đang chọn Ảnh Bìa Bài Viết' : 'Đang chọn Ảnh Chèn Vào Nội Dung Bài Viết';
+            }
+            if (modal) modal.style.display = 'flex';
+            renderPickerImages();
+        }
+
+        function closeCloudinaryPicker() {
+            const modal = document.getElementById('cloudinaryPickerModal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function getCloudinaryCatalog() {
+            let images = [];
+            if (typeof adminProducts !== 'undefined' && Array.isArray(adminProducts)) {
+                adminProducts.forEach(p => {
+                    if (p.image) images.push({ url: p.image, name: p.name || 'Sản phẩm', category: p.category || '' });
+                    if (Array.isArray(p.gallery)) {
+                        p.gallery.forEach((g, idx) => {
+                            if (g) images.push({ url: g, name: (p.name || 'Sản phẩm') + ' (' + (idx+1) + ')', category: p.category || '' });
+                        });
+                    }
+                });
+            }
+            if (typeof adminProjects !== 'undefined' && Array.isArray(adminProjects)) {
+                adminProjects.forEach(pj => {
+                    if (pj.image) images.push({ url: pj.image, name: pj.name || 'Dự án', category: pj.category || '' });
+                });
+            }
+            const unique = [];
+            const map = new Map();
+            for (const item of images) {
+                if (!map.has(item.url)) {
+                    map.set(item.url, true);
+                    unique.push(item);
+                }
+            }
+            return unique;
+        }
+
+        function renderPickerImages() {
+            const grid = document.getElementById('pickerImageGrid');
+            const countSpan = document.getElementById('pickerImgCount');
+            if (!grid) return;
+            
+            const catalog = getCloudinaryCatalog();
+            const searchVal = (document.getElementById('pickerSearch') ? document.getElementById('pickerSearch').value : '').toLowerCase().trim();
+            const catVal = document.getElementById('pickerCatFilter') ? document.getElementById('pickerCatFilter').value : '';
+            
+            const filtered = catalog.filter(item => {
+                const matchSearch = !searchVal || item.name.toLowerCase().includes(searchVal) || item.url.toLowerCase().includes(searchVal);
+                const matchCat = !catVal || item.category === catVal;
+                return matchSearch && matchCat;
+            });
+
+            if (countSpan) countSpan.innerText = `${filtered.length} / ${catalog.length} ảnh`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#64748b;padding:30px;">
+                    <i class="fa-regular fa-image" style="font-size:2rem;margin-bottom:8px;display:block;"></i>
+                    Không tìm thấy hình ảnh phù hợp.
+                </div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(item => `
+                <div class="picker-img-card" onclick="selectPickerImage('${item.url.replace(/'/g, "\\'")}')">
+                    <img src="${item.url}" alt="${item.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                    <div class="picker-img-label" title="${item.name}">${item.name}</div>
+                </div>
+            `).join('');
+        }
+
+        function filterPickerImages() {
+            renderPickerImages();
+        }
+
+        function selectPickerImage(url) {
+            if (_pickerTarget === 'cover') {
+                const artImgInput = document.getElementById('artImage');
+                if (artImgInput) {
+                    artImgInput.value = url;
+                    updateArtImagePreview();
+                }
+                showToast('✅ Đã chọn ảnh bìa bài viết!');
+            } else {
+                const artContent = document.getElementById('artContent');
+                if (artContent) {
+                    const figureHtml = `\n<figure style="margin:25px 0;text-align:center;">\n  <img src="${url}" alt="Hình ảnh sản phẩm đá mỹ nghệ" style="max-width:100%;height:auto;border-radius:8px;box-shadow:0 4px 15px rgba(0,0,0,0.3);display:inline-block;">\n  <figcaption style="font-size:0.85rem;color:#94a3b8;margin-top:8px;font-style:italic;">Hình ảnh thực tế chế tác đá mỹ nghệ tâm linh</figcaption>\n</figure>\n`;
+                    const start = artContent.selectionStart;
+                    const end = artContent.selectionEnd;
+                    if (typeof start === 'number' && typeof end === 'number') {
+                        const text = artContent.value;
+                        artContent.value = text.substring(0, start) + figureHtml + text.substring(end);
+                    } else {
+                        artContent.value += figureHtml;
+                    }
+                }
+                showToast('✅ Đã chèn ảnh vào nội dung bài viết!');
+            }
+            closeCloudinaryPicker();
+        }
+
+        function usePickerCustomUrl() {
+            const input = document.getElementById('pickerCustomUrl');
+            const url = input ? input.value.trim() : '';
+            if (!url) {
+                showToast('⚠️ Vui lòng nhập link ảnh Cloudinary!');
+                return;
+            }
+            selectPickerImage(url);
+        }
 
         // Initialize on load
         window.addEventListener('DOMContentLoaded', () => {
