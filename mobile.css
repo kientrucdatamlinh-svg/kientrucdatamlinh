@@ -831,34 +831,101 @@
         flex-shrink: 0 !important;
     }
 
+    /* TỐI ƯU BÀI VIẾT NỔI BẬT (FEATURED SPOTLIGHT CARD - ẢNH 1) */
     .featured-card {
+        display: flex !important;
         flex-direction: column !important;
-        margin-bottom: 18px !important;
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+        margin-bottom: 22px !important;
+        border: 1.5px solid var(--gold-primary) !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        background: linear-gradient(135deg, var(--navy-medium) 0%, #0d1e3d 100%) !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
     }
 
     .featured-img-wrap {
-        height: 140px !important;
         width: 100% !important;
+        height: 190px !important;
+        min-height: 190px !important;
+        max-height: 190px !important;
+        position: relative !important;
+        overflow: hidden !important;
+        flex-shrink: 0 !important;
+    }
+
+    .featured-img-wrap img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center 20% !important;
+        display: block !important;
+    }
+
+    .featured-img-wrap span {
+        top: 10px !important;
+        left: 10px !important;
+        font-size: 0.7rem !important;
+        padding: 4px 10px !important;
+        border-radius: 4px !important;
     }
 
     .featured-body {
-        padding: 14px 12px !important;
+        padding: 15px 14px 16px 14px !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .featured-body .article-tag {
+        font-size: 0.72rem !important;
+        padding: 3px 10px !important;
+        margin-bottom: 8px !important;
+        width: fit-content !important;
     }
 
     .featured-title {
-        font-size: 1rem !important;
-        line-height: 1.3 !important;
-        margin: 4px 0 6px 0 !important;
+        font-size: 1.06rem !important;
+        font-weight: 700 !important;
+        line-height: 1.38 !important;
+        margin: 0 0 10px 0 !important;
+        color: var(--gold-light) !important;
+    }
+
+    .article-meta {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 6px 14px !important;
+        font-size: 0.72rem !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+        margin-bottom: 10px !important;
+    }
+
+    .article-meta span {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
     }
 
     .featured-excerpt {
-        font-size: 0.8rem !important;
-        line-height: 1.5 !important;
+        font-size: 0.82rem !important;
+        line-height: 1.55 !important;
+        color: rgba(255, 255, 255, 0.82) !important;
         display: -webkit-box !important;
         -webkit-line-clamp: 2 !important;
         -webkit-box-orient: vertical !important;
         overflow: hidden !important;
-        margin-bottom: 10px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .featured-body .read-more-btn {
+        font-size: 0.82rem !important;
+        font-weight: 700 !important;
+        color: var(--gold-primary) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        margin-top: 2px !important;
     }
 
     /* 7. TỐI ƯU CHÂN TRANG TOÀN BỘ WEBSITE (THU GỌN CHIỀU DÀI - ẢNH 5) */
@@ -999,21 +1066,251 @@
         font-size: 1.15rem !important;
     }
 
-    /* 9. MODALS & POPUPS XEM CHI TIẾT TRÊN MOBILE */
-    #projectDetailModal > div,
+    /* 9. MODALS & POPUPS XEM CHI TIẾT TRÊN MOBILE (ẢNH 2 - CHỐNG TRÀN CHỮ, THU GỌN VỪA KHUNG HÌNH) */
+    #productDetailModal,
+    #projectDetailModal {
+        padding: 8px !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+    }
+
     #productDetailModal > div {
-        padding: 14px !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 92vh !important;
         max-height: 92vh !important;
-        width: 95vw !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        box-sizing: border-box !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8) !important;
+        margin: 0 auto !important;
+    }
+
+    /* Modal Top Header Bar */
+    #productDetailModal > div > div:first-child {
+        padding: 10px 12px !important;
+        box-sizing: border-box !important;
+    }
+
+    #prodTag {
+        font-size: 0.72rem !important;
+        padding: 3px 10px !important;
+        border-radius: 14px !important;
+    }
+
+    #prodTitle {
+        font-size: 0.95rem !important;
+        max-width: 175px !important;
+        line-height: 1.3 !important;
+    }
+
+    #productDetailModal span[onclick*="closeProductModalForce"] {
+        font-size: 26px !important;
+        line-height: 1 !important;
+    }
+
+    /* Modal Body Grid */
+    .modal-body-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 14px !important;
+        padding: 12px 10px 20px 10px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+
+    .modal-body-grid > div {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Khung ảnh chính sản phẩm */
+    #productDetailModal div[style*="height:520px"],
+    #productDetailModal div[style*="height: 520px"] {
+        height: 190px !important;
+        max-height: 190px !important;
+        border-radius: 8px !important;
+    }
+
+    #productDetailModal div[style*="bottom:14px"],
+    #productDetailModal div[style*="bottom: 14px"] {
+        bottom: 8px !important;
+        padding: 5px 14px !important;
+    }
+
+    #productDetailModal div[style*="bottom:14px"] a,
+    #productDetailModal div[style*="bottom: 14px"] a {
+        font-size: 0.8rem !important;
+        gap: 6px !important;
+    }
+
+    /* Hàng ảnh thu nhỏ (Thumbnails) */
+    #prodGalleryContainer,
+    #pmGalleryContainer {
+        margin-top: 6px !important;
+        margin-bottom: 8px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: auto !important;
+    }
+
+    #prodGalleryContainer > div,
+    #pmGalleryContainer > div {
+        padding: 4px 2px 8px 2px !important;
+        gap: 6px !important;
+    }
+
+    #prodGalleryContainer img,
+    #pmGalleryContainer img {
+        width: 65px !important;
+        height: 48px !important;
+        border-radius: 4px !important;
+    }
+
+    /* Khối nội dung chi tiết & phong thủy */
+    .modal-body-grid div[style*="background:#fafbfe"],
+    .modal-body-grid div[style*="background: #fafbfe"] {
+        padding: 12px 10px !important;
+        border-radius: 8px !important;
+        border-left-width: 3px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    .modal-body-grid h3 {
+        font-size: 0.95rem !important;
+        line-height: 1.35 !important;
+        margin: 0 0 8px 0 !important;
+        gap: 6px !important;
+        word-break: break-word !important;
+    }
+
+    .modal-body-grid h3 i {
+        font-size: 0.85rem !important;
+    }
+
+    #prodDescPara {
+        font-size: 0.82rem !important;
+        line-height: 1.62 !important;
+        color: #2d3748 !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: pre-line !important;
+    }
+
+    /* Cột tư vấn và đề xuất sản phẩm */
+    .modal-body-grid > div:last-child {
+        border-left: none !important;
+        padding-left: 0 !important;
+        border-top: 1px solid #e2e8f0 !important;
+        padding-top: 14px !important;
+    }
+
+    .modal-body-grid > div:last-child h4 {
+        font-size: 0.95rem !important;
+        margin-bottom: 6px !important;
+    }
+
+    .modal-body-grid > div:last-child p {
+        font-size: 0.78rem !important;
+        margin-bottom: 10px !important;
+    }
+
+    .modal-body-grid .rec-prod-item {
+        padding: 8px !important;
+        gap: 8px !important;
+    }
+
+    .modal-body-grid .rec-prod-item img {
+        width: 55px !important;
+        height: 42px !important;
+        border-radius: 4px !important;
+    }
+
+    .modal-body-grid .rec-prod-item h5 {
+        font-size: 0.8rem !important;
+        line-height: 1.3 !important;
+    }
+
+    /* Modal Chi tiết Dự Án (#projectDetailModal) */
+    #projectDetailModal > div {
+        padding: 14px 12px 18px 12px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: 90vh !important;
+        border-radius: 12px !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+        margin: 0 auto !important;
+    }
+
+    #projectDetailModal span[onclick*="closeProjectModalForce"] {
+        top: 8px !important;
+        right: 12px !important;
+        font-size: 26px !important;
+    }
+
+    #pmLocation {
+        padding: 4px 10px !important;
+        font-size: 0.72rem !important;
+    }
+
+    #pmTitle {
+        font-size: 1.02rem !important;
+        line-height: 1.3 !important;
     }
 
     #projectDetailModal div[style*="height:520px"],
-    #productDetailModal div[style*="height:520px"] {
-        height: 210px !important;
+    #projectDetailModal div[style*="height: 520px"] {
+        height: 190px !important;
+        max-height: 190px !important;
+        border-radius: 8px !important;
+        margin-bottom: 8px !important;
     }
 
-    #pmTitle, #prodTitle {
-        font-size: 1.15rem !important;
+    #projectDetailModal div[style*="bottom:14px"],
+    #projectDetailModal div[style*="bottom: 14px"] {
+        bottom: 8px !important;
+        padding: 5px 14px !important;
+    }
+
+    #projectDetailModal div[style*="bottom:14px"] a,
+    #projectDetailModal div[style*="bottom: 14px"] a {
+        font-size: 0.8rem !important;
+        gap: 6px !important;
+    }
+
+    #projectDetailModal h4 {
+        font-size: 0.95rem !important;
+        margin-bottom: 8px !important;
+    }
+
+    #pmDetailDesc {
+        font-size: 0.82rem !important;
+        line-height: 1.6 !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+    }
+
+    #pmSpecsContainer {
+        grid-template-columns: 1fr !important;
+        gap: 6px !important;
+    }
+
+    #pmSpecsContainer > div {
+        font-size: 0.78rem !important;
+        padding: 8px !important;
     }
 }
 
