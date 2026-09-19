@@ -11559,6 +11559,7 @@
             background: #0052cc;
         }
     </style>
+    <link rel="stylesheet" href="mobile.css">
 </head>
 <body>
     <header id="mainHeader">
@@ -11571,13 +11572,21 @@
                 </div>
             </a>
             <nav class="nav-menu" id="navMenu">
-                <a href="index.html" class="nav-link">Trang Chủ</a>
-                <a href="gioi-thieu.html" class="nav-link">Giới Thiệu</a>
-                <a href="phong-thuy.html" class="nav-link">Phong Thủy</a>
-                <a href="du-an.html" class="nav-link">Dự Án</a>
-                <a href="san-pham.html" class="nav-link">Sản Phẩm</a>
-                <a href="tin-tuc.html" class="nav-link active">Tin Tức</a>
-                <a href="lien-he.html" class="nav-link">Liên Hệ</a>
+                <div class="mobile-nav-header" style="display:none; justify-content:space-between; align-items:center; padding-bottom:12px; margin-bottom:12px; border-bottom:1px solid rgba(197,160,89,0.3);">
+                    <span style="color:var(--gold-light); font-weight:700; font-size:1.05rem; letter-spacing:0.05em;"><i class="fa-solid fa-bars-staggered" style="color:var(--gold-primary); margin-right:8px;"></i> DANH MỤC</span>
+                    <span onclick="toggleMobileMenu()" style="color:var(--gold-primary); font-size:1.5rem; cursor:pointer; padding:2px 8px;">&times;</span>
+                </div>
+<a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i><span>Trang Chủ</span></a>
+                <a href="gioi-thieu.html" class="nav-link"><i class="fa-solid fa-landmark"></i><span>Giới Thiệu</span></a>
+                <a href="phong-thuy.html" class="nav-link"><i class="fa-solid fa-compass"></i><span>Phong Thủy</span></a>
+                <a href="du-an.html" class="nav-link"><i class="fa-solid fa-monument"></i><span>Dự Án</span></a>
+                <a href="san-pham.html" class="nav-link"><i class="fa-solid fa-cubes"></i><span>Sản Phẩm</span></a>
+                <a href="tin-tuc.html" class="nav-link active"><i class="fa-solid fa-newspaper"></i><span>Tin Tức</span></a>
+                <a href="lien-he.html" class="nav-link"><i class="fa-solid fa-phone"></i><span>Liên Hệ</span></a>
+                <div class="nav-menu-footer" style="display:none; margin-top:15px; padding-top:15px; border-top:1px solid rgba(197,160,89,0.25); flex-direction:column; gap:8px;">
+                    <a href="tel:0397247333" class="btn-gold" style="display:flex; align-items:center; justify-content:center; gap:8px; padding:10px; font-size:0.85rem; border-radius:4px; text-decoration:none;"><i class="fa-solid fa-phone"></i> Hotline: 0397.247.333</a>
+                    <a href="https://zalo.me/0397247333" target="_blank" class="btn-outline" style="display:flex; align-items:center; justify-content:center; gap:8px; padding:9px; font-size:0.85rem; border-radius:4px; text-decoration:none;"><i class="fa-solid fa-comment-dots"></i> Chat Zalo KTS Hướng</a>
+                </div>
             </nav>
             <div class="header-cta">
                 <a href="tel:0397247333" class="btn-gold" style="padding: 10px 20px; font-size: 0.85rem;"><i class="fa-solid fa-phone"></i> 0397.247.333</a>
@@ -12719,10 +12728,43 @@
             }
         }
 
-        function toggleMobileMenu() {
-            const nav = document.getElementById('navMenu');
-            nav.classList.toggle('active');
+                function toggleMobileMenu() {
+            const menu = document.getElementById('navMenu');
+            const toggleIcon = document.querySelector('.menu-toggle i');
+            if (menu) {
+                const isActive = menu.classList.toggle('active');
+                if (toggleIcon) {
+                    if (isActive) {
+                        toggleIcon.classList.remove('fa-bars');
+                        toggleIcon.classList.add('fa-xmark');
+                    } else {
+                        toggleIcon.classList.remove('fa-xmark');
+                        toggleIcon.classList.add('fa-bars');
+                    }
+                }
+                document.body.style.overflow = isActive ? 'hidden' : '';
+            }
         }
+        function closeMobileMenu() {
+            const menu = document.getElementById('navMenu');
+            const toggleIcon = document.querySelector('.menu-toggle i');
+            if (menu && menu.classList.contains('active')) {
+                menu.classList.remove('active');
+                if (toggleIcon) {
+                    toggleIcon.classList.remove('fa-xmark');
+                    toggleIcon.classList.add('fa-bars');
+                }
+                document.body.style.overflow = '';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('#navMenu .nav-link');
+            navLinks.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    closeMobileMenu();
+                });
+            });
+        });
 
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
