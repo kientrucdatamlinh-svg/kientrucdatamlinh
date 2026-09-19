@@ -1091,24 +1091,25 @@
 
     /* Modal Top Header Bar */
     #productDetailModal > div > div:first-child {
-        padding: 10px 12px !important;
+        padding: 11px 14px !important;
         box-sizing: border-box !important;
     }
 
     #prodTag {
-        font-size: 0.72rem !important;
-        padding: 3px 10px !important;
+        font-size: 0.76rem !important;
+        padding: 4px 10px !important;
         border-radius: 14px !important;
     }
 
     #prodTitle {
-        font-size: 0.95rem !important;
-        max-width: 175px !important;
+        font-size: 1.05rem !important;
+        max-width: 210px !important;
         line-height: 1.3 !important;
+        font-weight: 700 !important;
     }
 
     #productDetailModal span[onclick*="closeProductModalForce"] {
-        font-size: 26px !important;
+        font-size: 28px !important;
         line-height: 1 !important;
     }
 
@@ -1116,8 +1117,8 @@
     .modal-body-grid {
         display: flex !important;
         flex-direction: column !important;
-        gap: 14px !important;
-        padding: 12px 10px 20px 10px !important;
+        gap: 16px !important;
+        padding: 12px 10px 24px 10px !important;
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
@@ -1132,31 +1133,31 @@
         box-sizing: border-box !important;
     }
 
-    /* Khung ảnh chính sản phẩm */
+    /* Khung ảnh chính sản phẩm (Cho to lên theo yêu cầu người dùng) */
     #productDetailModal div[style*="height:520px"],
     #productDetailModal div[style*="height: 520px"] {
-        height: 190px !important;
-        max-height: 190px !important;
-        border-radius: 8px !important;
+        height: 260px !important;
+        max-height: 260px !important;
+        border-radius: 10px !important;
     }
 
     #productDetailModal div[style*="bottom:14px"],
     #productDetailModal div[style*="bottom: 14px"] {
-        bottom: 8px !important;
-        padding: 5px 14px !important;
+        bottom: 10px !important;
+        padding: 6px 16px !important;
     }
 
     #productDetailModal div[style*="bottom:14px"] a,
     #productDetailModal div[style*="bottom: 14px"] a {
-        font-size: 0.8rem !important;
+        font-size: 0.85rem !important;
         gap: 6px !important;
     }
 
-    /* Hàng ảnh thu nhỏ (Thumbnails) */
+    /* Hàng ảnh thu nhỏ (Thumbnails - Cho to lên) */
     #prodGalleryContainer,
     #pmGalleryContainer {
-        margin-top: 6px !important;
-        margin-bottom: 8px !important;
+        margin-top: 8px !important;
+        margin-bottom: 10px !important;
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
@@ -1166,44 +1167,47 @@
     #prodGalleryContainer > div,
     #pmGalleryContainer > div {
         padding: 4px 2px 8px 2px !important;
-        gap: 6px !important;
+        gap: 8px !important;
     }
 
     #prodGalleryContainer img,
     #pmGalleryContainer img {
-        width: 65px !important;
-        height: 48px !important;
-        border-radius: 4px !important;
+        width: 76px !important;
+        height: 56px !important;
+        border-radius: 6px !important;
     }
 
     /* Khối nội dung chi tiết & phong thủy */
     .modal-body-grid div[style*="background:#fafbfe"],
     .modal-body-grid div[style*="background: #fafbfe"] {
-        padding: 12px 10px !important;
-        border-radius: 8px !important;
-        border-left-width: 3px !important;
+        padding: 15px 13px !important;
+        border-radius: 10px !important;
+        border-left-width: 4px !important;
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
         overflow: hidden !important;
     }
 
+    /* Tiêu đề thông tin chi tiết (Cho to lên) */
     .modal-body-grid h3 {
-        font-size: 0.95rem !important;
-        line-height: 1.35 !important;
-        margin: 0 0 8px 0 !important;
-        gap: 6px !important;
+        font-size: 1.12rem !important;
+        font-weight: 700 !important;
+        line-height: 1.4 !important;
+        margin: 0 0 10px 0 !important;
+        gap: 8px !important;
         word-break: break-word !important;
     }
 
     .modal-body-grid h3 i {
-        font-size: 0.85rem !important;
+        font-size: 0.98rem !important;
     }
 
+    /* Cỡ chữ mô tả (Cho to lên dễ đọc) */
     #prodDescPara {
-        font-size: 0.82rem !important;
-        line-height: 1.62 !important;
-        color: #2d3748 !important;
+        font-size: 0.96rem !important;
+        line-height: 1.72 !important;
+        color: #242c38 !important;
         word-break: break-word !important;
         overflow-wrap: break-word !important;
         white-space: pre-line !important;
@@ -1214,38 +1218,38 @@
         border-left: none !important;
         padding-left: 0 !important;
         border-top: 1px solid #e2e8f0 !important;
-        padding-top: 14px !important;
+        padding-top: 16px !important;
     }
 
     .modal-body-grid > div:last-child h4 {
-        font-size: 0.95rem !important;
-        margin-bottom: 6px !important;
+        font-size: 1.05rem !important;
+        margin-bottom: 8px !important;
     }
 
     .modal-body-grid > div:last-child p {
-        font-size: 0.78rem !important;
-        margin-bottom: 10px !important;
+        font-size: 0.84rem !important;
+        margin-bottom: 12px !important;
     }
 
     .modal-body-grid .rec-prod-item {
-        padding: 8px !important;
-        gap: 8px !important;
+        padding: 10px !important;
+        gap: 10px !important;
     }
 
     .modal-body-grid .rec-prod-item img {
-        width: 55px !important;
-        height: 42px !important;
-        border-radius: 4px !important;
+        width: 60px !important;
+        height: 46px !important;
+        border-radius: 5px !important;
     }
 
     .modal-body-grid .rec-prod-item h5 {
-        font-size: 0.8rem !important;
-        line-height: 1.3 !important;
+        font-size: 0.86rem !important;
+        line-height: 1.35 !important;
     }
 
     /* Modal Chi tiết Dự Án (#projectDetailModal) */
     #projectDetailModal > div {
-        padding: 14px 12px 18px 12px !important;
+        padding: 16px 14px 20px 14px !important;
         width: 100% !important;
         max-width: 100% !important;
         max-height: 90vh !important;
@@ -1256,61 +1260,61 @@
     }
 
     #projectDetailModal span[onclick*="closeProjectModalForce"] {
-        top: 8px !important;
-        right: 12px !important;
-        font-size: 26px !important;
+        top: 10px !important;
+        right: 14px !important;
+        font-size: 28px !important;
     }
 
     #pmLocation {
-        padding: 4px 10px !important;
-        font-size: 0.72rem !important;
+        padding: 5px 12px !important;
+        font-size: 0.76rem !important;
     }
 
     #pmTitle {
-        font-size: 1.02rem !important;
-        line-height: 1.3 !important;
+        font-size: 1.15rem !important;
+        line-height: 1.35 !important;
     }
 
     #projectDetailModal div[style*="height:520px"],
     #projectDetailModal div[style*="height: 520px"] {
-        height: 190px !important;
-        max-height: 190px !important;
-        border-radius: 8px !important;
-        margin-bottom: 8px !important;
+        height: 260px !important;
+        max-height: 260px !important;
+        border-radius: 10px !important;
+        margin-bottom: 10px !important;
     }
 
     #projectDetailModal div[style*="bottom:14px"],
     #projectDetailModal div[style*="bottom: 14px"] {
-        bottom: 8px !important;
-        padding: 5px 14px !important;
+        bottom: 10px !important;
+        padding: 6px 16px !important;
     }
 
     #projectDetailModal div[style*="bottom:14px"] a,
     #projectDetailModal div[style*="bottom: 14px"] a {
-        font-size: 0.8rem !important;
+        font-size: 0.85rem !important;
         gap: 6px !important;
     }
 
     #projectDetailModal h4 {
-        font-size: 0.95rem !important;
-        margin-bottom: 8px !important;
+        font-size: 1.05rem !important;
+        margin-bottom: 10px !important;
     }
 
     #pmDetailDesc {
-        font-size: 0.82rem !important;
-        line-height: 1.6 !important;
+        font-size: 0.96rem !important;
+        line-height: 1.72 !important;
         word-break: break-word !important;
         overflow-wrap: break-word !important;
     }
 
     #pmSpecsContainer {
         grid-template-columns: 1fr !important;
-        gap: 6px !important;
+        gap: 8px !important;
     }
 
     #pmSpecsContainer > div {
-        font-size: 0.78rem !important;
-        padding: 8px !important;
+        font-size: 0.84rem !important;
+        padding: 10px !important;
     }
 }
 
