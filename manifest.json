@@ -1,0 +1,23 @@
+{
+  "name": "Kiến Trúc Đá Tâm Linh",
+  "short_name": "Đá Tâm Linh",
+  "description": "Chuyên thiết kế & thi công lăng mộ đá, mộ đá cao cấp tại Ninh Bình",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0f1e",
+  "theme_color": "#0a0f1e",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/g3beqqle/image/upload/w_192,h_192,c_fill,f_jpg/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://res.cloudinary.com/g3beqqle/image/upload/w_512,h_512,c_fill,f_jpg/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
