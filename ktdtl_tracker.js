@@ -115,13 +115,14 @@
         } catch(e) {}
     });
 
-    // 4. Global Lead Capture Helper
+    // 4. Global Lead Capture Helper & EmailJS Notification
     window.ktdtlSaveLead = function(lead) {
         try {
             let leads = JSON.parse(localStorage.getItem('ktdtl_leads') || '[]');
+            const sendTime = new Date().toLocaleString('vi-VN');
             const newLead = {
                 id: Date.now(),
-                date: new Date().toLocaleString('vi-VN'),
+                date: sendTime,
                 name: lead.name || 'Khách Hàng',
                 phone: lead.phone || '',
                 note: lead.note || lead.demand || 'Yêu cầu tư vấn phong thủy / lăng mộ',
@@ -130,6 +131,46 @@
             };
             leads.unshift(newLead);
             localStorage.setItem('ktdtl_leads', JSON.stringify(leads));
+
+            // Send notification via EmailJS REST API
+            const emailData = {
+                service_id: 'service_cw41nuw',
+                template_id: 'template_uluy387',
+                user_id: '-TBp5EuSsIHPlbM_N',
+                template_params: {
+                    customer_name: newLead.name,
+                    customer_phone: newLead.phone,
+                    customer_address: lead.address || lead.province || 'Không ghi rõ',
+                    customer_product: lead.product || 'Tư vấn chung',
+                    customer_message: newLead.note,
+                    page_source: newLead.source,
+                    send_time: sendTime,
+                    // Generic fallbacks for various template formats
+                    name: newLead.name,
+                    phone: newLead.phone,
+                    address: lead.address || lead.province || 'Không ghi rõ',
+                    product: lead.product || 'Tư vấn chung',
+                    message: newLead.note,
+                    note: newLead.note
+                }
+            };
+
+            fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(emailData)
+            }).then(function(res) {
+                if (res.ok) {
+                    console.log('✅ EmailJS: Đã gửi thông báo về Gmail thành công!');
+                } else {
+                    res.text().then(function(t) { console.warn('EmailJS response error:', t); });
+                }
+            }).catch(function(err) {
+                console.warn('EmailJS fetch error:', err);
+            });
+
             return newLead;
         } catch(e) {
             console.error('Save lead error:', e);

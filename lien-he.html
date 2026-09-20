@@ -10951,14 +10951,32 @@
         function submitForm(e) {
             e.preventDefault();
             try {
-                const name = document.getElementById('name')?.value || 'Khách liên hệ';
-                const phone = document.getElementById('phone')?.value || '';
-                const note = document.getElementById('message')?.value || 'Liên hệ tư vấn';
+                const name = document.getElementById('formName')?.value || 'Khách liên hệ';
+                const phone = document.getElementById('formPhone')?.value || '';
+                const address = document.getElementById('formAddress')?.value || '';
+                const product = document.getElementById('formProduct')?.value || '';
+                const message = document.getElementById('formMessage')?.value || '';
+                
+                let noteDetail = '';
+                if (address) noteDetail += 'Địa điểm: ' + address + ' | ';
+                if (product) noteDetail += 'Sản phẩm: ' + product + ' | ';
+                if (message) noteDetail += 'Chi tiết: ' + message;
+                if (!noteDetail) noteDetail = 'Yêu cầu tư vấn thiết kế & bản vẽ 3D';
+
                 if (typeof window.ktdtlSaveLead === 'function') {
-                    window.ktdtlSaveLead({ name, phone, note, source: 'lien-he.html' });
+                    window.ktdtlSaveLead({
+                        name: name,
+                        phone: phone,
+                        address: address,
+                        product: product,
+                        note: noteDetail,
+                        source: 'lien-he.html'
+                    });
                 }
-            } catch(err) {}
-            alert('Cảm ơn bạn đã gửi thông tin! KTS Nguyễn Văn Hướng sẽ liên hệ tư vấn và gửi bản vẽ 3D tới bạn trong vòng 15 phút.');
+            } catch(err) {
+                console.error('Error submitting form:', err);
+            }
+            alert('Cảm ơn bạn đã gửi thông tin! Yêu cầu của bạn đã được chuyển tới KTS Nguyễn Văn Hướng. Chúng tôi sẽ liên hệ tư vấn và gửi bản vẽ 3D trong vòng 15 phút.');
             document.getElementById('contactForm').reset();
         }
     </script>
