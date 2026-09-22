@@ -1427,7 +1427,7 @@
 }
 
 /* ==========================================================================
-   TỐI ƯU HIỆU NĂNG TỐC ĐỘ MOBILE (GPU ACCELERATION & SMOOTH 60FPS SCROLLING)
+   TỐI ƯU HIỆU NĂNG TỐC ĐỘ MOBILE (GPU ACCELERATION, 0MS TAP DELAY & 60-120FPS SCROLLING)
    ========================================================================== */
 @media (max-width: 768px) {
     /* 1. Tắt các hiệu ứng blur (backdrop-filter) ngốn CPU/GPU gây đơ, giật màn hình khi cuộn */
@@ -1451,26 +1451,45 @@
     #projectDetailModal > div {
         transform: translateZ(0);
         -webkit-transform: translateZ(0);
-        will-change: transform;
     }
 
-    /* 3. Tối ưu hóa tải và render ảnh trên điện thoại */
-    img {
-        content-visibility: auto;
+    /* 3. Tắt hoạt ảnh phóng to (scale 9s) và bộ lọc phức tạp của slider nền trên điện thoại */
+    .hero-bg-slide,
+    .page-banner-slide {
+        transform: none !important;
+        filter: brightness(0.9) !important;
+        transition: opacity 0.8s ease-in-out !important;
+        will-change: opacity !important;
     }
 
-    /* 4. Giảm nhẹ đổ bóng trên thẻ sản phẩm và bài viết để cuộn mượt mà */
+    /* 4. Cô lập vùng bố cục (Layout Containment) cho các thẻ bài viết & sản phẩm để cuộn mượt 60-120 FPS */
     .product-card,
     .portfolio-card,
     .featured-card,
     .news-card,
     article {
+        contain: content !important;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
     }
 
-    /* 5. Tối ưu chạm mượt mà trên mobile */
-    * {
-        -webkit-tap-highlight-color: transparent;
+    /* 5. TỐI ƯU TỐC ĐỘ PHẢN HỒI CHẠM & KHỬ HOÀN TOÀN ĐỘ TRỄ 300MS (0MS INSTANT TAP) */
+    html, body, button, a, input, select, textarea,
+    .btn, .btn-gold, .btn-outline, .float-btn, .modal-nav-arrow,
+    .product-card, .portfolio-card, .article-card, .featured-card,
+    .rec-prod-item, .cat-pill, .nav-link, .menu-toggle,
+    .mobile-nav-item, .footer-links-list a, .footer-contact-item {
+        touch-action: manipulation !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+
+    /* 6. Tối ưu cuộn êm cho toàn bộ trang và các container cuộn ngang */
+    html, body,
+    .nav-category-pills,
+    .news-category-pills,
+    #prodGalleryContainer > div,
+    #pmGalleryContainer > div {
+        -webkit-overflow-scrolling: touch !important;
+        scroll-behavior: auto !important; /* Tránh xung đột cuộn quán tính trên iOS/Android */
     }
 }
 
