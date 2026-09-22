@@ -13366,8 +13366,15 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
                 <h2 id="pmTitle" style="color:var(--gold-light); font-size:1.6rem; margin:0; flex:1; line-height:1.3;"></h2>
             </div>
             
-            <div style="margin-bottom:10px; border-radius:10px; overflow:hidden; border:1.5px solid var(--gold-primary); height:520px; box-shadow:0 5px 20px rgba(0,0,0,0.5); position:relative; background:radial-gradient(circle at center, #102347 0%, #050b1a 100%);">
+            <div id="pmImgBox" style="margin-bottom:10px; border-radius:10px; overflow:hidden; border:1.5px solid var(--gold-primary); height:520px; box-shadow:0 5px 20px rgba(0,0,0,0.5); position:relative; background:radial-gradient(circle at center, #102347 0%, #050b1a 100%); touch-action: pan-y pinch-zoom;">
                 <img id="pmImg" src="" alt="Dự án chi tiết" style="width:100%; height:100%; object-fit:contain; cursor:pointer;" onclick="openLightbox(this.src)" title="Bấm để phóng to" loading="lazy" decoding="async">
+                <!-- Navigation Arrows -->
+                <button type="button" class="modal-nav-arrow modal-nav-prev" id="pmPrevBtn" onclick="navigateProjectModal(-1, event)" title="Ảnh trước" aria-label="Ảnh trước">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button type="button" class="modal-nav-arrow modal-nav-next" id="pmNextBtn" onclick="navigateProjectModal(1, event)" title="Ảnh tiếp theo" aria-label="Ảnh tiếp theo">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
                 <div style="position:absolute; bottom:14px; left:50%; transform:translateX(-50%); background:rgba(5, 11, 26, 0.9); border:1.5px solid var(--gold-primary); padding:7px 20px; border-radius:30px; backdrop-filter:blur(6px); z-index:10; box-shadow:0 4px 15px rgba(0,0,0,0.7); white-space:nowrap;">
                     <a href="tel:0397247333" style="display:flex; align-items:center; gap:8px; color:var(--gold-light); font-weight:700; font-size:0.95rem; text-decoration:none; line-height:1;" title="Gọi Hotline / Zalo: 0397.247.333">
                         <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.85rem;"></i> Hotline/Zalo: 0397.247.333
@@ -13456,8 +13463,15 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
                 <!-- LEFT COLUMN: Main Image with Top-Right Floating Gallery Overlay & Rich Description -->
                 <div style="display:flex; flex-direction:column; gap:20px;">
                     <!-- Featured Main Image Box -->
-                    <div style="border-radius:10px; overflow:hidden; border:1.5px solid #c5a059; height:520px; position:relative; background:radial-gradient(circle at center, #102347 0%, #050b1a 100%); box-shadow:0 8px 25px rgba(0,0,0,0.3);">
+                    <div id="prodImgBox" style="border-radius:10px; overflow:hidden; border:1.5px solid #c5a059; height:520px; position:relative; background:radial-gradient(circle at center, #102347 0%, #050b1a 100%); box-shadow:0 8px 25px rgba(0,0,0,0.3); touch-action: pan-y pinch-zoom;">
                         <img id="prodImg" src="" alt="Chi tiết sản phẩm" style="width:100%; height:100%; object-fit:contain; cursor:pointer;" onclick="openLightbox(this.src)" title="Bấm để phóng to full màn hình" loading="lazy" decoding="async">
+                        <!-- Navigation Arrows -->
+                        <button type="button" class="modal-nav-arrow modal-nav-prev" id="prodPrevBtn" onclick="navigateProductModal(-1, event)" title="Ảnh trước" aria-label="Ảnh trước">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button type="button" class="modal-nav-arrow modal-nav-next" id="prodNextBtn" onclick="navigateProductModal(1, event)" title="Ảnh tiếp theo" aria-label="Ảnh tiếp theo">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
                         <div style="position:absolute; bottom:14px; left:50%; transform:translateX(-50%); background:rgba(5, 11, 26, 0.9); border:1.5px solid var(--gold-primary); padding:7px 20px; border-radius:30px; backdrop-filter:blur(6px); z-index:10; box-shadow:0 4px 15px rgba(0,0,0,0.7); white-space:nowrap;">
                             <a href="tel:0397247333" style="display:flex; align-items:center; gap:8px; color:var(--gold-light); font-weight:700; font-size:0.95rem; text-decoration:none; line-height:1;" title="Gọi Hotline / Zalo: 0397.247.333">
                                 <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.85rem;"></i> Hotline/Zalo: 0397.247.333
@@ -13582,6 +13596,9 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
             }).join('');
         }
 
+        let currentProjectImgList = [];
+        let currentProjectImgIdx = 0;
+
         function openProjectModal(idx) {
             const p = projectsData[idx];
             if (!p) return;
@@ -13602,9 +13619,22 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
             } else if (p.img) {
                 imgList = [p.img];
             }
+            currentProjectImgList = imgList;
+            currentProjectImgIdx = 0;
+
             const mainImg = imgList[0] || '';
-            document.getElementById('pmImg').src = mainImg;
+            const pmImgEl = document.getElementById('pmImg');
+            if (pmImgEl) pmImgEl.src = mainImg;
             document.getElementById('pmDetailDesc').innerText = p.detail_desc || p.short_desc || '';
+
+            // Toggle prev/next arrow visibility
+            const pmPrev = document.getElementById('pmPrevBtn');
+            const pmNext = document.getElementById('pmNextBtn');
+            if (pmPrev && pmNext) {
+                const showArrows = imgList.length > 1;
+                pmPrev.style.display = showArrows ? 'flex' : 'none';
+                pmNext.style.display = showArrows ? 'flex' : 'none';
+            }
 
             let specsHtml = '';
             if (p.specs && p.specs.length) {
@@ -13627,7 +13657,7 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
                     for (let i = 0; i < imgList.length; i++) {
                         const src = imgList[i];
                         const borderStyle = (i === 0) ? 'border:2px solid var(--gold-primary); opacity:1.0; transform:scale(1.04); box-shadow:0 0 8px rgba(197,160,89,0.8);' : 'border:1px solid rgba(255,255,255,0.35); opacity:0.75;';
-                        galleryHtml += '<img data-src="' + src + '" src="' + (src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_200/") : src) + '" loading="lazy" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '" loading="lazy" decoding="async">';
+                        galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + (src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_200/") : src) + '" loading="lazy" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
                     }
                     galleryHtml += '</div>';
                     galleryContainer.innerHTML = galleryHtml;
@@ -13635,10 +13665,12 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
 
                     const thumbs = galleryContainer.querySelectorAll('img[data-src]');
                     for (let t = 0; t < thumbs.length; t++) {
-                        thumbs[t].onclick = function(e) {
-                            e.stopPropagation();
-                            switchProjectModalImg(this, this.getAttribute('data-src'));
-                        };
+                        thumbs[t].onclick = (function(idx) {
+                            return function(e) {
+                                e.stopPropagation();
+                                setProjectModalActiveImg(idx);
+                            };
+                        })(t);
                     }
                 } else {
                     galleryContainer.innerHTML = '';
@@ -13650,24 +13682,57 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
             if (modal) modal.style.display = 'flex';
         }
 
-        function switchProjectModalImg(thumbElem, src) {
+        function setProjectModalActiveImg(idx) {
+            if (!currentProjectImgList || currentProjectImgList.length === 0) return;
+            if (idx < 0) idx = currentProjectImgList.length - 1;
+            if (idx >= currentProjectImgList.length) idx = 0;
+            currentProjectImgIdx = idx;
+
+            const src = currentProjectImgList[currentProjectImgIdx];
             const mainImg = document.getElementById('pmImg');
             if (mainImg) mainImg.src = src;
-            if (thumbElem && thumbElem.parentElement) {
-                const thumbs = thumbElem.parentElement.querySelectorAll('img');
+
+            const galleryContainer = document.getElementById('pmGalleryContainer');
+            if (galleryContainer) {
+                const thumbs = galleryContainer.querySelectorAll('img[data-src]');
                 for (let i = 0; i < thumbs.length; i++) {
-                    thumbs[i].style.border = '1px solid rgba(255,255,255,0.4)';
-                    thumbs[i].style.opacity = '0.75';
-                    thumbs[i].style.transform = 'scale(1.0)';
-                    thumbs[i].style.boxShadow = 'none';
+                    if (i === currentProjectImgIdx) {
+                        thumbs[i].style.border = '2px solid var(--gold-primary)';
+                        thumbs[i].style.opacity = '1.0';
+                        thumbs[i].style.transform = 'scale(1.06)';
+                        thumbs[i].style.boxShadow = '0 0 8px rgba(197,160,89,0.8)';
+                        try {
+                            thumbs[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        } catch(err) {}
+                    } else {
+                        thumbs[i].style.border = '1px solid rgba(255,255,255,0.4)';
+                        thumbs[i].style.opacity = '0.75';
+                        thumbs[i].style.transform = 'scale(1.0)';
+                        thumbs[i].style.boxShadow = 'none';
+                    }
                 }
             }
-            if (thumbElem) {
-                thumbElem.style.border = '2px solid var(--gold-primary)';
-                thumbElem.style.opacity = '1.0';
-                thumbElem.style.transform = 'scale(1.06)';
-                thumbElem.style.boxShadow = '0 0 6px rgba(197,160,89,0.8)';
+        }
+
+        function navigateProjectModal(dir, e) {
+            if (e) {
+                e.stopPropagation();
+                if (e.preventDefault) e.preventDefault();
             }
+            if (!currentProjectImgList || currentProjectImgList.length <= 1) return;
+            setProjectModalActiveImg(currentProjectImgIdx + dir);
+        }
+
+        function switchProjectModalImg(thumbElem, src) {
+            if (currentProjectImgList && currentProjectImgList.length > 0) {
+                const idx = currentProjectImgList.indexOf(src);
+                if (idx !== -1) {
+                    setProjectModalActiveImg(idx);
+                    return;
+                }
+            }
+            const mainImg = document.getElementById('pmImg');
+            if (mainImg) mainImg.src = src;
         }
 
         function closeProjectModal(e) {
@@ -13680,24 +13745,60 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
             if (modal) modal.style.display = 'none';
         }
 
-        function switchProductModalImg(thumbElem, src) {
+        let currentProductImgList = [];
+        let currentProductImgIdx = 0;
+
+        function setProductModalActiveImg(idx) {
+            if (!currentProductImgList || currentProductImgList.length === 0) return;
+            if (idx < 0) idx = currentProductImgList.length - 1;
+            if (idx >= currentProductImgList.length) idx = 0;
+            currentProductImgIdx = idx;
+
+            const src = currentProductImgList[currentProductImgIdx];
             const mainImg = document.getElementById('prodImg');
             if (mainImg) mainImg.src = src;
-            if (thumbElem && thumbElem.parentElement) {
-                const thumbs = thumbElem.parentElement.querySelectorAll('img');
+
+            const galleryContainer = document.getElementById('prodGalleryContainer');
+            if (galleryContainer) {
+                const thumbs = galleryContainer.querySelectorAll('img[data-src]');
                 for (let i = 0; i < thumbs.length; i++) {
-                    thumbs[i].style.border = '1px solid rgba(255,255,255,0.4)';
-                    thumbs[i].style.opacity = '0.75';
-                    thumbs[i].style.transform = 'scale(1.0)';
-                    thumbs[i].style.boxShadow = 'none';
+                    if (i === currentProductImgIdx) {
+                        thumbs[i].style.border = '2px solid #c5a059';
+                        thumbs[i].style.opacity = '1.0';
+                        thumbs[i].style.transform = 'scale(1.05)';
+                        thumbs[i].style.boxShadow = '0 0 8px rgba(197,160,89,0.8)';
+                        try {
+                            thumbs[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        } catch(err) {}
+                    } else {
+                        thumbs[i].style.border = '1px solid rgba(255,255,255,0.4)';
+                        thumbs[i].style.opacity = '0.75';
+                        thumbs[i].style.transform = 'scale(1.0)';
+                        thumbs[i].style.boxShadow = 'none';
+                    }
                 }
             }
-            if (thumbElem) {
-                thumbElem.style.border = '2px solid #c5a059';
-                thumbElem.style.opacity = '1.0';
-                thumbElem.style.transform = 'scale(1.05)';
-                thumbElem.style.boxShadow = '0 0 8px rgba(197,160,89,0.8)';
+        }
+
+        function navigateProductModal(dir, e) {
+            if (e) {
+                e.stopPropagation();
+                if (e.preventDefault) e.preventDefault();
             }
+            if (!currentProductImgList || currentProductImgList.length <= 1) return;
+            setProductModalActiveImg(currentProductImgIdx + dir);
+        }
+
+        function switchProductModalImg(thumbElem, src) {
+            if (currentProductImgList && currentProductImgList.length > 0) {
+                const idx = currentProductImgList.indexOf(src);
+                if (idx !== -1) {
+                    setProductModalActiveImg(idx);
+                    return;
+                }
+            }
+            const mainImg = document.getElementById('prodImg');
+            if (mainImg) mainImg.src = src;
         }
 
         function openGroupedProductModal(idx) {
@@ -13732,6 +13833,9 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
                     }
                 }
 
+                currentProductImgList = imgList;
+                currentProductImgIdx = 0;
+
                 const mainImg = (imgList.length > 0) ? imgList[0] : '';
                 const titleEl = document.getElementById('prodTitle');
                 if (titleEl) titleEl.innerText = title || '';
@@ -13742,7 +13846,16 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
                 const imgEl = document.getElementById('prodImg');
                 if (imgEl) imgEl.src = mainImg;
 
-                // Gallery Thumbnails (Vertical Overlay on Right Side of Main Photo)
+                // Toggle prev/next arrow visibility
+                const prodPrev = document.getElementById('prodPrevBtn');
+                const prodNext = document.getElementById('prodNextBtn');
+                if (prodPrev && prodNext) {
+                    const showArrows = imgList.length > 1;
+                    prodPrev.style.display = showArrows ? 'flex' : 'none';
+                    prodNext.style.display = showArrows ? 'flex' : 'none';
+                }
+
+                // Gallery Thumbnails (Horizontal Row Below Main Photo - Ảnh 2)
                 const galleryContainer = document.getElementById('prodGalleryContainer');
                 if (galleryContainer) {
                     if (imgList.length > 0) {
@@ -13750,7 +13863,7 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
                         for (let i = 0; i < imgList.length; i++) {
                             const src = imgList[i];
                             const borderStyle = (i === 0) ? 'border:2px solid #c5a059; opacity:1.0; transform:scale(1.04); box-shadow:0 0 8px rgba(197,160,89,0.8);' : 'border:1px solid rgba(255,255,255,0.35); opacity:0.75;';
-                            galleryHtml += '<img data-src="' + src + '" src="' + (src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_200/") : src) + '" loading="lazy" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '" loading="lazy" decoding="async">';
+                            galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + (src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_200/") : src) + '" loading="lazy" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
                         }
                         galleryHtml += '</div>';
                         galleryContainer.innerHTML = galleryHtml;
@@ -13758,10 +13871,12 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
 
                         const thumbs = galleryContainer.querySelectorAll('img[data-src]');
                         for (let i = 0; i < thumbs.length; i++) {
-                            thumbs[i].onclick = function(e) {
-                                e.stopPropagation();
-                                switchProductModalImg(this, this.getAttribute('data-src'));
-                            };
+                            thumbs[i].onclick = (function(idx) {
+                                return function(e) {
+                                    e.stopPropagation();
+                                    setProductModalActiveImg(idx);
+                                };
+                            })(i);
                         }
                     } else {
                         galleryContainer.innerHTML = '';
@@ -13837,6 +13952,65 @@ Về mặt phong thủy tâm linh, Đèn Đá Sân Vườn đóng vai trò quan 
         function closeProductModalForce() {
             const modal = document.getElementById('productDetailModal');
             if (modal) modal.style.display = 'none';
+        }
+
+        // Setup Touch Swipe & Keyboard Navigation for Modals
+        function initModalImageGestures() {
+            function attachSwipe(containerId, onSwipeLeft, onSwipeRight) {
+                const el = document.getElementById(containerId);
+                if (!el || el._swipeAttached) return;
+                el._swipeAttached = true;
+
+                let startX = 0;
+                let startY = 0;
+                let startTime = 0;
+
+                el.addEventListener('touchstart', function(e) {
+                    if (e.touches.length !== 1) return;
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                    startTime = Date.now();
+                }, { passive: true });
+
+                el.addEventListener('touchend', function(e) {
+                    if (e.changedTouches.length !== 1) return;
+                    const deltaX = e.changedTouches[0].clientX - startX;
+                    const deltaY = e.changedTouches[0].clientY - startY;
+                    const deltaTime = Date.now() - startTime;
+
+                    // Swipe detection: horizontal > 35px, horizontal dominant (1.2x vertical), time < 650ms
+                    if (Math.abs(deltaX) > 35 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2 && deltaTime < 650) {
+                        if (deltaX < 0) {
+                            onSwipeLeft();
+                        } else {
+                            onSwipeRight();
+                        }
+                    }
+                }, { passive: true });
+            }
+
+            attachSwipe('prodImgBox', function() { navigateProductModal(1); }, function() { navigateProductModal(-1); });
+            attachSwipe('pmImgBox', function() { navigateProjectModal(1); }, function() { navigateProjectModal(-1); });
+
+            if (!window._modalKeyNavAttached) {
+                window._modalKeyNavAttached = true;
+                document.addEventListener('keydown', function(e) {
+                    const prodModal = document.getElementById('productDetailModal');
+                    const projModal = document.getElementById('projectDetailModal');
+
+                    if (prodModal && (prodModal.style.display === 'flex' || window.getComputedStyle(prodModal).display === 'flex')) {
+                        if (e.key === 'ArrowRight') navigateProductModal(1);
+                        else if (e.key === 'ArrowLeft') navigateProductModal(-1);
+                    } else if (projModal && (projModal.style.display === 'flex' || window.getComputedStyle(projModal).display === 'flex')) {
+                        if (e.key === 'ArrowRight') navigateProjectModal(1);
+                        else if (e.key === 'ArrowLeft') navigateProjectModal(-1);
+                    }
+                });
+            }
+        }
+        document.addEventListener('DOMContentLoaded', initModalImageGestures);
+        if (document.readyState !== 'loading') {
+            initModalImageGestures();
         }
 
         function handleHeaderScroll() {
