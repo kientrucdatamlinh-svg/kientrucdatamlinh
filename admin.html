@@ -1148,6 +1148,7 @@
                     <p>Theo dõi lượt truy cập theo thời gian thực, nút bấm tương tác nhiều nhất và quản lý yêu cầu tư vấn</p>
                 </div>
                 <div style="display: flex; gap: 10px;">
+                    <button class="btn-action btn-danger-admin" onclick="resetAnalyticsData()" title="Đặt lại toàn bộ số liệu về 0"><i class="fa-solid fa-arrows-rotate"></i> Reset Về 0</button>
                     <button class="btn-action btn-outline-admin" onclick="exportLeadsToCSV()"><i class="fa-solid fa-file-excel"></i> Xuất Excel / CSV</button>
                     <button class="btn-action btn-gold-admin" onclick="openAddLeadModal()"><i class="fa-solid fa-user-plus"></i> Thêm Khách Hàng</button>
                 </div>
@@ -2056,6 +2057,7 @@
             renderArticlesTable();
             populateConfigForm();
             loadAnalyticsData();
+            updateAnalyticsBadge();
             setupDropzones();
             initSyncState();
             loadUndoStack();
@@ -3526,6 +3528,20 @@
             updateAnalyticsBadge();
             renderAnalyticsTab();
             showToast('Đã thêm khách hàng tư vấn mới thành công!');
+        }
+
+        function resetAnalyticsData() {
+            if (confirm('Bạn có chắc chắn muốn đặt lại toàn bộ thống kê (Lượt xem, Lượt click, Yêu cầu khách hàng) về 0?')) {
+                adminStatsViews = {};
+                adminStatsClicks = {};
+                adminLeads = [];
+                localStorage.setItem('ktdtl_stats_pageviews', JSON.stringify({}));
+                localStorage.setItem('ktdtl_stats_clicks', JSON.stringify({}));
+                localStorage.setItem('ktdtl_leads', JSON.stringify([]));
+                updateAnalyticsBadge();
+                renderAnalyticsTab();
+                showToast('✅ Đã reset toàn bộ thống kê về 0!');
+            }
         }
 
         function showToast(msg) {
