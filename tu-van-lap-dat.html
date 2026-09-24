@@ -13,6 +13,8 @@
     <meta name="theme-color" content="#0a0f1e">
     <link rel="manifest" href="/manifest.json">
     <title>Tư Vấn & Khảo Sát Lắp Đặt Công Trình Đá Tâm Linh</title>
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+    <link rel="dns-prefetch" href="https://res.cloudinary.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -2246,7 +2248,7 @@
     <div id="imageLightbox" onclick="closeLightbox(event)" style="display:none; position:fixed; z-index:99999; left:0; top:0; width:100%; height:100%; background:rgba(5,11,26,0.95); justify-content:center; align-items:center;">
         <span onclick="closeLightboxForce()" style="position:absolute; top:20px; right:30px; color:#fff; font-size:40px; font-weight:bold; cursor:pointer; z-index:100000;">&times;</span>
         <div style="position:relative; display:inline-block; max-width:90%; max-height:85vh;">
-            <img id="lightboxImg" src="" alt="Phóng to" style="max-width:100%; max-height:85vh; border:2px solid var(--gold-primary); border-radius:8px; box-shadow:0 0 30px rgba(197,160,89,0.4); object-fit:contain; display:block;" loading="lazy" decoding="async">
+            <img id="lightboxImg" src="" alt="Phóng to" style="max-width:100%; max-height:85vh; border:2px solid var(--gold-primary); border-radius:8px; box-shadow:0 0 30px rgba(197,160,89,0.4); object-fit:contain; display:block;" fetchpriority="high" decoding="sync">
             <div style="position:absolute; bottom:15px; right:15px; background:rgba(5, 11, 26, 0.9); border:1.5px solid var(--gold-primary); padding:8px 16px; border-radius:6px; backdrop-filter:blur(4px); z-index:10; box-shadow:0 4px 15px rgba(0,0,0,0.8);">
                 <a href="tel:0397247333" style="display:flex; align-items:center; gap:8px; color:var(--gold-light); font-weight:700; font-size:1rem; text-decoration:none; line-height:1;" title="Gọi Hotline: 0397.247.333">
                     <i class="fa-solid fa-phone" style="color:var(--gold-primary);"></i> Hotline/Zalo: 0397.247.333
@@ -2268,7 +2270,7 @@
             </div>
             
             <div id="pmImgBox" style="margin-bottom:10px; border-radius:10px; overflow:hidden; border:1.5px solid var(--gold-primary); height:520px; box-shadow:0 5px 20px rgba(0,0,0,0.5); position:relative; background:radial-gradient(circle at center, #102347 0%, #050b1a 100%); touch-action: pan-y pinch-zoom;">
-                <img id="pmImg" src="" alt="Dự án chi tiết" style="width:100%; height:100%; object-fit:contain; cursor:pointer;" onclick="openLightbox(this.src)" title="Bấm để phóng to" loading="lazy" decoding="async">
+                <img id="pmImg" src="" alt="Dự án chi tiết" style="width:100%; height:100%; object-fit:contain; cursor:pointer;" onclick="openLightbox(this.src)" title="Bấm để phóng to" fetchpriority="high" decoding="sync">
                 <!-- Navigation Arrows -->
                 <button type="button" class="modal-nav-arrow modal-nav-prev" id="pmPrevBtn" onclick="navigateProjectModal(-1, event)" title="Ảnh trước" aria-label="Ảnh trước">
                     <i class="fa-solid fa-chevron-left"></i>
@@ -2365,7 +2367,7 @@
                 <div style="display:flex; flex-direction:column; gap:20px;">
                     <!-- Featured Main Image Box -->
                     <div id="prodImgBox" style="border-radius:10px; overflow:hidden; border:1.5px solid #c5a059; height:520px; position:relative; background:radial-gradient(circle at center, #102347 0%, #050b1a 100%); box-shadow:0 8px 25px rgba(0,0,0,0.3); touch-action: pan-y pinch-zoom;">
-                        <img id="prodImg" src="" alt="Chi tiết sản phẩm" style="width:100%; height:100%; object-fit:contain; cursor:pointer;" onclick="openLightbox(this.src)" title="Bấm để phóng to full màn hình" loading="lazy" decoding="async">
+                        <img id="prodImg" src="" alt="Chi tiết sản phẩm" style="width:100%; height:100%; object-fit:contain; cursor:pointer;" onclick="openLightbox(this.src)" title="Bấm để phóng to full màn hình" fetchpriority="high" decoding="sync">
                         <!-- Navigation Arrows -->
                         <button type="button" class="modal-nav-arrow modal-nav-prev" id="prodPrevBtn" onclick="navigateProductModal(-1, event)" title="Ảnh trước" aria-label="Ảnh trước">
                             <i class="fa-solid fa-chevron-left"></i>
@@ -2453,9 +2455,11 @@
             currentProjectImgList = imgList;
             currentProjectImgIdx = 0;
 
-            const mainImg = imgList[0] || '';
+            const rawMainImg = imgList[0] || '';
+            const mainImg = (typeof optimizeModalUrl === 'function') ? optimizeModalUrl(rawMainImg, 900) : rawMainImg;
             const pmImgEl = document.getElementById('pmImg');
             if (pmImgEl) pmImgEl.src = mainImg;
+            if (typeof preloadGalleryList === 'function') preloadGalleryList(imgList, 0);
             document.getElementById('pmDetailDesc').innerText = p.detail_desc || p.short_desc || '';
 
             // Toggle prev/next arrow visibility
@@ -2488,7 +2492,7 @@
                     for (let i = 0; i < imgList.length; i++) {
                         const src = imgList[i];
                         const borderStyle = (i === 0) ? 'border:2px solid var(--gold-primary); opacity:1.0; transform:scale(1.04); box-shadow:0 0 8px rgba(197,160,89,0.8);' : 'border:1px solid rgba(255,255,255,0.35); opacity:0.75;';
-                        galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + (src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_200/") : src) + '" loading="lazy" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
+                        galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + (src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_160,q_auto:eco/") : src) + '" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
                     }
                     galleryHtml += '</div>';
                     galleryContainer.innerHTML = galleryHtml;
@@ -2513,15 +2517,83 @@
             if (modal) modal.style.display = 'flex';
         }
 
+
+        // --- Image Optimization & Preloading Engine (Instant Switching) ---
+        const _ktdtlImgCache = new Map();
+        function optimizeModalUrl(url, width) {
+            if (!url || typeof url !== 'string') return '';
+            width = width || 900;
+            if (url.indexOf('/image/upload/') !== -1) {
+                return reReplaceCloudinary(url, 'f_auto,q_auto,w_' + width);
+            }
+            return url;
+        }
+        function reReplaceCloudinary(url, transform) {
+            // Replace existing /image/upload/f_auto... or plain /image/upload/
+            return url.replace(/\/image\/upload\/(?:f_auto[^\/]*\/)?/, '/image/upload/' + transform + '/');
+        }
+        function preloadImageUrl(url) {
+            if (!url) return;
+            const optUrl = optimizeModalUrl(url, 900);
+            if (_ktdtlImgCache.has(optUrl)) return;
+            const img = new Image();
+            img.decoding = 'async';
+            img.src = optUrl;
+            _ktdtlImgCache.set(optUrl, img);
+            // Also cache raw URL if different
+            if (optUrl !== url && !_ktdtlImgCache.has(url)) {
+                const imgRaw = new Image();
+                imgRaw.decoding = 'async';
+                imgRaw.src = url;
+                _ktdtlImgCache.set(url, imgRaw);
+            }
+        }
+        function preloadGalleryList(imgList, startIdx) {
+            if (!Array.isArray(imgList) || imgList.length === 0) return;
+            startIdx = startIdx || 0;
+            // Immediate priority: next 2 and prev 1
+            const order = [];
+            for (let offset = 1; offset < imgList.length; offset++) {
+                order.push((startIdx + offset) % imgList.length);
+            }
+            // Preload adjacent immediately, rest staggered by 30ms
+            order.forEach(function(idx, step) {
+                if (step < 3) {
+                    preloadImageUrl(imgList[idx]);
+                } else {
+                    setTimeout(function() { preloadImageUrl(imgList[idx]); }, step * 25);
+                }
+            });
+        }
+        // Preload on card hover/touchstart for instant modal opening
+        document.addEventListener('mouseover', function(e) {
+            const card = e.target.closest('[onclick*="openProjectModal"], [onclick*="openProductModal"], [onclick*="openGroupedProductModal"]');
+            if (!card || card.dataset.preloaded) return;
+            card.dataset.preloaded = '1';
+            const attr = card.getAttribute('onclick') || '';
+            const mProj = attr.match(/openProjectModal\((\d+)\)/);
+            if (mProj && typeof projectsData !== 'undefined') {
+                const p = projectsData[parseInt(mProj[1])];
+                if (p && Array.isArray(p.imgs)) preloadGalleryList(p.imgs, 0);
+            }
+            const mProd = attr.match(/openGroupedProductModal\((\d+)\)/);
+            if (mProd && typeof groupedProductsData !== 'undefined') {
+                const p = groupedProductsData[parseInt(mProd[1])];
+                if (p && Array.isArray(p.imgs)) preloadGalleryList(p.imgs, 0);
+            }
+        }, { passive: true });
+
         function setProjectModalActiveImg(idx) {
             if (!currentProjectImgList || currentProjectImgList.length === 0) return;
             if (idx < 0) idx = currentProjectImgList.length - 1;
             if (idx >= currentProjectImgList.length) idx = 0;
             currentProjectImgIdx = idx;
 
-            const src = currentProjectImgList[currentProjectImgIdx];
+            const rawSrc = currentProjectImgList[currentProjectImgIdx];
+            const src = (typeof optimizeModalUrl === 'function') ? optimizeModalUrl(rawSrc, 900) : rawSrc;
             const mainImg = document.getElementById('pmImg');
             if (mainImg) mainImg.src = src;
+            if (typeof preloadGalleryList === 'function') preloadGalleryList(currentProjectImgList, currentProjectImgIdx);
 
             const galleryContainer = document.getElementById('pmGalleryContainer');
             if (galleryContainer) {
@@ -2585,9 +2657,11 @@
             if (idx >= currentProductImgList.length) idx = 0;
             currentProductImgIdx = idx;
 
-            const src = currentProductImgList[currentProductImgIdx];
+            const rawSrc = currentProductImgList[currentProductImgIdx];
+            const src = (typeof optimizeModalUrl === 'function') ? optimizeModalUrl(rawSrc, 900) : rawSrc;
             const mainImg = document.getElementById('prodImg');
             if (mainImg) mainImg.src = src;
+            if (typeof preloadGalleryList === 'function') preloadGalleryList(currentProductImgList, currentProductImgIdx);
 
             const galleryContainer = document.getElementById('prodGalleryContainer');
             if (galleryContainer) {
@@ -2675,7 +2749,8 @@
                 if (tagEl) tagEl.innerText = tag || 'Sản Phẩm';
                 
                 const imgEl = document.getElementById('prodImg');
-                if (imgEl) imgEl.src = mainImg;
+                if (imgEl) imgEl.src = (typeof optimizeModalUrl === 'function') ? optimizeModalUrl(mainImg, 900) : mainImg;
+                if (typeof preloadGalleryList === 'function') preloadGalleryList(imgList, 0);
 
                 // Toggle prev/next arrow visibility
                 const prodPrev = document.getElementById('prodPrevBtn');
@@ -2694,7 +2769,7 @@
                         for (let i = 0; i < imgList.length; i++) {
                             const src = imgList[i];
                             const borderStyle = (i === 0) ? 'border:2px solid #c5a059; opacity:1.0; transform:scale(1.04); box-shadow:0 0 8px rgba(197,160,89,0.8);' : 'border:1px solid rgba(255,255,255,0.35); opacity:0.75;';
-                            galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + (src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_200/") : src) + '" loading="lazy" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
+                            galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + (src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_160,q_auto:eco/") : src) + '" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
                         }
                         galleryHtml += '</div>';
                         galleryContainer.innerHTML = galleryHtml;
