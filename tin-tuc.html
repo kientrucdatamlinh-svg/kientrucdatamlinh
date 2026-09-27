@@ -2176,6 +2176,12 @@
             gap: 40px;
             align-items: start;
         }
+        .news-left-col {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
         /* ARTICLE CARDS GRID */
         .article-grid {
@@ -3525,9 +3531,17 @@
 
             <!-- Main Grid: Articles + Sidebar -->
             <div class="news-main-grid">
-                <!-- Articles List -->
-                <div class="article-grid" id="articlesGrid">
-                    <!-- Cards will be rendered and filtered here -->
+                <!-- Left Column: Articles List + Pagination + Products Spotlight -->
+                <div class="news-left-col">
+                    <div class="article-grid" id="articlesGrid">
+                        <!-- Cards will be rendered and filtered here -->
+                    </div>
+
+                    <!-- Pagination (ngay dưới bài viết, trên sản phẩm quan tâm) -->
+                    <div id="articlesPagination"></div>
+
+                    <!-- Sản phẩm được nhiều người quan tâm -->
+                    <div id="productsSpotlight"></div>
                 </div>
 
                 <!-- Sidebar -->
@@ -4069,19 +4083,14 @@
         }
 
         function renderPagination(total, totalPages) {
-            let container = document.getElementById('articlesPagination');
-            if (!container) {
-                container = document.createElement('div');
-                container.id = 'articlesPagination';
-                const grid = document.getElementById('articlesGrid');
-                if (grid && grid.parentNode) grid.parentNode.insertBefore(container, grid.nextSibling);
-            }
+            const container = document.getElementById('articlesPagination');
+            if (!container) return;
             if (total === 0 || totalPages <= 1) { container.innerHTML = ''; return; }
             let btns = '';
             btns += `<button class="page-btn${currentPage === 1 ? ' disabled' : ''}" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}><i class="fa-solid fa-chevron-left"></i> Trước</button>`;
             for (let p = 1; p <= totalPages; p++) {
                 if (totalPages > 7 && Math.abs(p - currentPage) > 2 && p !== 1 && p !== totalPages) {
-                    if (p === currentPage - 3 || p === currentPage + 3) btns += `<span class="page-dots">\u2026</span>`;
+                    if (p === currentPage - 3 || p === currentPage + 3) btns += `<span class="page-dots">…</span>`;
                     continue;
                 }
                 btns += `<button class="page-btn${p === currentPage ? ' active' : ''}" onclick="changePage(${p})">${p}</button>`;
@@ -4107,25 +4116,18 @@
         }
 
         function renderProductsSpotlight() {
-            let el = document.getElementById('productsSpotlight');
-            if (!el) {
-                el = document.createElement('section');
-                el.id = 'productsSpotlight';
-                el.style.cssText = 'margin-top:40px;';
-                const pag = document.getElementById('articlesPagination');
-                const ref = pag || document.getElementById('articlesGrid');
-                if (ref && ref.parentNode) ref.parentNode.insertBefore(el, ref.nextSibling);
-            }
+            const el = document.getElementById('productsSpotlight');
+            if (!el) return;
             const allProducts = (typeof DEFAULT_PRODUCTS !== 'undefined' && DEFAULT_PRODUCTS) ? DEFAULT_PRODUCTS : [];
             if (!allProducts.length) { el.innerHTML = ''; return; }
             const picked = allProducts.filter(p => p.imgs && p.imgs.length > 0).slice(0, 6);
             if (!picked.length) { el.innerHTML = ''; return; }
             el.innerHTML = `
-                <div style="background:linear-gradient(135deg,#0a1628 0%,#112240 100%);border-radius:12px;padding:28px 24px;border:1px solid rgba(212,175,55,0.25);">
+                <div style="background:linear-gradient(135deg,#0a1628 0%,#112240 100%);border-radius:12px;padding:28px 24px;border:1px solid rgba(212,175,55,0.25);margin-top:10px;">
                     <h2 style="color:var(--gold-light);font-size:1.35rem;margin:0 0 6px;display:flex;align-items:center;gap:10px;">
                         <i class="fa-solid fa-star" style="color:var(--gold-primary);"></i> Sản Phẩm Được Nhiều Người Quan Tâm
                     </h2>
-                    <p style="color:var(--text-silver);font-size:0.88rem;margin:0 0 20px;">Các mẫu đá lăng mộ, cu\u1ed1n th\u01b0, c\u1ed5ng \u0111\u00e1 \u0111\u01b0\u1ee3c \u0111\u1eb7t h\u00e0ng nhi\u1ec1u nh\u1ea5t</p>
+                    <p style="color:var(--text-silver);font-size:0.88rem;margin:0 0 20px;">Các mẫu đá lăng mộ, cuốn thư, cổng đá được đặt hàng nhiều nhất</p>
                     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;">
                         ${picked.map(p => {
                             const img = p.imgs[0];
@@ -4153,9 +4155,7 @@
             `;
         }
 
-
-
-                function renderPopularArticles() {
+        function renderPopularArticles() {
             const list = document.getElementById('popularArticlesList');
             if (!list) return;
             const popular = [...ARTICLES_DATA].filter(a => !a.hidden && a.status !== 'hidden').sort((a, b) => getArticleTotalViews(b) - getArticleTotalViews(a)).slice(0, 10);
