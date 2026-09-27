@@ -2035,6 +2035,15 @@
 
         // 2. Data Initialization
         function initAdminData() {
+        // Reset cache bai viet cu de ap dung view 50-100 moi
+        try {
+            if (!localStorage.getItem('ktdtl_views_reset_50_100_v1')) {
+                localStorage.removeItem('ktdtl_articles');
+                localStorage.removeItem('ktdtl_article_clicks');
+                localStorage.setItem('ktdtl_views_reset_50_100_v1', 'true');
+            }
+        } catch(e) {}
+
             // Products
             const storedProd = localStorage.getItem('ktdtl_products');
             adminProducts = storedProd ? JSON.parse(storedProd) : (typeof DEFAULT_PRODUCTS !== 'undefined' ? DEFAULT_PRODUCTS : []);
@@ -2551,7 +2560,17 @@
                     <td><strong>${a.title}</strong></td>
                     <td><span class="tag-pill">${a.categoryName || a.category}</span></td>
                     <td>${a.date || '2026'}</td>
-                    <td><i class="fa-regular fa-eye"></i> ${a.views || '3,500'}</td>
+                    <td>
+                        <i class="fa-regular fa-eye" style="color:var(--gold-primary);"></i> 
+                        <strong>${(function(){
+                            try {
+                                const clicksMap = JSON.parse(localStorage.getItem('ktdtl_article_clicks') || '{}');
+                                const extra = clicksMap[a.id] || 0;
+                                const base = parseInt((a.views || '75').toString().replace(/,/g,'')) || 75;
+                                return (base + extra).toLocaleString('vi-VN');
+                            } catch(e) { return a.views || '75'; }
+                        })()}</strong>
+                    </td>
                     <td style="text-align: right; white-space: nowrap;">
                         <button onclick="editArticle(${realIndex})" class="btn-action btn-outline-admin" style="padding:6px 12px; font-size:0.8rem;"><i class="fa-solid fa-pen-to-square"></i> Sửa & SEO</button>
                         <button onclick="deleteArticle(${realIndex})" class="btn-action btn-danger-admin" style="padding:6px 12px; font-size:0.8rem; margin-left:6px;"><i class="fa-solid fa-trash"></i> Xóa</button>
