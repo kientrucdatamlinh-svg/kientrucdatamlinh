@@ -2047,16 +2047,26 @@
             const storedArt = localStorage.getItem('ktdtl_articles');
             adminArticles = storedArt ? JSON.parse(storedArt) : (typeof DEFAULT_ARTICLES !== 'undefined' ? DEFAULT_ARTICLES : []);
             if (typeof DEFAULT_ARTICLES !== 'undefined' && Array.isArray(DEFAULT_ARTICLES)) {
-                const existingIds = new Set(adminArticles.map(a => a.id));
-                let hasNew = false;
+                let hasChanges = false;
                 DEFAULT_ARTICLES.forEach(defA => {
-                    if (!existingIds.has(defA.id)) {
+                    const existing = adminArticles.find(a => a.id === defA.id);
+                    if (!existing) {
                         adminArticles.push(defA);
-                        existingIds.add(defA.id);
-                        hasNew = true;
+                        hasChanges = true;
+                    } else {
+                        // Restore image if missing or empty
+                        if (!existing.image && defA.image) {
+                            existing.image = defA.image;
+                            hasChanges = true;
+                        }
+                        // Update views if defA has newer view count
+                        if (defA.views && (!existing.views || existing.views === '1,000' || parseInt(defA.views.replace(/,/g,'')) > parseInt(existing.views.replace(/,/g,'')))) {
+                            existing.views = defA.views;
+                            hasChanges = true;
+                        }
                     }
                 });
-                if (hasNew) {
+                if (hasChanges) {
                     adminArticles.sort((a, b) => a.id - b.id);
                     localStorage.setItem('ktdtl_articles', JSON.stringify(adminArticles));
                 }
@@ -2537,11 +2547,11 @@
                 const realIndex = adminArticles.indexOf(a);
                 return `
                 <tr>
-                    <td><img src="${a.image}" class="thumb-preview" alt="thumb"></td>
+                    <td><img src="${a.image || 'https://res.cloudinary.com/g3beqqle/image/upload/f_auto,q_auto,w_400/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg'}" class="thumb-preview" alt="thumb" onerror="this.src='https://res.cloudinary.com/g3beqqle/image/upload/f_auto,q_auto,w_400/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg'"></td>
                     <td><strong>${a.title}</strong></td>
                     <td><span class="tag-pill">${a.categoryName || a.category}</span></td>
                     <td>${a.date || '2026'}</td>
-                    <td><i class="fa-regular fa-eye"></i> ${a.views || '1,000'}</td>
+                    <td><i class="fa-regular fa-eye"></i> ${a.views || '3,500'}</td>
                     <td style="text-align: right; white-space: nowrap;">
                         <button onclick="editArticle(${realIndex})" class="btn-action btn-outline-admin" style="padding:6px 12px; font-size:0.8rem;"><i class="fa-solid fa-pen-to-square"></i> Sửa & SEO</button>
                         <button onclick="deleteArticle(${realIndex})" class="btn-action btn-danger-admin" style="padding:6px 12px; font-size:0.8rem; margin-left:6px;"><i class="fa-solid fa-trash"></i> Xóa</button>
