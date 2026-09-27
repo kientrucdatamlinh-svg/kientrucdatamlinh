@@ -2046,6 +2046,21 @@
             // Articles
             const storedArt = localStorage.getItem('ktdtl_articles');
             adminArticles = storedArt ? JSON.parse(storedArt) : (typeof DEFAULT_ARTICLES !== 'undefined' ? DEFAULT_ARTICLES : []);
+            if (typeof DEFAULT_ARTICLES !== 'undefined' && Array.isArray(DEFAULT_ARTICLES)) {
+                const existingIds = new Set(adminArticles.map(a => a.id));
+                let hasNew = false;
+                DEFAULT_ARTICLES.forEach(defA => {
+                    if (!existingIds.has(defA.id)) {
+                        adminArticles.push(defA);
+                        existingIds.add(defA.id);
+                        hasNew = true;
+                    }
+                });
+                if (hasNew) {
+                    adminArticles.sort((a, b) => a.id - b.id);
+                    localStorage.setItem('ktdtl_articles', JSON.stringify(adminArticles));
+                }
+            }
 
             // Config
             const storedCfg = localStorage.getItem('ktdtl_config');
