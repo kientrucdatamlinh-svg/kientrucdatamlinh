@@ -1,5 +1,5 @@
 // Baseline data for Kien Truc Da Tam Linh
-const DEFAULT_DATA_TIMESTAMP = 1890000000000;
+const DEFAULT_DATA_TIMESTAMP = 1780000000000;
 const DEFAULT_PRODUCTS = [
   {
     "cat_code": "langtho",

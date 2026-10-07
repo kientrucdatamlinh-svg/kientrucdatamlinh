@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -3184,9 +3184,19 @@ Về mặt phong thủy tâm linh, Chậu Đá Kênh Bong đóng vai trò quan t
     </div>
 
 
+    <script src="default_data.js"></script>
     <script>
         let projectsData = (typeof DEFAULT_PROJECTS !== 'undefined') ? DEFAULT_PROJECTS : [];
         let groupedProductsData = (typeof DEFAULT_PRODUCTS !== 'undefined') ? DEFAULT_PRODUCTS : [];
+
+        function ensureData() {
+            if ((!projectsData || !projectsData.length) && typeof DEFAULT_PROJECTS !== 'undefined' && Array.isArray(DEFAULT_PROJECTS)) {
+                projectsData = DEFAULT_PROJECTS;
+            }
+            if ((!groupedProductsData || !groupedProductsData.length) && typeof DEFAULT_PRODUCTS !== 'undefined' && Array.isArray(DEFAULT_PRODUCTS)) {
+                groupedProductsData = DEFAULT_PRODUCTS;
+            }
+        }
 
         // --- Load dữ liệu: live_overrides.json > localStorage > default_data.js ---
         (function loadLiveData() {
@@ -3199,14 +3209,16 @@ Về mặt phong thủy tâm linh, Chậu Đá Kênh Bong đóng vai trò quan t
                 }
             } catch(e) { console.warn('LocalStorage load error', e); }
 
+            ensureData();
+
             fetch('/live_overrides.json?t=' + Date.now(), { cache: 'no-store' })
                 .then(function(r) { return r.ok ? r.json() : null; })
                 .then(function(data) {
-                    if (!data || !data.timestamp || data.timestamp === 0) return;
-                    var liveTs = data.timestamp;
+                    if (!data) return;
+                    var liveTs = data.timestamp || 0;
                     var localTs2 = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
                     var defaultTs2 = (typeof DEFAULT_DATA_TIMESTAMP !== 'undefined') ? DEFAULT_DATA_TIMESTAMP : 0;
-                    if (liveTs > localTs2 || liveTs > defaultTs2) {
+                    if (liveTs >= localTs2 || liveTs >= defaultTs2 || (!projectsData || projectsData.length === 0)) {
                         if (Array.isArray(data.projects) && data.projects.length > 0) projectsData = data.projects;
                         if (Array.isArray(data.products) && data.products.length > 0) groupedProductsData = data.products;
                         renderHomePageCards();
@@ -3216,23 +3228,25 @@ Về mặt phong thủy tâm linh, Chậu Đá Kênh Bong đóng vai trò quan t
         })();
 
         function renderHomePageCards() {
+            ensureData();
             const execGrid = document.getElementById('homeExecutedGrid');
             const d3Grid = document.getElementById('homeD3Grid');
             const prodGrid = document.getElementById('homeProductGrid');
 
-            // 1. Render Executed Projects (First 6)
-            if (execGrid && Array.isArray(projectsData)) {
+            // 1. Render Executed Projects (First 6) - CHỈ RENDER NẾU CÓ DỮ LIỆU THỰC SỰ
+            if (execGrid && Array.isArray(projectsData) && projectsData.length > 0) {
                 const executedList = projectsData.filter(p => p.cat_code !== 'khuonvien3d').slice(0, 6);
-                execGrid.innerHTML = executedList.map(p => {
-                    const realIdx = projectsData.indexOf(p);
-                    const imgList = (Array.isArray(p.imgs) && p.imgs.length > 0) ? p.imgs : (p.img ? [p.img] : []);
-                    const imgCount = imgList.length || 1;
-                    const mainImg = imgList[0] || 'https://res.cloudinary.com/g3beqqle/image/upload/f_auto,q_auto,w_600/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg';
-                    const location = p.location ? `<span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> ${p.location}</span>` : '';
-                    const safeTitle = (p.title || '').replace(/"/g, '&quot;');
-                    const catName = p.cat_name || 'Công Trình Khu Lăng Mộ';
+                if (executedList.length > 0) {
+                    execGrid.innerHTML = executedList.map(p => {
+                        const realIdx = projectsData.indexOf(p);
+                        const imgList = (Array.isArray(p.imgs) && p.imgs.length > 0) ? p.imgs : (p.img ? [p.img] : []);
+                        const imgCount = imgList.length || 1;
+                        const mainImg = imgList[0] || 'https://res.cloudinary.com/g3beqqle/image/upload/f_auto,q_auto,w_600/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg';
+                        const location = p.location ? `<span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> ${p.location}</span>` : '';
+                        const safeTitle = (p.title || '').replace(/"/g, '&quot;');
+                        const catName = p.cat_name || 'Công Trình Khu Lăng Mộ';
 
-                    return `
+                        return `
             <div class="portfolio-card project-card" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(${realIdx})">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
@@ -3258,20 +3272,22 @@ Về mặt phong thủy tâm linh, Chậu Đá Kênh Bong đóng vai trò quan t
                     </div>
                 </div>
             </div>`;
-                }).join('');
+                    }).join('');
+                }
             }
 
-            // 2. Render 3D Projects (First 6)
-            if (d3Grid && Array.isArray(projectsData)) {
+            // 2. Render 3D Projects (First 6) - CHỈ RENDER NẾU CÓ DỮ LIỆU THỰC SỰ
+            if (d3Grid && Array.isArray(projectsData) && projectsData.length > 0) {
                 const d3List = projectsData.filter(p => p.cat_code === 'khuonvien3d').slice(0, 6);
-                d3Grid.innerHTML = d3List.map(p => {
-                    const realIdx = projectsData.indexOf(p);
-                    const imgList = (Array.isArray(p.imgs) && p.imgs.length > 0) ? p.imgs : (p.img ? [p.img] : []);
-                    const imgCount = imgList.length || 1;
-                    const mainImg = imgList[0] || 'https://res.cloudinary.com/g3beqqle/image/upload/f_auto,q_auto,w_600/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg';
-                    const safeTitle = (p.title || '').replace(/"/g, '&quot;');
+                if (d3List.length > 0) {
+                    d3Grid.innerHTML = d3List.map(p => {
+                        const realIdx = projectsData.indexOf(p);
+                        const imgList = (Array.isArray(p.imgs) && p.imgs.length > 0) ? p.imgs : (p.img ? [p.img] : []);
+                        const imgCount = imgList.length || 1;
+                        const mainImg = imgList[0] || 'https://res.cloudinary.com/g3beqqle/image/upload/f_auto,q_auto,w_600/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg';
+                        const safeTitle = (p.title || '').replace(/"/g, '&quot;');
 
-                    return `
+                        return `
             <div class="portfolio-card project-card" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(${realIdx})">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
@@ -3296,22 +3312,24 @@ Về mặt phong thủy tâm linh, Chậu Đá Kênh Bong đóng vai trò quan t
                     </div>
                 </div>
             </div>`;
-                }).join('');
+                    }).join('');
+                }
             }
 
-            // 3. Render Products (First 9)
-            if (prodGrid && Array.isArray(groupedProductsData)) {
+            // 3. Render Products (First 9) - CHỈ RENDER NẾU CÓ DỮ LIỆU THỰC SỰ
+            if (prodGrid && Array.isArray(groupedProductsData) && groupedProductsData.length > 0) {
                 const prodList = groupedProductsData.slice(0, 9);
-                prodGrid.innerHTML = prodList.map(p => {
-                    const realIdx = groupedProductsData.indexOf(p);
-                    const imgList = (Array.isArray(p.imgs) && p.imgs.length > 0) ? p.imgs : (p.img ? [p.img] : []);
-                    const imgCount = imgList.length || 1;
-                    const mainImg = imgList[0] || 'https://res.cloudinary.com/g3beqqle/image/upload/f_auto,q_auto,w_600/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg';
-                    const safeTitle = (p.title || '').replace(/"/g, '&quot;');
-                    const priceDisplay = p.price || '35 - 280 Triệu VNĐ';
-                    const descText = (p.desc || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                if (prodList.length > 0) {
+                    prodGrid.innerHTML = prodList.map(p => {
+                        const realIdx = groupedProductsData.indexOf(p);
+                        const imgList = (Array.isArray(p.imgs) && p.imgs.length > 0) ? p.imgs : (p.img ? [p.img] : []);
+                        const imgCount = imgList.length || 1;
+                        const mainImg = imgList[0] || 'https://res.cloudinary.com/g3beqqle/image/upload/f_auto,q_auto,w_600/v1789377630/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.jpg';
+                        const safeTitle = (p.title || '').replace(/"/g, '&quot;');
+                        const priceDisplay = p.price || '35 - 280 Triệu VNĐ';
+                        const descText = (p.desc || '').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-                    return `
+                        return `
             <div class="product-card">
                 <div class="product-img" style="position:relative; overflow:hidden; cursor:pointer;" onclick="openGroupedProductModal(${realIdx})">
                     <span class="product-tag" style="background:var(--gold-primary); color:var(--navy-deep); font-weight:700;"><i class="fa-solid fa-camera"></i> ${imgCount} Ảnh</span>
@@ -3335,7 +3353,8 @@ Về mặt phong thủy tâm linh, Chậu Đá Kênh Bong đóng vai trò quan t
                     </div>
                 </div>
             </div>`;
-                }).join('');
+                    }).join('');
+                }
             }
         }
         document.addEventListener('DOMContentLoaded', renderHomePageCards);
@@ -3344,6 +3363,7 @@ Về mặt phong thủy tâm linh, Chậu Đá Kênh Bong đóng vai trò quan t
         let currentProjectImgIdx = 0;
 
         function openProjectModal(idx) {
+            ensureData();
             const p = projectsData[idx];
             if (!p) return;
             const pmLoc = document.getElementById('pmLocation');
@@ -3619,6 +3639,7 @@ Về mặt phong thủy tâm linh, Chậu Đá Kênh Bong đóng vai trò quan t
 
         function openGroupedProductModal(idx) {
             try {
+                ensureData();
                 if (typeof groupedProductsData === 'undefined' || !groupedProductsData[idx]) return;
                 const p = groupedProductsData[idx];
                 openProductModal(

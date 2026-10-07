@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -3505,9 +3505,19 @@
     </div>
 
 
+    <script src="default_data.js"></script>
     <script>
         let projectsData = (typeof DEFAULT_PROJECTS !== 'undefined') ? DEFAULT_PROJECTS : [];
         let groupedProductsData = (typeof DEFAULT_PRODUCTS !== 'undefined') ? DEFAULT_PRODUCTS : [];
+
+        function ensureData() {
+            if ((!projectsData || !projectsData.length) && typeof DEFAULT_PROJECTS !== 'undefined' && Array.isArray(DEFAULT_PROJECTS)) {
+                projectsData = DEFAULT_PROJECTS;
+            }
+            if ((!groupedProductsData || !groupedProductsData.length) && typeof DEFAULT_PRODUCTS !== 'undefined' && Array.isArray(DEFAULT_PRODUCTS)) {
+                groupedProductsData = DEFAULT_PRODUCTS;
+            }
+        }
 
         // --- Load dữ liệu: live_overrides.json > localStorage > default_data.js ---
         (function loadLiveData() {
@@ -3520,26 +3530,31 @@
                 }
             } catch(e) { console.warn('LocalStorage load error', e); }
 
+            ensureData();
+
             fetch('/live_overrides.json?t=' + Date.now(), { cache: 'no-store' })
                 .then(function(r) { return r.ok ? r.json() : null; })
                 .then(function(data) {
-                    if (!data || !data.timestamp || data.timestamp === 0) return;
-                    var liveTs = data.timestamp;
+                    if (!data) return;
+                    var liveTs = data.timestamp || 0;
                     var localTs2 = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
                     var defaultTs2 = (typeof DEFAULT_DATA_TIMESTAMP !== 'undefined') ? DEFAULT_DATA_TIMESTAMP : 0;
-                    if (liveTs > localTs2 || liveTs > defaultTs2) {
+                    if (liveTs >= localTs2 || liveTs >= defaultTs2 || (!projectsData || projectsData.length === 0)) {
                         if (Array.isArray(data.projects) && data.projects.length > 0) projectsData = data.projects;
                         if (Array.isArray(data.products) && data.products.length > 0) groupedProductsData = data.products;
                         renderAllProjectCards();
+                        renderExecutedProjects();
+                        renderD3Projects();
                     }
                 })
                 .catch(function(e) { console.warn('live_overrides fetch error', e); });
         })();
 
         function renderAllProjectCards() {
+            ensureData();
             const execGrid = document.getElementById('executedGrid');
             const d3Grid = document.getElementById('d3Grid');
-            if (!execGrid || !d3Grid || !Array.isArray(projectsData)) return;
+            if (!execGrid || !d3Grid || !Array.isArray(projectsData) || projectsData.length === 0) return;
 
             let execHtml = '';
             let d3Html = '';
@@ -3595,6 +3610,7 @@
         let currentProjectImgIdx = 0;
 
         function openProjectModal(idx) {
+            ensureData();
             const p = projectsData[idx];
             if (!p) return;
             const pmLoc = document.getElementById('pmLocation');
