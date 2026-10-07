@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /live_overrides.json
+Disallow: /admin.html
+Disallow: /ktdtl_tracker.js
 
 Sitemap: https://kientrucdatamlinh.com/sitemap.xml
