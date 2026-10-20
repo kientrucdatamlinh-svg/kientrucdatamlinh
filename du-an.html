@@ -246,7 +246,7 @@
         }
 
         /* Magnificent Section Title H2 */
-        .section-header h2 {
+        .section-header h1, .section-header h2 {
             font-family: 'Playfair Display', 'Lora', serif;
             font-size: clamp(2rem, 3.2vw, 2.7rem);
             font-weight: 700;
@@ -370,7 +370,7 @@
                 letter-spacing: 0.1em;
                 margin-bottom: 12px !important;
             }
-            .section-header h2 {
+            .section-header h1, .section-header h2 {
                 font-size: 1.75rem !important;
             }
             .header-divider {
@@ -1944,7 +1944,6 @@
             gap: 30px;
         }
     </style>
-    <script src="default_data.js" defer></script>
     <script src="ktdtl_tracker.js" defer></script>
     <link rel="stylesheet" href="mobile.css">
 </head>
@@ -1982,24 +1981,8 @@
         </div>
     </header>
 
-    <section class="page-banner">
-        <div class="page-banner-slide active" style="background-image: url('/images/nen/nha_tho_to_vang_kim.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-07-08-09-35-51.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-07-08-09-36-22.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-08-03-07-36-09.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-08-03-07-36-46.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-08-10-15-38-17.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-08-10-15-41-56.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-09-04-10-43-53.webp');"></div>
-        <div class="page-banner-overlay"></div>
-        <div class="container">
-            <h1>Công Trình Tiêu Biểu & Dự Án 3D</h1>
-            <p>Tuyển tập công trình thực tế đã thi công hoàn thiện và các dự án thiết kế phối cảnh 3D khuôn viên lăng mộ gia tộc trên toàn quốc.</p>
-        </div>
-    </section>
-
     <!-- SECTION 1 (TRÊN): CÁC CÔNG TRÌNH TIÊU BIỂU ĐÃ THI CÔNG -->
-    <section class="section-padding" id="executedSection" style="background:var(--navy-deep);">
+    <section class="section-padding" id="executedSection" style="background:var(--navy-deep); padding-top:150px;">
         <div class="container">
             <div class="section-header">
                 <div class="section-badge">
@@ -2007,7 +1990,7 @@
                     <span>Thực Tế Công Trình Hoàn Thiện</span>
                     <i class="fa-solid fa-gem"></i>
                 </div>
-                <h2>Các Công Trình Tiêu Biểu Đã Thi Công</h2>
+                <h1 style="font-size:clamp(2rem, 4vw, 3rem);">Các Công Trình Tiêu Biểu Đã Thi Công</h1>
                 <div class="header-divider">
                     <span class="divider-line"></span>
                     <span class="divider-jewel">
@@ -3197,33 +3180,33 @@
                         </span>
                         <span class="divider-line right"></span>
                     </div>
-                    <p>Hình ảnh thực tế cẩu lắp ghép và hoàn thiện tại công trình khắp các tỉnh thành.</p>
+                    <p>Hình ảnh thực tế các khu lăng mộ và nhà thờ họ đã thi công hoàn thiện trên toàn quốc.</p>
                 </div>
                 <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:15px; margin-top:30px;">
 
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/nen/nha_tho_to_vang_kim.webp" alt="Hình ảnh công trình" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_tai_ha_noi/20240523_065741.webp" alt="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hà Nội" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/nen/enscape_2026-07-08-09-35-51.webp" alt="Hình ảnh công trình" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_o_nghe_an/20241006_111154.webp" alt="Khu Lăng Mộ Cho Chủ Đầu Tư Ở Nghệ An" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/nen/enscape_2026-07-08-09-36-22.webp" alt="Hình ảnh công trình" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_xanh_reu_cho_chu_dau_tu_tai_hue/20251025_102039.webp" alt="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Huế" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/nen/enscape_2026-08-03-07-36-09.webp" alt="Hình ảnh công trình" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_xanh_reu_cho_chu_dau_tu_tai_ha_tinh/20250912_080715.webp" alt="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Hà Tĩnh" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/nen/enscape_2026-08-03-07-36-46.webp" alt="Hình ảnh công trình" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/du_an/2._nha_tho/nha_tho_cho_gia_chu_tai_ninh_binh/20220106_162028.webp" alt="Nhà Thờ Cho Gia Chủ Tại Ninh Bình" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/nen/enscape_2026-08-10-15-38-17.webp" alt="Hình ảnh công trình" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/du_an/2._nha_tho/nha_tho_ho_tu_gia_cho_gia_chu_tai_quang_ninh/20240722_170935.webp" alt="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Quảng Ninh" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/nen/enscape_2026-08-10-15-41-56.webp" alt="Hình ảnh công trình" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_tai_hung_yen_bang_chat_lieu_da_xanh_reu/20240206_125509-01.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Tại Hưng Yên Bằng Chất Liệu Đá Xanh Rêu" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/nen/enscape_2026-09-04-10-43-53.webp" alt="Hình ảnh công trình" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_o_son_tay/20250509_095747.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Ở Sơn Tây" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
                 </div>
             </div>
