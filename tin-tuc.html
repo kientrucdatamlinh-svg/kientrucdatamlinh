@@ -4293,6 +4293,16 @@
         let currentPage = 1;
         const PAGE_SIZE = 10;
 
+        // Parse Vietnamese publication dates explicitly; unknown dates go last.
+        function articlePublicationTime(article) {
+            const match = String(article.date || '').trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+            if (!match) return -Infinity;
+            const [, day, month, year] = match.map(Number);
+            const date = new Date(Date.UTC(year, month - 1, day));
+            return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day
+                ? date.getTime() : -Infinity;
+        }
+
         function renderArticles() {
             const grid = document.getElementById('articlesGrid');
             const searchVal = (document.getElementById('newsSearchInput').value || '').toLowerCase().trim();
@@ -4307,6 +4317,8 @@
                     item.categoryName.toLowerCase().includes(searchVal);
                 return matchCat && matchSearch;
             });
+            // Sort before pagination, regardless of which data source supplied articles.
+            filtered.sort((a, b) => articlePublicationTime(b) - articlePublicationTime(a));
 
             if (filtered.length === 0) {
                 grid.innerHTML = `
