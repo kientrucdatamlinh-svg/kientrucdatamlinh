@@ -7,7 +7,7 @@
 
 (function(window) {
     // Encrypted token protected with admin authorization key
-    const _ENCRYPTED_T = 'KQEeN1ZdAzJTBh8nPBIGDwIjVTQjJigFUyMFPXQYexk9WFAzBB1ceA==';
+    const _ENCRYPTED_T = 'KQEeNxIuKBpiLQoRAVEoPjktVnE4JgAQNQcDHFs5DRpcWFBbAg0IOA==';
     const _KEY_PART = 'Ninhbinh1@';
 
     function getAuthToken() {
