@@ -1989,6 +1989,52 @@
             color: #f44336;
             font-weight: 700;
         }
+
+        /* ===== Phong thủy: bố cục & công cụ (bản chỉnh sửa) ===== */
+        .fengshui-tool-grid { align-items: start; }
+        @media (min-width: 901px) {
+            .tool-box-sticky { position: sticky; top: 96px; }
+        }
+        @media (max-width: 600px) {
+            .tool-box { padding: 22px 16px; }
+            .tool-box h3 { font-size: 1.2rem !important; }
+        }
+        .fs-field-note { color: #94a3b8; font-size: 0.78rem; margin-top: 6px; line-height: 1.4; }
+        .fs-good-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; }
+        .fs-good-grid > div { margin-bottom: 0 !important; }
+
+        .loban-card { border-radius: 10px; padding: 18px; background: var(--navy-dark); }
+        .loban-card.cat { border: 1.5px solid #10b981; }
+        .loban-card.hung { border: 1.5px solid #ef4444; }
+        .loban-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+        .loban-badge { padding: 4px 12px; border-radius: 14px; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.02em; }
+        .loban-card.cat .loban-badge { background: rgba(16,185,129,0.18); color: #34d399; }
+        .loban-card.hung .loban-badge { background: rgba(239,68,68,0.18); color: #f87171; }
+        .loban-title { font-size: 1.25rem; margin: 0 0 4px; font-family: 'Playfair Display', 'Lora', serif; }
+        .loban-card.cat .loban-title { color: #34d399; }
+        .loban-card.hung .loban-title { color: #f87171; }
+        .loban-sub { color: var(--text-silver); font-size: 0.9rem; margin: 0 0 14px; line-height: 1.5; }
+        .loban-ruler { position: relative; display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; margin: 26px 0 6px; }
+        .loban-seg { height: 30px; display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 700; border-radius: 3px; }
+        .loban-seg.cat { background: rgba(16,185,129,0.22); color: #6ee7b7; }
+        .loban-seg.hung { background: rgba(239,68,68,0.18); color: #fca5a5; }
+        .loban-seg.active { outline: 2px solid var(--gold-light); outline-offset: 1px; }
+        .loban-marker { position: absolute; top: -22px; transform: translateX(-50%); color: var(--gold-light); font-size: 0.7rem; font-weight: 700; white-space: nowrap; pointer-events: none; }
+        .loban-marker::after { content: ''; display: block; width: 2px; height: 52px; background: var(--gold-light); margin: 2px auto 0; box-shadow: 0 0 6px rgba(223,183,108,0.8); }
+        .loban-scale { display: flex; justify-content: space-between; color: #64748b; font-size: 0.7rem; margin-bottom: 14px; }
+        .loban-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 12px; }
+        .loban-meta div { background: rgba(5,11,26,0.7); border: 1px solid var(--glass-border); border-radius: 6px; padding: 8px 10px; }
+        .loban-meta span { display: block; color: #94a3b8; font-size: 0.72rem; }
+        .loban-meta strong { color: #fff; font-size: 0.92rem; }
+        .loban-suggest { background: rgba(197,160,89,0.08); border-left: 3px solid var(--gold-primary); border-radius: 4px; padding: 10px 12px; font-size: 0.86rem; color: #e2e8f0; line-height: 1.5; }
+        .loban-suggest button { background: transparent; border: 1px solid var(--gold-primary); color: var(--gold-light); border-radius: 14px; padding: 2px 10px; margin: 4px 6px 0 0; cursor: pointer; font-weight: 700; font-size: 0.82rem; }
+        .loban-suggest button:hover { background: rgba(197,160,89,0.18); }
+        .loban-warn { color: #fbbf24; font-size: 0.8rem; margin-top: 8px; }
+
+        .fs-principles-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        @media (max-width: 1100px) { .fs-principles-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px)  { .fs-principles-grid { grid-template-columns: 1fr; } }
+        .fs-principles-grid > div:hover { border-color: rgba(197,160,89,0.6) !important; transform: translateY(-3px); }
     </style>
     <script src="ktdtl_tracker.js" defer></script>
     <link rel="stylesheet" href="mobile.css">
@@ -2041,46 +2087,13 @@
         <div class="container">
             <h1>Xem Hướng Mộ, Kích Thước Mộ & Phong Thủy Âm Phần</h1>
             <p>Tra cứu hướng đặt mộ cát vượng theo tuổi Bát Trạch, kích thước chuẩn thước Lỗ Ban 38.8cm và tư vấn từ <strong style="color: var(--gold-light); font-size: 1.08em; font-weight: 700;">KTS Nguyễn Văn Hướng</strong>.</p>
+            <p style="margin-top: 14px;"><a href="#tu-van" class="btn-outline" style="display: inline-block; padding: 9px 20px; font-size: 0.88rem; border-color: var(--gold-primary); color: var(--gold-light); text-decoration: none; border-radius: 6px;"><i class="fa-solid fa-user-shield"></i> Đăng ký KTS tư vấn miễn phí</a></p>
         </div>
     </section>
 
     <!-- SECTION TRA CỨU HƯỚNG MỘ & THƯỚC LỖ BAN -->
     <section class="section-padding">
         <div class="container">
-            <!-- FORM ĐĂNG KÝ TƯ VẤN PHONG THỦY MIỄN PHÍ (COMPACT TOP CARD) -->
-            <div style="max-width: 820px; margin: 0 auto 55px; background: linear-gradient(135deg, rgba(17, 32, 70, 0.75) 0%, rgba(10, 20, 44, 0.95) 100%); border: 1.2px solid rgba(197, 160, 89, 0.45); border-radius: 12px; padding: 26px 30px 22px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(197, 160, 89, 0.08); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
-                <div class="section-badge" style="margin: 0 auto 8px auto !important; font-size: 0.75rem; padding: 4px 16px;">
-                    <i class="fa-solid fa-user-shield"></i>
-                    <span>Tư Vấn Miễn Phí Trực Tiếp</span>
-                    <i class="fa-solid fa-user-shield"></i>
-                </div>
-                <h2 style="font-family: 'Playfair Display', 'Lora', serif; font-size: clamp(1.35rem, 2.4vw, 1.7rem); color: var(--gold-light); margin: 0 auto 6px !important; text-align: center; background: linear-gradient(135deg, #ffffff 0%, #fff7e6 20%, #dfb76c 60%, #c5a059 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));">Yêu Cầu Tư Vấn Phong Thủy Âm Trạch Trực Tiếp</h2>
-                <p style="color: var(--text-silver); max-width: 680px; margin: 0 auto 18px !important; font-size: 0.92rem; line-height: 1.5; text-align: center;">
-                    <strong style="color: var(--gold-light); font-weight: 700;">KTS Nguyễn Văn Hướng</strong> (chủ xưởng Kiến Trúc Đá Tâm Linh) trực tiếp khảo sát thực địa, tư vấn hướng mộ & thước Lỗ Ban miễn phí cho gia đình bạn.
-                </p>
-
-                <form id="fengshuiConsultForm" onsubmit="submitFengshuiConsult(event)" style="max-width: 680px; margin: 0 auto; text-align: left;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 12px;">
-                        <div>
-                            <label style="display:block; color:var(--text-silver); font-size:0.85rem; margin-bottom:4px; font-weight:500;">Họ và Tên (*):</label>
-                            <input type="text" id="fsName" required placeholder="Nguyễn Văn A" style="width:100%; padding:9px 12px; font-size:0.92rem; background:rgba(5, 11, 26, 0.85); border:1px solid rgba(197, 160, 89, 0.3); color:#fff; border-radius:6px; outline:none; transition:var(--transition-smooth);">
-                        </div>
-                        <div>
-                            <label style="display:block; color:var(--text-silver); font-size:0.85rem; margin-bottom:4px; font-weight:500;">Số Điện Thoại Zalo (*):</label>
-                            <input type="tel" id="fsPhone" required placeholder="0912345678" style="width:100%; padding:9px 12px; font-size:0.92rem; background:rgba(5, 11, 26, 0.85); border:1px solid rgba(197, 160, 89, 0.3); color:#fff; border-radius:6px; outline:none; transition:var(--transition-smooth);">
-                        </div>
-                    </div>
-                    <div style="margin-bottom: 14px;">
-                        <label style="display:block; color:var(--text-silver); font-size:0.85rem; margin-bottom:4px; font-weight:500;">Năm Sinh Gia Chủ & Yêu Cầu Cần Tư Vấn:</label>
-                        <input type="text" id="fsNote" placeholder="Ví dụ: Cần xem hướng mộ cho ông sinh năm 1952 tại Hà Nội..." style="width:100%; padding:9px 12px; font-size:0.92rem; background:rgba(5, 11, 26, 0.85); border:1px solid rgba(197, 160, 89, 0.3); color:#fff; border-radius:6px; outline:none; transition:var(--transition-smooth);">
-                    </div>
-                    <button type="submit" class="btn-gold" style="width:100%; padding:11px; font-size:0.95rem; font-weight:700; border-radius:6px; letter-spacing:0.04em;">
-                        <i class="fa-solid fa-paper-plane" style="margin-right:6px;"></i> GỬI YÊU CẦU CHO KTS HƯỚNG NGAY
-                    </button>
-                </form>
-            </div>
-
-
             <div class="section-header">
                 <div class="section-badge">
                     <i class="fa-solid fa-compass"></i>
@@ -2226,6 +2239,7 @@
                             <option value="2029">Năm 2029 (Kỷ Dậu - Mệnh Thổ)</option>
                             <option value="2030">Năm 2030 (Canh Tuất - Mệnh Kim)</option>
                         </select>
+                        <div class="fs-field-note"><i class="fa-solid fa-circle-info"></i> Tính theo năm Âm lịch: người sinh trước Tết (tháng 1–2 Dương lịch) thuộc năm Âm lịch trước đó.</div>
                     </div>
 
                     <div style="margin-bottom: 22px;">
@@ -2244,17 +2258,17 @@
                 </div>
 
                 <!-- TOOL 2: TRA CỨU KÍCH THƯỚC LỖ BAN ÂM PHẦN 38.8CM -->
-                <div class="tool-box">
+                <div class="tool-box tool-box-sticky">
                     <h3 style="color: var(--gold-light); font-size: 1.5rem; margin-bottom: 20px; border-bottom: 1px solid var(--navy-light); padding-bottom: 12px;">
                         <i class="fa-solid fa-ruler-combined" style="color: var(--gold-primary);"></i> 2. Tra Cứu Thước Lỗ Ban 38.8cm (Âm Phần)
                     </h3>
                     <p style="color: var(--text-silver); font-size: 0.95rem; margin-bottom: 20px;">
-                        Nhập kích thước chiều dài hoặc chiều rộng mộ (cm) để kiểm tra rơi vào Cung Đỏ (Cát - Đăng Khoa, Tiến Bảo, Lục Hợp...) hay Cung Đen (Hung).
+                        Nhập chiều dài hoặc chiều rộng mộ (cm) để biết kích thước rơi vào cung Cát (nên dùng) hay cung Hung (nên tránh). Nếu rơi vào cung Hung, hệ thống gợi ý kích thước Cát gần nhất.
                     </p>
 
                     <div style="margin-bottom: 18px;">
                         <label style="display:block; color:var(--text-silver); margin-bottom:8px; font-weight:500;">Chiều Dài / Chiều Rộng Mộ (cm):</label>
-                        <input type="number" id="lobanInput" placeholder="Ví dụ: 127, 147, 167..." value="147" style="width:100%; padding:12px; background:var(--navy-dark); border:1px solid var(--navy-light); color:#fff; border-radius:4px;">
+                        <input type="number" id="lobanInput" min="1" step="0.1" inputmode="decimal" placeholder="Ví dụ: 81, 127, 147..." value="147" onkeydown="if(event.key==='Enter'){event.preventDefault();checkLoBan();}" oninput="clearTimeout(window._lobanT);window._lobanT=setTimeout(checkLoBan,350);" style="width:100%; padding:12px; background:var(--navy-dark); border:1px solid var(--navy-light); color:#fff; border-radius:4px;">
                     </div>
 
                     <button onclick="checkLoBan()" class="btn-outline" style="width:100%; padding:14px; font-size:1rem; border-color:var(--gold-primary); color:var(--gold-light);">
@@ -2302,44 +2316,44 @@
                                 <tr style="border-bottom: 1px solid rgba(197,160,89,0.12);">
                                     <td style="padding: 12px 16px; color: #fff; font-weight: 600;">Mộ Đá Đơn Tam Sơn</td>
                                     <td style="padding: 12px 16px; color: var(--gold-light); font-weight: 700; white-space: nowrap;">81 cm x 127 cm</td>
-                                    <td style="padding: 12px 16px; white-space: nowrap;"><span class="cung-cat" style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Đăng Khoa x Tài Vượng</span></td>
+                                    <td style="padding: 12px 16px; white-space: nowrap;"><span class="cung-cat" style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Đăng Khoa x Tiến Bảo</span></td>
                                     <td style="padding: 12px 16px; color: var(--text-silver); line-height: 1.4;">Đỗ đạt cao, tài lộc hưng thịnh, con cháu thông minh hiếu học.</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid rgba(197,160,89,0.12); background: rgba(5, 11, 26, 0.25);">
                                     <td style="padding: 12px 16px; color: #fff; font-weight: 600;">Mộ Đá Đơn Có Mái (1 Mái / 2 Mái)</td>
                                     <td style="padding: 12px 16px; color: var(--gold-light); font-weight: 700; white-space: nowrap;">89 cm x 133 cm</td>
-                                    <td style="padding: 12px 16px; white-space: nowrap;"><span class="cung-cat" style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Thêm Phúc x Lục Hợp</span></td>
+                                    <td style="padding: 12px 16px; white-space: nowrap;"><span class="cung-cat" style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Thêm Phúc x Tài Vượng</span></td>
                                     <td style="padding: 12px 16px; color: var(--text-silver); line-height: 1.4;">Gia đạo bình an, âm dương hòa hợp, được trời phật và tổ tiên che chở.</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid rgba(197,160,89,0.12);">
                                     <td style="padding: 12px 16px; color: #fff; font-weight: 600;">Mộ Đá Đôi Hai Mái</td>
                                     <td style="padding: 12px 16px; color: var(--gold-light); font-weight: 700; white-space: nowrap;">89 cm x 147 cm</td>
-                                    <td style="padding: 12px 16px; white-space: nowrap;"><span class="cung-cat" style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Thêm Phúc x Ích Lợi</span></td>
+                                    <td style="padding: 12px 16px; white-space: nowrap;"><span class="cung-cat" style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Thêm Phúc x Hưng Vượng</span></td>
                                     <td style="padding: 12px 16px; color: var(--text-silver); line-height: 1.4;">Tăng thêm phúc đức truyền đời cho dòng họ, phát lộc phát tài.</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid rgba(197,160,89,0.12); background: rgba(5, 11, 26, 0.25);">
                                     <td style="padding: 12px 16px; color: #fff; font-weight: 600;">Mộ Đá Đôi Ba Mái Uy Nghi</td>
-                                    <td style="padding: 12px 16px; color: var(--gold-light); font-weight: 700; white-space: nowrap;">107 cm x 167 cm</td>
-                                    <td style="padding: 12px 16px; white-space: nowrap;"><span class="cung-cat" style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Đại Cát x Tả Tài</span></td>
+                                    <td style="padding: 12px 16px; color: var(--gold-light); font-weight: 700; white-space: nowrap;">107 cm x 166 cm</td>
+                                    <td style="padding: 12px 16px; white-space: nowrap;"><span class="cung-cat" style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Thêm Đinh x Thêm Phúc</span></td>
                                     <td style="padding: 12px 16px; color: var(--text-silver); line-height: 1.4;">Mọi sự như ý, con cháu đong đầy tài lộc, sự nghiệp hanh thông.</td>
                                 </tr>
                                 <tr style="border-bottom: 1px solid rgba(197,160,89,0.12);">
                                     <td style="padding: 12px 16px; color: #fff; font-weight: 600;">Mộ Đá Khối Granite Hiện Đại</td>
                                     <td style="padding: 12px 16px; color: var(--gold-light); font-weight: 700; white-space: nowrap;">107 cm x 197 cm</td>
-                                    <td style="padding: 12px 16px; white-space: nowrap;"><span class="cung-cat" style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Đại Cát x Đăng Khoa</span></td>
+                                    <td style="padding: 12px 16px; white-space: nowrap;"><span class="cung-cat" style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Thêm Đinh x Đăng Khoa</span></td>
                                     <td style="padding: 12px 16px; color: var(--text-silver); line-height: 1.4;">Công danh thăng tiến rạng rỡ, gia tộc hưng thịnh vững bền muôn đời.</td>
                                 </tr>
                                 <tr>
                                     <td style="padding: 12px 16px; color: #fff; font-weight: 600;">Lăng Thờ Chung Cánh Phong</td>
-                                    <td style="padding: 12px 16px; color: var(--gold-light); font-weight: 700; white-space: nowrap;">Rộng 320 cm x Cao 325 cm</td>
-                                    <td style="padding: 12px 16px; white-space: nowrap;"><span class="cung-cat" style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Tiến Bảo x Nghinh Phúc</span></td>
+                                    <td style="padding: 12px 16px; color: var(--gold-light); font-weight: 700; white-space: nowrap;">Rộng 320 cm x Cao 327 cm</td>
+                                    <td style="padding: 12px 16px; white-space: nowrap;"><span class="cung-cat" style="background: rgba(16,185,129,0.15); border: 1px solid #10b981; color: #34d399; padding: 3px 10px; border-radius: 4px; font-size: 0.82rem; font-weight: 600;">Hỷ Sự x Tài Vượng</span></td>
                                     <td style="padding: 12px 16px; color: var(--text-silver); line-height: 1.4;">Đón phúc báu tổ tiên ban tặng, quy tụ linh khí toàn gia tộc.</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div style="background: rgba(5, 11, 26, 0.7); padding: 12px 18px; border-top: 1px solid rgba(197,160,89,0.2); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 0.84rem; color: #94a3b8;">
-                        <span><i class="fa-solid fa-circle-check" style="color: #34d399; margin-right: 5px;"></i> Thước Lỗ Ban 38.8cm chuẩn âm phần (chuyên dụng đo mồ mả, tiểu quách, lăng thờ).</span>
+                        <span><i class="fa-solid fa-circle-check" style="color: #34d399; margin-right: 5px;"></i> Tất cả kích thước đã kiểm tra bằng thước Lỗ Ban 38.8cm âm phần (đo mồ mả, tiểu quách, lăng thờ). Có thể nhập lại vào công cụ phía trên để đối chiếu.</span>
                         <a href="tel:0397247333" style="color: var(--gold-light); font-weight: 700; text-decoration: none;"><i class="fa-solid fa-phone"></i> KTS Tư Vấn Kích Thước Bản Vẽ: 0397.247.333</a>
                     </div>
                 </div>
@@ -2366,7 +2380,7 @@
                     <p>Chỉ dẫn cốt lõi của các bậc thầy phong thủy âm trạch giúp mồ yên mả đẹp, con cháu đời đời hưng vượng</p>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div class="fs-principles-grid">
                     <div style="background: var(--navy-medium); padding: 24px 20px; border-radius: 8px; border: 1px solid var(--glass-border); display: flex; flex-direction: column; transition: var(--transition-smooth);">
                         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
                             <div style="width: 44px; height: 44px; border-radius: 8px; background: rgba(197, 160, 89, 0.12); border: 1px solid var(--gold-primary); display: flex; align-items: center; justify-content: center; color: var(--gold-primary); font-size: 1.25rem;">
@@ -2425,7 +2439,38 @@
                 </div>
             </div>
 
-            
+            <!-- FORM ĐĂNG KÝ TƯ VẤN PHONG THỦY MIỄN PHÍ (CUỐI TRANG) -->
+            <div id="tu-van" style="scroll-margin-top: 100px; max-width: 820px; margin: 60px auto 0; background: linear-gradient(135deg, rgba(17, 32, 70, 0.75) 0%, rgba(10, 20, 44, 0.95) 100%); border: 1.2px solid rgba(197, 160, 89, 0.45); border-radius: 12px; padding: 26px 30px 22px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(197, 160, 89, 0.08); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+                <div class="section-badge" style="margin: 0 auto 8px auto !important; font-size: 0.75rem; padding: 4px 16px;">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>Tư Vấn Miễn Phí Trực Tiếp</span>
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h2 style="font-family: 'Playfair Display', 'Lora', serif; font-size: clamp(1.35rem, 2.4vw, 1.7rem); color: var(--gold-light); margin: 0 auto 6px !important; text-align: center; background: linear-gradient(135deg, #ffffff 0%, #fff7e6 20%, #dfb76c 60%, #c5a059 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));">Yêu Cầu Tư Vấn Phong Thủy Âm Trạch Trực Tiếp</h2>
+                <p style="color: var(--text-silver); max-width: 680px; margin: 0 auto 18px !important; font-size: 0.92rem; line-height: 1.5; text-align: center;">
+                    <strong style="color: var(--gold-light); font-weight: 700;">KTS Nguyễn Văn Hướng</strong> (chủ xưởng Kiến Trúc Đá Tâm Linh) trực tiếp khảo sát thực địa, tư vấn hướng mộ & thước Lỗ Ban miễn phí cho gia đình bạn.
+                </p>
+
+                <form id="fengshuiConsultForm" onsubmit="submitFengshuiConsult(event)" style="max-width: 680px; margin: 0 auto; text-align: left;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 12px;">
+                        <div>
+                            <label style="display:block; color:var(--text-silver); font-size:0.85rem; margin-bottom:4px; font-weight:500;">Họ và Tên (*):</label>
+                            <input type="text" id="fsName" required placeholder="Nguyễn Văn A" style="width:100%; padding:9px 12px; font-size:0.92rem; background:rgba(5, 11, 26, 0.85); border:1px solid rgba(197, 160, 89, 0.3); color:#fff; border-radius:6px; outline:none; transition:var(--transition-smooth);">
+                        </div>
+                        <div>
+                            <label style="display:block; color:var(--text-silver); font-size:0.85rem; margin-bottom:4px; font-weight:500;">Số Điện Thoại Zalo (*):</label>
+                            <input type="tel" id="fsPhone" required placeholder="0912345678" style="width:100%; padding:9px 12px; font-size:0.92rem; background:rgba(5, 11, 26, 0.85); border:1px solid rgba(197, 160, 89, 0.3); color:#fff; border-radius:6px; outline:none; transition:var(--transition-smooth);">
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 14px;">
+                        <label style="display:block; color:var(--text-silver); font-size:0.85rem; margin-bottom:4px; font-weight:500;">Năm Sinh Gia Chủ & Yêu Cầu Cần Tư Vấn:</label>
+                        <input type="text" id="fsNote" placeholder="Ví dụ: Cần xem hướng mộ cho ông sinh năm 1952 tại Hà Nội..." style="width:100%; padding:9px 12px; font-size:0.92rem; background:rgba(5, 11, 26, 0.85); border:1px solid rgba(197, 160, 89, 0.3); color:#fff; border-radius:6px; outline:none; transition:var(--transition-smooth);">
+                    </div>
+                    <button type="submit" class="btn-gold" style="width:100%; padding:11px; font-size:0.95rem; font-weight:700; border-radius:6px; letter-spacing:0.04em;">
+                        <i class="fa-solid fa-paper-plane" style="margin-right:6px;"></i> GỬI YÊU CẦU CHO KTS HƯỚNG NGAY
+                    </button>
+                </form>
+            </div>
 
         </div>
     </section>
@@ -2886,8 +2931,10 @@
             const menhShort = napAmFull.split(' ')[0].replace(/.*(Kim|Mộc|Thủy|Hỏa|Thổ).*/, '$1');
             const suggestedStone = STONE_SUGGESTIONS[menhShort] || 'Đá Xanh Rêu hoặc Đá Xanh Đen Ninh Bình tự nhiên nguyên khối.';
 
+            // Cộng các chữ số của 2 số cuối năm sinh (VD 1960 -> 6+0). Năm 19xx dùng tổng cả 4 chữ số
+            // (tương đương công thức 10 - tổng / 5 + tổng), năm 20xx dùng 2 số cuối (9 - tổng / 6 + tổng).
             let sum = 0;
-            let tempYear = year;
+            let tempYear = (year < 2000) ? year : (year % 100);
             while (tempYear > 0) {
                 sum += tempYear % 10;
                 tempYear = Math.floor(tempYear / 10);
@@ -2925,6 +2972,7 @@
                 if (gender === 'nam') {
                     gua = 9 - sum;
                     if (gua <= 0) gua += 9;
+                    if (gua > 9) gua -= 9;
                     if (gua === 5) gua = 2;
                 } else {
                     gua = 6 + sum;
@@ -3011,7 +3059,7 @@
                     '<h5 style="color: var(--gold-light); margin-bottom: 10px; font-size: 0.98rem; display: flex; align-items: center; gap: 6px;">' +
                         '<i class="fa-solid fa-star" style="color: var(--gold-primary);"></i> 4 Hướng Đại Cát Đặt Mộ (Thu Hút Linh Khí - Vượng Gia Tộc):' +
                     '</h5>' +
-                    goodCardsHtml +
+                    '<div class="fs-good-grid">' + goodCardsHtml + '</div>' +
 
                     '<h5 style="color: #f87171; margin-top: 14px; margin-bottom: 8px; font-size: 0.92rem; display: flex; align-items: center; gap: 6px;">' +
                         '<i class="fa-solid fa-triangle-exclamation"></i> 4 Hướng Đại Hung Tuyệt Đối Tránh (Hại Nhân Đinh, Hao Tiền Tốn Của):' +
@@ -3036,40 +3084,86 @@
                 '</div>';
         }
 
+        // ===== THƯỚC LỖ BAN 38.8cm (ÂM PHẦN): 10 cung lớn x 4 cung nhỏ, chu kỳ 38.8cm =====
+        const LOBAN_388 = [
+            { name: 'Đinh',  cat: true,  mean: 'Con cháu học hành đỗ đạt, công danh hiển vinh.', subs: ['Phúc Tinh', 'Cập Đệ', 'Tài Vượng', 'Đăng Khoa'] },
+            { name: 'Hại',   cat: false, mean: 'Dễ phát sinh thị phi, bệnh tật, tai ương.',       subs: ['Khẩu Thiệt', 'Lâm Bệnh', 'Tử Tuyệt', 'Tai Chí'] },
+            { name: 'Vượng', cat: true,  mean: 'Tấn tài tấn lộc, gia đạo thịnh vượng.',          subs: ['Thiên Đức', 'Hỷ Sự', 'Tiến Bảo', 'Thêm Phúc'] },
+            { name: 'Khổ',   cat: false, mean: 'Hao tài tốn của, công việc vất vả.',              subs: ['Thất Thoát', 'Quan Quỷ', 'Kiếp Tài', 'Vô Tự'] },
+            { name: 'Nghĩa', cat: true,  mean: 'Mọi sự đại cát, âm đức dồi dào.',                 subs: ['Đại Cát', 'Tài Vượng', 'Ích Lợi', 'Thiên Khố'] },
+            { name: 'Quan',  cat: true,  mean: 'Công danh thăng tiến, gia tộc phú quý.',          subs: ['Phú Quý', 'Tiến Bảo', 'Hoạnh Tài', 'Thuận Khoa'] },
+            { name: 'Tử',    cat: false, mean: 'Ly tán, con cháu xa quê, hao người.',             subs: ['Ly Hương', 'Tử Biệt', 'Thoát Đinh', 'Thất Tài'] },
+            { name: 'Hưng',  cat: true,  mean: 'Con cháu đông đúc, hiếu thảo, sinh quý tử.',      subs: ['Đăng Khoa', 'Quý Tử', 'Thêm Đinh', 'Hưng Vượng'] },
+            { name: 'Thất',  cat: false, mean: 'Cô độc, tổn hao, công việc trắc trở.',            subs: ['Cô Quả', 'Lao Chấp', 'Công Sự', 'Thoái Tài'] },
+            { name: 'Tài',   cat: true,  mean: 'Đón tài lộc, gia đạo ấm êm hạnh phúc.',           subs: ['Nghênh Phúc', 'Lục Hợp', 'Tiến Bảo', 'Tài Đức'] }
+        ];
+
+        function lobanInfo(cm) {
+            const mm = Math.round(cm * 10);                  // làm việc theo mm để tránh sai số số thực
+            const rem = (mm % 388) / 10;                     // vị trí trong chu kỳ 38.8cm
+            const idx = Math.min(9, Math.floor(rem / 3.88));
+            const subIdx = Math.min(3, Math.floor((rem - idx * 3.88) / 0.97));
+            const edge = Math.min(rem - idx * 3.88, (idx + 1) * 3.88 - rem);
+            return { cm: cm, rem: rem, idx: idx, cung: LOBAN_388[idx], sub: LOBAN_388[idx].subs[subIdx], cycle: Math.floor(mm / 388) + 1, edge: edge };
+        }
+
+        // Tìm kích thước Cát gần nhất (bước 0.5cm, cách ranh giới cung ít nhất 0.3cm)
+        function lobanNearestCat(cm, dir) {
+            for (let k = 1; k <= 80; k++) {
+                const v = Math.round((cm + dir * k * 0.5) * 2) / 2;
+                if (v <= 0) return null;
+                const r = lobanInfo(v);
+                if (r.cung.cat && r.edge >= 0.3) return r;
+            }
+            return null;
+        }
+
+        function fmtCm(v) { return (Math.round(v * 10) / 10).toString().replace('.', ','); }
+
         function checkLoBan() {
-            const val = parseFloat(document.getElementById('lobanInput').value);
-            if (!val || val <= 0) return;
+            const input = document.getElementById('lobanInput');
+            const out = document.getElementById('lobanResult');
+            const val = parseFloat(String(input.value).replace(',', '.'));
+            if (!val || val <= 0) { out.innerHTML = ''; return; }
 
-            // Thước Lỗ Ban 38.8cm gồm 10 cung (chu kỳ 38.8)
-            const rem = (val % 38.8);
-            let cung = "Đinh";
-            let type = "cat";
-            let desc = "Đăng Khoa / Tài Vượng - Đỗ đạt, tài lộc hưng vượng.";
+            const r = lobanInfo(val);
+            const cls = r.cung.cat ? 'cat' : 'hung';
+            const pct = (r.rem / 38.8) * 100;
 
-            if (rem < 3.88) { cung = "Đinh (Đăng Khoa)"; type = "cat"; desc = "Cung Cát: Con cháu học hành đỗ đạt, công danh hiển vinh."; }
-            else if (rem < 7.76) { cung = "Hại (Họa Chí)"; type = "hung"; desc = "Cung Hung: Nên tránh, dễ phát sinh họa tai bệnh tật."; }
-            else if (rem < 11.64) { cung = "Vượng (Tiến Bảo)"; type = "cat"; desc = "Cung Cát: Tấn tài tấn lộc, gia đình thịnh vượng phát đạt."; }
-            else if (rem < 15.52) { cung = "Khổ (Thất Tái)"; type = "hung"; desc = "Cung Hung: Nên tránh, công việc vất vả khó khăn."; }
-            else if (rem < 19.40) { cung = "Nghĩa (Đại Cát)"; type = "cat"; desc = "Cung Cát: Mọi sự đại cát như ý, âm đức dồi dào."; }
-            else if (rem < 23.28) { cung = "Quan (Phú Quý)"; type = "cat"; desc = "Cung Cát: Gia tộc giàu có phú quý, vinh hoa lâu dài."; }
-            else if (rem < 27.16) { cung = "Tử (Ly Hương)"; type = "hung"; desc = "Cung Hung: Nên tránh, phân tán ly tán."; }
-            else if (rem < 31.04) { cung = "Hưng (Quý Tử)"; type = "cat"; desc = "Cung Cát: Sinh con quý tử, con cháu đông đúc hiếu thảo."; }
-            else if (rem < 34.92) { cung = "Thất (Cô Quả)"; type = "hung"; desc = "Cung Hung: Nên tránh, cô độc tổn hao."; }
-            else { cung = "Tài (Tiến Bảo)"; type = "cat"; desc = "Cung Cát: Đón nhận tài lộc, gia đạo ấm êm hạnh phúc."; }
+            let ruler = '<div class="loban-ruler">';
+            LOBAN_388.forEach(function(c, i) {
+                ruler += '<div class="loban-seg ' + (c.cat ? 'cat' : 'hung') + (i === r.idx ? ' active' : '') + '">' + c.name + '</div>';
+            });
+            ruler += '<div class="loban-marker" style="left:' + pct.toFixed(2) + '%;">' + fmtCm(val) + ' cm</div></div>' +
+                     '<div class="loban-scale"><span>0</span><span>19,4 cm</span><span>38,8 cm</span></div>';
 
-            const isCat = type === 'cat';
-            const color = isCat ? '#4caf50' : '#f44336';
-            const statusText = isCat ? 'CUNG CÁT (NÊN DÙNG)' : 'CUNG HUNG (NÊN TRÁNH)';
-            const bgStyle = isCat ? 'background:rgba(76,175,80,0.2);' : 'background:rgba(244,67,54,0.2);';
+            let advice = '';
+            if (!r.cung.cat) {
+                const lo = lobanNearestCat(val, -1), hi = lobanNearestCat(val, 1);
+                advice = '<div class="loban-suggest"><strong style="color: var(--gold-light);"><i class="fa-solid fa-lightbulb"></i> Kích thước Cát gần nhất:</strong><br>';
+                [lo, hi].forEach(function(x) {
+                    if (x) advice += '<button type="button" onclick="document.getElementById(\'lobanInput\').value=\'' + x.cm + '\';checkLoBan();">' + fmtCm(x.cm) + ' cm · ' + x.cung.name + ' – ' + x.sub + '</button>';
+                });
+                advice += '</div>';
+            } else if (r.edge < 0.3) {
+                advice = '<div class="loban-warn"><i class="fa-solid fa-triangle-exclamation"></i> Kích thước sát ranh giới cung (cách ' + fmtCm(r.edge) + ' cm). Khi thi công nên chọn kích thước lệch vào giữa cung để tránh sai số.</div>';
+            }
 
-            document.getElementById('lobanResult').innerHTML = 
-                '<div style="border:1px solid ' + color + '; background:var(--navy-dark); padding:20px; border-radius:8px;">' +
-                    '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">' +
-                        '<span style="color:var(--text-silver); font-size:0.9rem;">Kích thước: <strong style="color:#fff;">' + val + ' cm</strong></span>' +
-                        '<span style="' + bgStyle + ' color:' + color + '; padding:4px 12px; border-radius:12px; font-weight:700; font-size:0.8rem;">' + statusText + '</span>' +
+            out.innerHTML =
+                '<div class="loban-card ' + cls + '">' +
+                    '<div class="loban-head">' +
+                        '<span style="color: var(--text-silver); font-size: 0.9rem;">Kích thước: <strong style="color:#fff;">' + fmtCm(val) + ' cm</strong></span>' +
+                        '<span class="loban-badge">' + (r.cung.cat ? 'CUNG CÁT · NÊN DÙNG' : 'CUNG HUNG · NÊN TRÁNH') + '</span>' +
                     '</div>' +
-                    '<h4 style="color:' + color + '; font-size:1.2rem; margin-bottom:8px;">Cung Lỗ Ban 38.8cm: ' + cung + '</h4>' +
-                    '<p style="color:var(--text-silver); font-size:0.9rem;">' + desc + '</p>' +
+                    '<h4 class="loban-title">Cung ' + r.cung.name + ' – ' + r.sub + '</h4>' +
+                    '<p class="loban-sub">' + r.cung.mean + '</p>' +
+                    ruler +
+                    '<div class="loban-meta">' +
+                        '<div><span>Cung lớn</span><strong>' + r.cung.name + (r.cung.cat ? ' (Cát)' : ' (Hung)') + '</strong></div>' +
+                        '<div><span>Cung nhỏ</span><strong>' + r.sub + '</strong></div>' +
+                        '<div><span>Vị trí trong chu kỳ ' + r.cycle + '</span><strong>' + fmtCm(r.rem) + ' / 38,8 cm</strong></div>' +
+                    '</div>' +
+                    advice +
                 '</div>';
         }
 
@@ -3077,9 +3171,9 @@
             e.preventDefault();
             try {
                 const form = document.getElementById('fengshuiConsultForm');
-                const name = form.querySelector('input[type="text"]')?.value || 'Khách phong thủy';
-                const phone = form.querySelector('input[type="tel"]')?.value || '';
-                const note = form.querySelector('textarea')?.value || 'Yêu cầu tư vấn phong thủy đặt mộ';
+                const name = (document.getElementById('fsName').value || '').trim() || 'Khách phong thủy';
+                const phone = (document.getElementById('fsPhone').value || '').trim();
+                const note = (document.getElementById('fsNote').value || '').trim() || 'Yêu cầu tư vấn phong thủy đặt mộ';
                 if (typeof window.ktdtlSaveLead === 'function') {
                     window.ktdtlSaveLead({ name, phone, note, source: 'phong-thuy.html' });
                 }
