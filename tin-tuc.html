@@ -4670,7 +4670,7 @@
                     <div class="reading-popular-item" style="${borderStyle}" onclick="openArticleModal(${item.id})">
                         <div class="reading-popular-rank ${rankClass}">#${idx + 1}</div>
                         <div class="reading-popular-thumb">
-                            <img src="${item.image}" alt="${item.title}" loading="lazy" decoding="async">
+                            <img src="${item.image || '/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp'}" alt="${item.title}" loading="eager" decoding="async" onerror="this.onerror=null;this.src='/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp';">
                         </div>
                         <div class="reading-popular-info">
                             <h4 class="reading-popular-title" title="${item.title}">${item.title}</h4>
@@ -4718,7 +4718,7 @@
                 </div>
 
                 <div class="article-hero-img-wrap">
-                    <img src="${article.image}" alt="${article.title}" loading="lazy" decoding="async">
+                    <img src="${article.image || '/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp'}" alt="${article.title}" loading="eager" decoding="async" onerror="this.onerror=null;this.src='/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp';">
                 </div>
 
                 <div class="article-content-body">
@@ -4740,14 +4740,16 @@
             if (recContainer) {
                 const recProducts = getRecommendedProducts(article);
                 recContainer.innerHTML = recProducts.map(p => {
-                    const pImg = (p.imgs && p.imgs.length > 0) ? p.imgs[0] : (p.image || '');
+                    let pImg = ((p.imgs && p.imgs.length > 0) ? p.imgs[0] : (p.image || '')).trim();
+                    if (!pImg) pImg = '/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp';
+                    else if (!/^(https?:|data:|blob:|\/)/.test(pImg)) pImg = '/' + pImg;
                     const pMat = p.material || 'Đá Xanh Tự Nhiên';
                     const pPrice = p.price || 'Liên Hệ KTS';
                     const pCat = p.cat_name || 'Lăng Mộ Đá';
                     return `
                         <div class="sidebar-rec-card">
                             <div class="sidebar-rec-thumb">
-                                <img src="${pImg}" alt="${p.title}" loading="lazy">
+                                <img src="${pImg}" alt="${p.title}" loading="eager" decoding="async" width="96" height="96" onerror="this.onerror=null;this.src='/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp';">
                                 <span class="sidebar-rec-tag">${pCat}</span>
                             </div>
                             <div class="sidebar-rec-info">
