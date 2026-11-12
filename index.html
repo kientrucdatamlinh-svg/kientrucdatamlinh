@@ -6,12 +6,10 @@
     <meta name="google-site-verification" content="WrRhXkywIKE9oS2IYM-ZspqhhVkGbZblKnPM_SaCkVc">
 
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" type="image/jpeg" sizes="32x32" href="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp">
-    <link rel="icon" type="image/jpeg" sizes="16x16" href="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp">
-    <link rel="icon" type="image/jpeg" sizes="96x96" href="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp">
-    <link rel="shortcut icon" href="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp">
-    <meta name="msapplication-TileImage" content="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/logo/icon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/logo/icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/icon-180.png">
+    <meta name="msapplication-TileImage" content="/images/logo/icon-192.png">
     <meta name="msapplication-TileColor" content="#0a0f1e">
     <meta name="theme-color" content="#0a0f1e">
     <title>Kiến Trúc Đá Tâm Linh Ninh Bình - Thiết Kế Thi Công Lăng Mộ Đá Đỉnh Cao</title>
@@ -24,7 +22,7 @@
     <meta property="og:description" content="Kiến Trúc Đá Tâm Linh Ninh Bình chuyên thiết kế thi công khu lăng mộ đá gia tộc, mộ đá khối, lăng thờ chung chuẩn phong thủy thước Lỗ Ban. Hotline: 0397.247.333.">
     <meta property="og:url" content="https://kientrucdatamlinh.com/">
     <meta property="og:site_name" content="Kiến Trúc Đá Tâm Linh">
-    <meta property="og:image" content="/images/nen/nha_tho_to_vang_kim.webp">
+    <meta property="og:image" content="https://kientrucdatamlinh.com/images/nen/nha_tho_to_vang_kim.webp">
     <link rel="manifest" href="/manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +30,7 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :where(.site-name){display:block;font-size:2em;font-weight:bold;margin-block:0.67em;}
         
         
         
@@ -131,7 +130,7 @@
             font-feature-settings: "lnum" 1;
         }
 
-        h1, h2, h3, h4, h5, h6, .font-title {
+        h1, h2, h3, h4, h5, h6, :where(.site-name), .font-title {
             font-family: 'Lora', serif;
             font-weight: 700;
             letter-spacing: 0.01em;
@@ -450,7 +449,7 @@
             text-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
         }
 
-        .logo-text h1 {
+        .logo-text .site-name {
             font-size: 1.5rem;
             color: var(--text-white);
             line-height: 1.1;
@@ -560,14 +559,14 @@
             background-color: var(--gold-primary);
         }
 
-        .hero h2 {
+        .hero h2, .hero .hero-title {
             font-size: 4rem;
             line-height: 1.15;
             color: var(--text-white);
             margin-bottom: 25px;
         }
 
-        .hero h2 span {
+        .hero h2 span, .hero .hero-title span {
             color: var(--gold-light);
             background: linear-gradient(120deg, var(--gold-primary), var(--gold-light), #fff);
             -webkit-background-clip: text;
@@ -1744,8 +1743,8 @@
 
         /* RESPONSIVE LAYOUTS */
         @media (max-width: 1024px) {
-            h1, h2 { font-size: 2.2rem; }
-            .hero h2 { font-size: 3rem; }
+            h1, h2, :where(.site-name) { font-size: 2.2rem; }
+            .hero h2, .hero .hero-title { font-size: 3rem; }
             .about-wrapper, .contact-grid {
                 grid-template-columns: 1fr;
                 gap: 50px;
@@ -1793,7 +1792,7 @@
                 display: none;
             }
 
-            .hero h2 { font-size: 2.3rem; }
+            .hero h2, .hero .hero-title { font-size: 2.3rem; }
             .hero-stats { gap: 30px; flex-wrap: wrap; }
             .portfolio-grid { grid-template-columns: 1fr; }
             .process-flow { grid-template-columns: 1fr; gap: 40px; }
@@ -1860,7 +1859,7 @@
             z-index: 2;
         }
 
-        .hero-content h2, .hero-content p, .hero-tagline {
+        .hero-content h2, .hero-content .hero-title, .hero-content p, .hero-tagline {
             text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 0 25px rgba(5, 11, 26, 0.95);
         }
 
@@ -1909,7 +1908,7 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
         }
 
-        .logo-text h1 {
+        .logo-text .site-name {
             font-size: 1.25rem !important;
             white-space: nowrap;
         }
@@ -1962,7 +1961,7 @@
             <a href="index.html" class="logo">
                 <img src="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp" alt="Logo Kiến Trúc Đá Tâm Linh" style="height: 48px; width: 48px; border-radius: 50%; border: 1.5px solid var(--gold-primary); object-fit: cover;">
                 <div class="logo-text">
-                    <h1>Kiến Trúc Đá Tâm Linh</h1>
+                    <strong class="site-name">Kiến Trúc Đá Tâm Linh</strong>
                     <span>Ninh Vân - Ninh Bình</span>
                 </div>
             </a>
@@ -2007,11 +2006,11 @@
             <!-- Left Aligned Main Text & Buttons (Ảnh 1) -->
             <div class="hero-content" style="max-width: 680px; text-align: left; margin-top: 55px;">
                 <div class="hero-tagline" style="color: var(--gold-primary); text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700; margin-bottom: 15px; display: inline-flex; align-items: center; gap: 8px;"><i class="fa-solid fa-gopuran"></i> Sáng Tạo - Thiết Kế - Thi Công</div>
-                <h2 style="font-size: 2.5rem; color: var(--gold-light); line-height: 1.3; margin-bottom: 20px; text-shadow: 0 2px 15px rgba(0,0,0,0.9), 0 0 20px rgba(197, 160, 89, 0.35);">Kiến Tạo Di Sản Đá Tâm Linh Trường Tồn</h2>
+                <h1 class="hero-title" style="font-size: 2.5rem; color: var(--gold-light); line-height: 1.3; margin-bottom: 20px; text-shadow: 0 2px 15px rgba(0,0,0,0.9), 0 0 20px rgba(197, 160, 89, 0.35);">Kiến Tạo Di Sản Đá Tâm Linh Trường Tồn</h1>
                 <p style="color: var(--text-silver); font-size: 1.1rem; line-height: 1.8; margin-bottom: 30px;">Kế thừa nghề truyền thống điêu khắc đá mỹ nghệ Ninh Bình, kết hợp chuyên môn Kiến trúc sư tài hoa để mang lại các công trình lăng mộ, nhà thờ tổ đẳng cấp và chuẩn phong thủy.</p>
                 <div class="hero-btns" style="display: flex; justify-content: flex-start; gap: 20px;">
                     <a href="phong-thuy.html" class="btn-gold">Tư Vấn Phong Thủy</a>
-                    <a href="tu-van-lap-dat.html" class="btn-outline">Tư Vấn Lắp Đặt</a>
+                    <a href="lap-dat.html" class="btn-outline">Tư Vấn Lắp Đặt</a>
                 </div>
             </div>
 
@@ -2067,7 +2066,7 @@
                     </p>
                     <div style="display: flex; gap: 20px;">
                         <a href="gioi-thieu.html" class="btn-gold">Xem Chi Tiết Giới Thiệu</a>
-                        <a href="tu-van-lap-dat.html" class="btn-outline">Đăng Ký Tư Vấn</a>
+                        <a href="lap-dat.html" class="btn-outline">Đăng Ký Tư Vấn</a>
                     </div>
                 </div>
             </div>
@@ -2915,7 +2914,7 @@ Về mặt phong thủy tâm linh, Chậu Đá Kênh Bong đóng vai trò quan t
                     <a href="index.html" class="logo" style="margin-bottom: 20px;">
                         <img src="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp" alt="Logo" style="height: 40px; width: 40px; border-radius: 50%; border: 1px solid var(--gold-primary); object-fit: cover;">
                         <div class="logo-text">
-                            <h1 style="font-size: 1.15rem !important;">Kiến Trúc Đá Tâm Linh</h1>
+                            <strong class="site-name" style="font-size: 1.15rem !important;">Kiến Trúc Đá Tâm Linh</strong>
                             <span style="font-size: 0.65rem !important;">Ninh Vân - Ninh Bình</span>
                         </div>
                     </a>

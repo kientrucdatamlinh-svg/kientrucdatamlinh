@@ -5,20 +5,15 @@ This project has been configured with Vercel Web Analytics.
 ## What was implemented
 
 The Vercel Web Analytics tracking script has been added to all HTML pages in this project:
-- admin.html
 - bao-gia.html
 - du-an.html
 - gioi-thieu.html
 - index.html
-- kientrucdatamlinh.html
 - lap-dat.html
 - lien-he.html
 - phong-thuy.html
 - san-pham.html
 - tin-tuc.html
-- tu-van-lap-dat.html
-- tu-van-phong-thuy.html
-- xem-huong-mo-kich-thuoc-mo.html
 
 ## How it works
 

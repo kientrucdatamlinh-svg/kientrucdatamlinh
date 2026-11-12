@@ -6,12 +6,10 @@
     <meta name="google-site-verification" content="WrRhXkywIKE9oS2IYM-ZspqhhVkGbZblKnPM_SaCkVc">
 
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" type="image/jpeg" sizes="32x32" href="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp">
-    <link rel="icon" type="image/jpeg" sizes="16x16" href="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp">
-    <link rel="icon" type="image/jpeg" sizes="96x96" href="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp">
-    <link rel="shortcut icon" href="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp">
-    <meta name="msapplication-TileImage" content="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/logo/icon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/logo/icon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/icon-180.png">
+    <meta name="msapplication-TileImage" content="/images/logo/icon-192.png">
     <meta name="msapplication-TileColor" content="#0a0f1e">
     <meta name="theme-color" content="#0a0f1e">
     <link rel="manifest" href="/manifest.json">
@@ -23,7 +21,7 @@
     <!-- Open Graph SEO -->
     <meta property="og:title" content="Tin Tức & Cẩm Nang Đá Mỹ Nghệ Phong Thủy - Kiến Trúc Đá Tâm Linh">
     <meta property="og:description" content="Kinh nghiệm thiết kế thi công lăng mộ đá gia tộc, phong thủy âm trạch và văn hóa tâm linh truyền thống Ninh Bình.">
-    <meta property="og:image" content="/images/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_tai_ha_noi/20240523_065741.webp">
+    <meta property="og:image" content="https://kientrucdatamlinh.com/images/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_tai_ha_noi/20240523_065741.webp">
     <meta property="og:url" content="https://kientrucdatamlinh.com/tin-tuc.html">
     <meta property="og:type" content="website">
 
@@ -53,6 +51,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        :where(.site-name){display:block;font-size:2em;font-weight:bold;margin-block:0.67em;}
 
         
         
@@ -153,7 +152,7 @@
             font-feature-settings: "lnum" 1;
         }
 
-        h1, h2, h3, h4, h5, h6, .font-title {
+        h1, h2, h3, h4, h5, h6, :where(.site-name), .font-title {
             font-family: 'Lora', serif;
             font-weight: 700;
             letter-spacing: 0.01em;
@@ -472,7 +471,7 @@
             text-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
         }
 
-        .logo-text h1 {
+        .logo-text .site-name {
             font-size: 1.5rem;
             color: var(--text-white);
             line-height: 1.1;
@@ -1766,7 +1765,7 @@
 
         /* RESPONSIVE LAYOUTS */
         @media (max-width: 1024px) {
-            h1, h2 { font-size: 2.2rem; }
+            h1, h2, :where(.site-name) { font-size: 2.2rem; }
             .hero h2 { font-size: 3rem; }
             .about-wrapper, .contact-grid {
                 grid-template-columns: 1fr;
@@ -1931,7 +1930,7 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
         }
 
-        .logo-text h1 {
+        .logo-text .site-name {
             font-size: 1.25rem !important;
             white-space: nowrap;
         }
@@ -3445,7 +3444,7 @@
             <a href="index.html" class="logo">
                 <img src="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp" alt="Logo Kiến Trúc Đá Tâm Linh" style="height: 48px; width: 48px; border-radius: 50%; border: 1.5px solid var(--gold-primary); object-fit: cover;">
                 <div class="logo-text">
-                    <h1>Kiến Trúc Đá Tâm Linh</h1>
+                    <strong class="site-name">Kiến Trúc Đá Tâm Linh</strong>
                     <span>Ninh Vân - Ninh Bình</span>
                 </div>
             </a>
@@ -3718,7 +3717,7 @@
                     <a href="index.html" class="logo" style="margin-bottom: 20px;">
                         <img src="/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp" alt="Logo" style="height: 40px; width: 40px; border-radius: 50%; border: 1px solid var(--gold-primary); object-fit: cover;">
                         <div class="logo-text">
-                            <h1 style="font-size: 1.15rem !important;">Kiến Trúc Đá Tâm Linh</h1>
+                            <strong class="site-name" style="font-size: 1.15rem !important;">Kiến Trúc Đá Tâm Linh</strong>
                             <span style="font-size: 0.65rem !important;">Ninh Vân - Ninh Bình</span>
                         </div>
                     </a>
@@ -4707,9 +4706,9 @@
             modalBody.innerHTML = `
                 <div style="margin-bottom: 20px;">
                     <span class="article-tag">${article.categoryName}</span>
-                    <h1 style="color: var(--gold-light); font-size: 2.1rem; line-height: 1.35; margin: 14px 0 16px; font-family: 'Playfair Display', serif;">
+                    <h2 style="color: var(--gold-light); font-size: 2.1rem; line-height: 1.35; margin: 14px 0 16px; font-family: 'Playfair Display', serif;">
                         ${article.title}
-                    </h1>
+                    </h2>
                     <div class="article-meta" style="border-bottom: 1px solid rgba(197, 160, 89, 0.25); padding-bottom: 15px; margin-bottom: 22px; flex-wrap: wrap; gap: 14px;">
                         <span><i class="fa-regular fa-calendar"></i> Ngày đăng: ${article.date}</span>
                         <span><i class="fa-solid fa-user-pen"></i> Tác giả: ${article.author}</span>

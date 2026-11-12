@@ -283,7 +283,7 @@
         flex-shrink: 0 !important;
     }
 
-    .logo-text h1 {
+    .logo-text .site-name {
         font-size: 1.02rem !important;
         white-space: nowrap !important;
         line-height: 1.2 !important;
@@ -421,7 +421,8 @@
     }
 
     .hero h2,
-    .hero-content h2 {
+    .hero-content h2,
+    .hero-content .hero-title {
         font-size: clamp(1.55rem, 5.2vw, 1.95rem) !important;
         line-height: 1.28 !important;
         margin-bottom: 12px !important;
@@ -1402,7 +1403,7 @@
 
 /* MÀN HÌNH CỰC NHỎ (<= 380px) */
 @media (max-width: 380px) {
-    .logo-text h1 {
+    .logo-text .site-name {
         font-size: 0.92rem !important;
     }
     .logo-text span {

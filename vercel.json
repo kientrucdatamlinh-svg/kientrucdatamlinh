@@ -1,0 +1,20 @@
+{
+  "cleanUrls": false,
+  "redirects": [
+    { "source": "/tu-van-phong-thuy.html", "destination": "/phong-thuy.html", "permanent": true },
+    { "source": "/xem-huong-mo-kich-thuoc-mo.html", "destination": "/phong-thuy.html", "permanent": true },
+    { "source": "/tu-van-lap-dat.html", "destination": "/lap-dat.html", "permanent": true },
+    { "source": "/kientrucdatamlinh.html", "destination": "/", "permanent": true },
+    { "source": "/scratch/:path*", "destination": "/", "permanent": false }
+  ],
+  "headers": [
+    {
+      "source": "/images/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000, stale-while-revalidate=86400" }]
+    },
+    {
+      "source": "/(site-common|mobile)\\.(js|css)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }]
+    }
+  ]
+}
