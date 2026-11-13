@@ -3993,13 +3993,11 @@
                         const rIdx = r.index;
                         const rImg = (item.imgs && item.imgs[0]) ? item.imgs[0] : '';
                         const rTitle = item.title ? item.title.replace(/"/g, '&quot;') : '';
-                        const rPrice = item.price || 'Liên hệ';
                         
                         recHtml += '<div class="rec-prod-item" onclick="openGroupedProductModal(' + rIdx + ')">' +
                             '<img src="' + rImg + '" alt="' + rTitle + '" style="width:90px; height:68px; object-fit:cover; border-radius:6px; flex-shrink:0;" loading="lazy" decoding="async">' +
                             '<div style="flex:1; overflow:hidden;">' +
                                 '<h4 style="color:#0b3c5d; font-size:0.9rem; margin:0 0 4px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + rTitle + '</h4>' +
-                                '<div style="color:#c5a059; font-weight:700; font-size:0.82rem;"><i class="fa-solid fa-tag"></i> ' + rPrice + '</div>' +
                             '</div>' +
                         '</div>';
                     }
