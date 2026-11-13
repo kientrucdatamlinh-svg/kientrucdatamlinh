@@ -14,6 +14,21 @@
     <meta name="theme-color" content="#0a0f1e">
     <link rel="manifest" href="/manifest.json">
     <title>Tin Tức & Cẩm Nang Đá Mỹ Nghệ Phong Thủy - Kiến Trúc Đá Tâm Linh Ninh Bình</title>
+    <script>
+    /* Tăng tốc hiển thị ảnh: ảnh thu nhỏ cho thẻ, ảnh nền tải dần, dữ liệu không vẽ lại thừa */
+    (function(w,d){
+     w.ktThumb=function(s){return(typeof s==='string'&&/^\/images\/(san_pham|du_an)\/.+\.webp$/i.test(s))?'/images/thumb/'+s.slice(8):s;};
+     w.ktFull=function(s){return typeof s==='string'?s.replace('/images/thumb/','/images/'):s;};
+     d.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='IMG'&&!t.getAttribute('data-ktfb')&&String(t.src).indexOf('/images/thumb/')>-1){t.setAttribute('data-ktfb','1');t.src=w.ktFull(t.src);}},true);
+     w.ktBgUrl=function(u){return(w.innerWidth<=820&&/^\/images\/nen\/[^\/]+\.webp$/.test(u))?u.replace('/images/nen/','/images/nen/m/'):u;};
+     w.ktLoadBg=function(all){var l=d.querySelectorAll('[data-bg]');for(var i=0;i<l.length;i++){var el=l[i];if(all||el.className.indexOf('active')>-1){el.style.backgroundImage="url('"+w.ktBgUrl(el.getAttribute('data-bg'))+"')";el.removeAttribute('data-bg');}}};
+     w.addEventListener('load',function(){setTimeout(function(){w.ktLoadBg(true);},1500);});
+     w.ktSig=function(a){try{var s=JSON.stringify(a)||'',h=5381;for(var i=0;i<s.length;i++){h=((h<<5)+h+s.charCodeAt(i))|0;}return(h>>>0).toString(36)+'.'+s.length;}catch(e){return '';}};
+     w.ktNeedRender=function(id,payload){var el=d.getElementById(id),sig=w.ktSig(payload);if(el&&sig&&el.getAttribute('data-sig')===sig)return false;if(el&&sig)el.setAttribute('data-sig',sig);return true;};
+     var defP=null;
+     w.ktLoadDefaultData=function(){if(defP)return defP;defP=new Promise(function(res){var s=d.createElement('script');s.src='/default_data.js';s.onload=s.onerror=function(){try{if(typeof w.ensureData==='function')w.ensureData();}catch(e){}res();};d.body.appendChild(s);});return defP;};
+    })(window,document);
+    </script>
     <meta name="description" content="Chuyên mục tin tức, cẩm nang xây dựng khu lăng mộ đá gia tộc, kiến trúc nhà thờ họ, tra cứu kích thước Lỗ Ban 38.8cm và kinh nghiệm chọn đá mỹ nghệ tự nhiên từ KTS Nguyễn Văn Hướng.">
     <meta name="keywords" content="lăng mộ đá ninh bình, phong thủy lăng mộ, cẩm nang xây mộ đá, thước lỗ ban 38.8cm, đá xanh rêu, nhà thờ họ bằng đá, kts nguyễn văn hướng">
     <link rel="canonical" href="https://kientrucdatamlinh.com/tin-tuc.html">
@@ -46,9 +61,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet"></noscript>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     
     <style>
         :where(.site-name){display:block;font-size:2em;font-weight:bold;margin-block:0.67em;}
@@ -539,7 +554,7 @@
             display: flex;
             align-items: center;
             background: linear-gradient(rgba(5, 11, 26, 0.7), rgba(5, 11, 26, 0.95)), 
-                        url('/images/nen/anh_nen.webp') center/cover no-repeat;
+                        #050b1a;
             padding-top: 100px;
             overflow: hidden;
         }
@@ -3473,14 +3488,14 @@
     </header>
 
     <section class="page-banner">
-        <div class="page-banner-slide active" style="background-image: url('/images/nen/nha_tho_to_vang_kim.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-07-08-09-35-51.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-07-08-09-36-22.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-08-03-07-36-09.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-08-03-07-36-46.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-08-10-15-38-17.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-08-10-15-41-56.webp');"></div>
-        <div class="page-banner-slide" style="background-image: url('/images/nen/enscape_2026-09-04-10-43-53.webp');"></div>
+        <div class="page-banner-slide active" data-bg="/images/nen/nha_tho_to_vang_kim.webp"></div>
+        <div class="page-banner-slide" data-bg="/images/nen/enscape_2026-07-08-09-35-51.webp"></div>
+        <div class="page-banner-slide" data-bg="/images/nen/enscape_2026-07-08-09-36-22.webp"></div>
+        <div class="page-banner-slide" data-bg="/images/nen/enscape_2026-08-03-07-36-09.webp"></div>
+        <div class="page-banner-slide" data-bg="/images/nen/enscape_2026-08-03-07-36-46.webp"></div>
+        <div class="page-banner-slide" data-bg="/images/nen/enscape_2026-08-10-15-38-17.webp"></div>
+        <div class="page-banner-slide" data-bg="/images/nen/enscape_2026-08-10-15-41-56.webp"></div>
+        <div class="page-banner-slide" data-bg="/images/nen/enscape_2026-09-04-10-43-53.webp"></div><script>ktLoadBg(false)</script>
         <div class="page-banner-overlay"></div>
         <div class="container">
             <h1>Tin Tức & Cẩm Nang Phong Thủy</h1>

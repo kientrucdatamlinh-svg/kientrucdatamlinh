@@ -14,6 +14,21 @@
     <meta name="theme-color" content="#0a0f1e">
     <link rel="manifest" href="/manifest.json">
     <title>Công Trình Tiêu Biểu & Dự Án 3D - Kiến Trúc Đá Tâm Linh</title>
+    <script>
+    /* Tăng tốc hiển thị ảnh: ảnh thu nhỏ cho thẻ, ảnh nền tải dần, dữ liệu không vẽ lại thừa */
+    (function(w,d){
+     w.ktThumb=function(s){return(typeof s==='string'&&/^\/images\/(san_pham|du_an)\/.+\.webp$/i.test(s))?'/images/thumb/'+s.slice(8):s;};
+     w.ktFull=function(s){return typeof s==='string'?s.replace('/images/thumb/','/images/'):s;};
+     d.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='IMG'&&!t.getAttribute('data-ktfb')&&String(t.src).indexOf('/images/thumb/')>-1){t.setAttribute('data-ktfb','1');t.src=w.ktFull(t.src);}},true);
+     w.ktBgUrl=function(u){return(w.innerWidth<=820&&/^\/images\/nen\/[^\/]+\.webp$/.test(u))?u.replace('/images/nen/','/images/nen/m/'):u;};
+     w.ktLoadBg=function(all){var l=d.querySelectorAll('[data-bg]');for(var i=0;i<l.length;i++){var el=l[i];if(all||el.className.indexOf('active')>-1){el.style.backgroundImage="url('"+w.ktBgUrl(el.getAttribute('data-bg'))+"')";el.removeAttribute('data-bg');}}};
+     w.addEventListener('load',function(){setTimeout(function(){w.ktLoadBg(true);},1500);});
+     w.ktSig=function(a){try{var s=JSON.stringify(a)||'',h=5381;for(var i=0;i<s.length;i++){h=((h<<5)+h+s.charCodeAt(i))|0;}return(h>>>0).toString(36)+'.'+s.length;}catch(e){return '';}};
+     w.ktNeedRender=function(id,payload){var el=d.getElementById(id),sig=w.ktSig(payload);if(el&&sig&&el.getAttribute('data-sig')===sig)return false;if(el&&sig)el.setAttribute('data-sig',sig);return true;};
+     var defP=null;
+     w.ktLoadDefaultData=function(){if(defP)return defP;defP=new Promise(function(res){var s=d.createElement('script');s.src='/default_data.js';s.onload=s.onerror=function(){try{if(typeof w.ensureData==='function')w.ensureData();}catch(e){}res();};d.body.appendChild(s);});return defP;};
+    })(window,document);
+    </script>
     <link rel="canonical" href="https://kientrucdatamlinh.com/du-an.html">
     <meta name="description" content="Các công trình khu lăng mộ đá, lăng thờ, nhà thờ họ tiêu biểu do Kiến Trúc Đá Tâm Linh thiết kế và thi công trên toàn quốc, kèm phối cảnh 3D trước khi chế tác.">
     <meta property="og:locale" content="vi_VN">
@@ -25,9 +40,9 @@
     <meta property="og:image" content="https://kientrucdatamlinh.com/images/nen/nha_tho_to_vang_kim.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet"></noscript></noscript>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript></noscript>
     <style>
         :where(.site-name){display:block;font-size:2em;font-weight:bold;margin-block:0.67em;}
         
@@ -516,7 +531,7 @@
             display: flex;
             align-items: center;
             background: linear-gradient(rgba(5, 11, 26, 0.7), rgba(5, 11, 26, 0.95)), 
-                        url('/images/nen/anh_nen.webp') center/cover no-repeat;
+                        #050b1a;
             padding-top: 100px;
             overflow: hidden;
         }
@@ -2016,17 +2031,14 @@
                 <button class="tab-btn" data-cat="nhatho" onclick="filterExecutedTabClick('nhatho', this)">Nhà Thờ (12)</button>
             </div>
 
-            <div class="portfolio-grid" id="executedGrid">
-
-            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hà Nội" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-grid" id="executedGrid" data-sig="qjpaf1.82243">
+            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hà Nội" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(0)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 9 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Hà Nội
-                    </span>
-                    <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_tai_ha_noi/20240523_065741.webp" alt="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hà Nội" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(0)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Hà Nội</span>
+                    <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_tai_ha_noi/20240523_065741.webp" alt="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hà Nội" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(0)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2045,15 +2057,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hòa Bình" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hòa Bình" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(1)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 3 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Hòa Bình
-                    </span>
-                    <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_tai_hoa_binh/20251025_101717.webp" alt="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hòa Bình" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(1)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Hòa Bình</span>
+                    <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_tai_hoa_binh/20251025_101717.webp" alt="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hòa Bình" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(1)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2072,15 +2082,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Cho Chủ Đầu Tư Ở Nghệ An" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Cho Chủ Đầu Tư Ở Nghệ An" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(2)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 13 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Nghệ An
-                    </span>
-                    <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_o_nghe_an/20241006_111154.webp" alt="Khu Lăng Mộ Cho Chủ Đầu Tư Ở Nghệ An" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(2)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Nghệ An</span>
+                    <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_o_nghe_an/20241006_111154.webp" alt="Khu Lăng Mộ Cho Chủ Đầu Tư Ở Nghệ An" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(2)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2099,15 +2107,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Tại Nghĩa Trang Bình Dương" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Tại Nghĩa Trang Bình Dương" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(3)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 23 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Nghĩa Trang Bình Dương
-                    </span>
-                    <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_tai_nghia_trang_binh_duong/20251009_104933.webp" alt="Khu Lăng Mộ Tại Nghĩa Trang Bình Dương" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(3)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Nghĩa Trang Bình Dương</span>
+                    <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_tai_nghia_trang_binh_duong/20251009_104933.webp" alt="Khu Lăng Mộ Tại Nghĩa Trang Bình Dương" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(3)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2126,15 +2132,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Huế" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Huế" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(4)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 5 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Huế
-                    </span>
-                    <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_xanh_reu_cho_chu_dau_tu_tai_hue/20251025_102039.webp" alt="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Huế" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(4)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Huế</span>
+                    <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_xanh_reu_cho_chu_dau_tu_tai_hue/20251025_102039.webp" alt="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Huế" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(4)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2153,15 +2157,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Hà Tĩnh" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Hà Tĩnh" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(5)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 24 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Hà Tĩnh
-                    </span>
-                    <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_xanh_reu_cho_chu_dau_tu_tai_ha_tinh/20250912_080715.webp" alt="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Hà Tĩnh" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(5)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Hà Tĩnh</span>
+                    <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_xanh_reu_cho_chu_dau_tu_tai_ha_tinh/20250912_080715.webp" alt="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Hà Tĩnh" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(5)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2180,15 +2182,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Nghĩa Trang Thành Phố Nghệ An" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Nghĩa Trang Thành Phố Nghệ An" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(6)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 6 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Nghĩa Trang Thành Phố Nghệ An
-                    </span>
-                    <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_xanh_reu_cho_chu_dau_tu_tai_nghia_trang_thanh_pho_nghe_an/20241110_133801.webp" alt="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Nghĩa Trang Thành Phố Nghệ An" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(6)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Nghĩa Trang Thành Phố Nghệ An</span>
+                    <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_xanh_reu_cho_chu_dau_tu_tai_nghia_trang_thanh_pho_nghe_an/20241110_133801.webp" alt="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Nghĩa Trang Thành Phố Nghệ An" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(6)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2207,15 +2207,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Xanh Đen Cho Chủ Đầu Tư Tại Nam Định" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Xanh Đen Cho Chủ Đầu Tư Tại Nam Định" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(7)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 10 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Nam Định
-                    </span>
-                    <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_xanh_den_cho_chu_dau_tu_tai_nam_dinh/20251115_135235.webp" alt="Khu Lăng Mộ Xanh Đen Cho Chủ Đầu Tư Tại Nam Định" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(7)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Nam Định</span>
+                    <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_xanh_den_cho_chu_dau_tu_tai_nam_dinh/20251115_135235.webp" alt="Khu Lăng Mộ Xanh Đen Cho Chủ Đầu Tư Tại Nam Định" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(7)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2234,15 +2232,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Đánh Xanh Rêu Cho Chủ Đầu Tư Ở Nghĩa Trang Tp Nghệ An" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Đánh Xanh Rêu Cho Chủ Đầu Tư Ở Nghĩa Trang Tp Nghệ An" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(8)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 18 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Nghĩa Trang Tp Nghệ An
-                    </span>
-                    <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_danh_xanh_reu_cho_chu_dau_tu_o_nghia_trang_tp_nghe_an/20250406_095633.webp" alt="Khu Lăng Mộ Đánh Xanh Rêu Cho Chủ Đầu Tư Ở Nghĩa Trang Tp Nghệ An" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(8)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Nghĩa Trang Tp Nghệ An</span>
+                    <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_danh_xanh_reu_cho_chu_dau_tu_o_nghia_trang_tp_nghe_an/20250406_095633.webp" alt="Khu Lăng Mộ Đánh Xanh Rêu Cho Chủ Đầu Tư Ở Nghĩa Trang Tp Nghệ An" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(8)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2261,15 +2257,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Xanh Rêu Cho Chủ Đầu Tư Ở Quốc Oai Hà Nội" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Xanh Rêu Cho Chủ Đầu Tư Ở Quốc Oai Hà Nội" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(9)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 12 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Quốc Oai Hà Nội
-                    </span>
-                    <img src="/images/du_an/1._khu_lang_mo/khu_lang_xanh_reu_cho_chu_dau_tu_o_quoc_oai_ha_noi/20240826_103448.webp" alt="Khu Lăng Xanh Rêu Cho Chủ Đầu Tư Ở Quốc Oai Hà Nội" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(9)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Quốc Oai Hà Nội</span>
+                    <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_xanh_reu_cho_chu_dau_tu_o_quoc_oai_ha_noi/20240826_103448.webp" alt="Khu Lăng Xanh Rêu Cho Chủ Đầu Tư Ở Quốc Oai Hà Nội" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(9)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2288,15 +2282,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="langmo" data-name="Khuôn Viên Khu Lăng Mộ Bằng Đá Granit Xám Tại Nam Định" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="langmo" data-name="Khuôn Viên Khu Lăng Mộ Bằng Đá Granit Xám Tại Nam Định" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(10)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 11 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Nam Định
-                    </span>
-                    <img src="/images/du_an/1._khu_lang_mo/khuon_vien_khu_lang_mo_bang_da_granit_xam_tai_nam_dinh/20260520_094542.webp" alt="Khuôn Viên Khu Lăng Mộ Bằng Đá Granit Xám Tại Nam Định" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(10)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Nam Định</span>
+                    <img src="/images/thumb/du_an/1._khu_lang_mo/khuon_vien_khu_lang_mo_bang_da_granit_xam_tai_nam_dinh/20260520_094542.webp" alt="Khuôn Viên Khu Lăng Mộ Bằng Đá Granit Xám Tại Nam Định" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(10)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2315,15 +2307,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Cho Gia Chủ Tại Ninh Bình" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Cho Gia Chủ Tại Ninh Bình" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(11)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 6 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Ninh Bình
-                    </span>
-                    <img src="/images/du_an/2._nha_tho/nha_tho_cho_gia_chu_tai_ninh_binh/20220106_162028.webp" alt="Nhà Thờ Cho Gia Chủ Tại Ninh Bình" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(11)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Bình</span>
+                    <img src="/images/thumb/du_an/2._nha_tho/nha_tho_cho_gia_chu_tai_ninh_binh/20220106_162028.webp" alt="Nhà Thờ Cho Gia Chủ Tại Ninh Bình" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(11)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2342,15 +2332,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Cho Gia Chủ Ở Phú Thọ" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Cho Gia Chủ Ở Phú Thọ" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(12)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 12 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Phú Thọ
-                    </span>
-                    <img src="/images/du_an/2._nha_tho/nha_tho_cho_gia_chu_o_phu_tho/20260613_113954.webp" alt="Nhà Thờ Cho Gia Chủ Ở Phú Thọ" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(12)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Phú Thọ</span>
+                    <img src="/images/thumb/du_an/2._nha_tho/nha_tho_cho_gia_chu_o_phu_tho/20260613_113954.webp" alt="Nhà Thờ Cho Gia Chủ Ở Phú Thọ" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(12)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2369,15 +2357,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Hưng Yên" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Hưng Yên" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(13)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 6 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Hưng Yên
-                    </span>
-                    <img src="/images/du_an/2._nha_tho/nha_tho_ho_tu_gia_cho_gia_chu_tai_hung_yen/20220126_164252.webp" alt="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Hưng Yên" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(13)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Hưng Yên</span>
+                    <img src="/images/thumb/du_an/2._nha_tho/nha_tho_ho_tu_gia_cho_gia_chu_tai_hung_yen/20220126_164252.webp" alt="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Hưng Yên" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(13)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2396,15 +2382,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Quảng Ninh" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Quảng Ninh" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(14)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 19 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Quảng Ninh
-                    </span>
-                    <img src="/images/du_an/2._nha_tho/nha_tho_ho_tu_gia_cho_gia_chu_tai_quang_ninh/20240722_170935.webp" alt="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Quảng Ninh" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(14)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Quảng Ninh</span>
+                    <img src="/images/thumb/du_an/2._nha_tho/nha_tho_ho_tu_gia_cho_gia_chu_tai_quang_ninh/20240722_170935.webp" alt="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Quảng Ninh" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(14)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2423,15 +2407,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Quốc Oai Hà Nội Bằng Chất Liệu Đá Xanh Rêu" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Quốc Oai Hà Nội Bằng Chất Liệu Đá Xanh Rêu" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(15)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 14 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Quốc Oai Hà Nội Bằng Chất Liệu Đá Xanh Rêu
-                    </span>
-                    <img src="/images/du_an/2._nha_tho/nha_tho_ho_tu_gia_cho_gia_chu_tai_quoc_oai_ha_noi_bang_chat_lieu_da_xanh_reu/20231030_105238.webp" alt="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Quốc Oai Hà Nội Bằng Chất Liệu Đá Xanh Rêu" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(15)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Quốc Oai Hà Nội Bằng Chất Liệu Đá Xanh Rêu</span>
+                    <img src="/images/thumb/du_an/2._nha_tho/nha_tho_ho_tu_gia_cho_gia_chu_tai_quoc_oai_ha_noi_bang_chat_lieu_da_xanh_reu/20231030_105238.webp" alt="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Quốc Oai Hà Nội Bằng Chất Liệu Đá Xanh Rêu" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(15)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2450,15 +2432,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Cho Chủ Đầu Từ Bình Dương" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Cho Chủ Đầu Từ Bình Dương" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(16)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 19 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình
-                    </span>
-                    <img src="/images/du_an/2._nha_tho/nha_tho_tu_gia_cho_chu_dau_tu_binh_duong/20260622_110046.webp" alt="Nhà Thờ Tư Gia Cho Chủ Đầu Từ Bình Dương" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(16)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/2._nha_tho/nha_tho_tu_gia_cho_chu_dau_tu_binh_duong/20260622_110046.webp" alt="Nhà Thờ Tư Gia Cho Chủ Đầu Từ Bình Dương" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(16)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2477,15 +2457,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Cho Gia Chủ Tại Hưng Yên Bằng Chất Liệu Đá Xanh Rêu" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Cho Gia Chủ Tại Hưng Yên Bằng Chất Liệu Đá Xanh Rêu" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(17)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 11 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Hưng Yên Bằng Chất Liệu Đá Xanh Rêu
-                    </span>
-                    <img src="/images/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_tai_hung_yen_bang_chat_lieu_da_xanh_reu/20240206_125509-01.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Tại Hưng Yên Bằng Chất Liệu Đá Xanh Rêu" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(17)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Hưng Yên Bằng Chất Liệu Đá Xanh Rêu</span>
+                    <img src="/images/thumb/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_tai_hung_yen_bang_chat_lieu_da_xanh_reu/20240206_125509-01.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Tại Hưng Yên Bằng Chất Liệu Đá Xanh Rêu" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(17)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2504,15 +2482,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Cho Gia Chủ Tại Nam Định" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Cho Gia Chủ Tại Nam Định" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(18)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 5 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Nam Định
-                    </span>
-                    <img src="/images/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_tai_nam_dinh/20220626_094905.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Tại Nam Định" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(18)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Nam Định</span>
+                    <img src="/images/thumb/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_tai_nam_dinh/20220626_094905.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Tại Nam Định" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(18)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2531,15 +2507,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Cho Gia Chủ Tại Thái Bình" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Cho Gia Chủ Tại Thái Bình" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(19)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 6 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Thái Bình
-                    </span>
-                    <img src="/images/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_tai_thai_binh/img_20240208_162949.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Tại Thái Bình" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(19)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Thái Bình</span>
+                    <img src="/images/thumb/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_tai_thai_binh/img_20240208_162949.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Tại Thái Bình" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(19)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2558,15 +2532,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Cho Gia Chủ Ở Sơn Tây" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Cho Gia Chủ Ở Sơn Tây" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(20)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 9 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Sơn Tây
-                    </span>
-                    <img src="/images/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_o_son_tay/20250509_095747.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Ở Sơn Tây" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(20)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Sơn Tây</span>
+                    <img src="/images/thumb/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_o_son_tay/20250509_095747.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Ở Sơn Tây" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(20)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2585,15 +2557,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Cho Gia Chủ Ở Yên Mô Ninh Bình" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Cho Gia Chủ Ở Yên Mô Ninh Bình" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(21)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 8 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Yên Mô Ninh Bình
-                    </span>
-                    <img src="/images/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_o_yen_mo_ninh_binh/20250512_180416.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Ở Yên Mô Ninh Bình" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(21)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Yên Mô Ninh Bình</span>
+                    <img src="/images/thumb/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_o_yen_mo_ninh_binh/20250512_180416.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Ở Yên Mô Ninh Bình" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(21)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2612,15 +2582,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Trên Tầng 2 Cho Gia Chủ Tại Hải Dương" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="nhatho" data-name="Nhà Thờ Tư Gia Trên Tầng 2 Cho Gia Chủ Tại Hải Dương" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(22)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 6 Ảnh
                     </span>
-                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;">
-                        <i class="fa-solid fa-location-dot"></i> Hải Dương
-                    </span>
-                    <img src="/images/du_an/2._nha_tho/nha_tho_tu_gia_tren_tang_2_cho_gia_chu_tai_hai_duong/20220521_103623.webp" alt="Nhà Thờ Tư Gia Trên Tầng 2 Cho Gia Chủ Tại Hải Dương" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(22)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Hải Dương</span>
+                    <img src="/images/thumb/du_an/2._nha_tho/nha_tho_tu_gia_tren_tang_2_cho_gia_chu_tai_hai_duong/20220521_103623.webp" alt="Nhà Thờ Tư Gia Trên Tầng 2 Cho Gia Chủ Tại Hải Dương" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(22)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2666,14 +2634,13 @@
             </div>
 
             <div class="portfolio-grid" id="d3Grid">
-
             <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 1" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(23)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 7 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_1/fb_img_1760193272840.webp" alt="Khu Số 1" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(23)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_1/fb_img_1760193272840.webp" alt="Khu Số 1" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(23)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2697,8 +2664,8 @@
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 6 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_2/fb_img_1747036586330.webp" alt="Khu Số 2" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(24)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_2/fb_img_1747036586330.webp" alt="Khu Số 2" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(24)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2722,8 +2689,8 @@
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 7 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_3/1787882161933_572956663515404064_2587935879539157561_4508b6dc4a0504ada9691afed5864523.webp" alt="Khu Số 3" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(25)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_3/1787882161933_572956663515404064_2587935879539157561_4508b6dc4a0504ada9691afed5864523.webp" alt="Khu Số 3" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(25)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2747,8 +2714,8 @@
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 9 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_4/1766718885535_572956663515404064_2587935879539157561_f027e37d877730869234fd3d4a278cb5.webp" alt="Khu Số 4" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(26)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_4/1766718885535_572956663515404064_2587935879539157561_f027e37d877730869234fd3d4a278cb5.webp" alt="Khu Số 4" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(26)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2772,8 +2739,8 @@
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 10 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_6/enscape_2026-08-19-09-21-12.webp" alt="Khu Số 6" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(27)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_6/enscape_2026-08-19-09-21-12.webp" alt="Khu Số 6" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(27)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2797,8 +2764,8 @@
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 7 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_7/enscape_2026-08-07-09-58-56.webp" alt="Khu Số 7" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(28)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_7/enscape_2026-08-07-09-58-56.webp" alt="Khu Số 7" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(28)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2817,13 +2784,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 8" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 8" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(29)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 4 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_8/enscape_2026-08-03-17-48-06.webp" alt="Khu Số 8" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(29)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_8/enscape_2026-08-03-17-48-06.webp" alt="Khu Số 8" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(29)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2842,13 +2809,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 9" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 9" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(30)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 7 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_9/1785719188830_572956663515404064_4686229970035501787_9182b3871d1bbbfc4bef0da24762991b.webp" alt="Khu Số 9" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(30)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_9/1785719188830_572956663515404064_4686229970035501787_9182b3871d1bbbfc4bef0da24762991b.webp" alt="Khu Số 9" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(30)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2867,13 +2834,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 10" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 10" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(31)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 18 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_10/1782957601992_572956663515404064_7350006478341883347_5d4d15e35a99ae2f5747a5977a23d179.webp" alt="Khu Số 10" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(31)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_10/1782957601992_572956663515404064_7350006478341883347_5d4d15e35a99ae2f5747a5977a23d179.webp" alt="Khu Số 10" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(31)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2892,13 +2859,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 11" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 11" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(32)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 8 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_11/1767601716692_572956663515404064_g334259582670144624_b34a02c0f34e82a894cc1c45c8aea246.webp" alt="Khu Số 11" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(32)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_11/1767601716692_572956663515404064_g334259582670144624_b34a02c0f34e82a894cc1c45c8aea246.webp" alt="Khu Số 11" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(32)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2917,13 +2884,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 12" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 12" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(33)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 8 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_12/1765414335154_572956663515404064_g334259582670144624_68819fbcbce5373c7cd5b1c5c506455f.webp" alt="Khu Số 12" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(33)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_12/1765414335154_572956663515404064_g334259582670144624_68819fbcbce5373c7cd5b1c5c506455f.webp" alt="Khu Số 12" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(33)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2942,13 +2909,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 13" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 13" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(34)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 8 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_13/1765250665740_572956663515404064_g334259582670144624_ee4b0ed59bb0003b722f18e22cabdc9a.webp" alt="Khu Số 13" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(34)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_13/1765250665740_572956663515404064_g334259582670144624_ee4b0ed59bb0003b722f18e22cabdc9a.webp" alt="Khu Số 13" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(34)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2967,13 +2934,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 14" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 14" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(35)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 5 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_14/1764903981748_572956663515404064_g334259582670144624_c3c07fa2307f31522930234aefbc7a52.webp" alt="Khu Số 14" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(35)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_14/1764903981748_572956663515404064_g334259582670144624_c3c07fa2307f31522930234aefbc7a52.webp" alt="Khu Số 14" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(35)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -2992,13 +2959,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 15" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 15" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(36)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 7 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_15/1763039117316_572956663515404064_g334259582670144624_450bbbee9f3160177a5782e33beaf1fc.webp" alt="Khu Số 15" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(36)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_15/1763039117316_572956663515404064_g334259582670144624_450bbbee9f3160177a5782e33beaf1fc.webp" alt="Khu Số 15" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(36)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -3017,13 +2984,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 16" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 16" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(37)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 6 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_16/1763539147595_572956663515404064_g334259582670144624_e27304e7bd938474b48b6730fe2e7e40.webp" alt="Khu Số 16" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(37)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_16/1763539147595_572956663515404064_g334259582670144624_e27304e7bd938474b48b6730fe2e7e40.webp" alt="Khu Số 16" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(37)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -3042,13 +3009,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 17" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 17" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(38)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 17 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_17/1759457422943_572956663515404064_g334259582670144624_2228bdd2c5746387e6bbd7aac62d97f8.webp" alt="Khu Số 17" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(38)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_17/1759457422943_572956663515404064_g334259582670144624_2228bdd2c5746387e6bbd7aac62d97f8.webp" alt="Khu Số 17" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(38)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -3067,13 +3034,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 18" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 18" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(39)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 8 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_18/1758860533473_572956663515404064_g334259582670144624_be5c8ed6f0cc02d6bca734a75c5960c7.webp" alt="Khu Số 18" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(39)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_18/1758860533473_572956663515404064_g334259582670144624_be5c8ed6f0cc02d6bca734a75c5960c7.webp" alt="Khu Số 18" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(39)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -3092,13 +3059,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 19" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 19" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(40)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 8 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_19/1784559443908_572956663515404064_5554164586977196743_4c5e8b75c0866dd117eb585675a79f3d.webp" alt="Khu Số 19" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(40)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_19/1784559443908_572956663515404064_5554164586977196743_4c5e8b75c0866dd117eb585675a79f3d.webp" alt="Khu Số 19" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(40)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -3117,13 +3084,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 20" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 20" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(41)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 8 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_20/enscape_2026-08-11-08-50-55.webp" alt="Khu Số 20" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(41)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_20/enscape_2026-08-11-08-50-55.webp" alt="Khu Số 20" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(41)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -3142,13 +3109,13 @@
                     </div>
                 </div>
             </div>
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 5" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 5" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: none; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(42)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 8 Ảnh
                     </span>
-                    
-                    <img src="/images/du_an/3._khuon_vien_3d/khu_so_5/enscape_2026-09-04-10-46-34.webp" alt="Khu Số 5" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(42)" loading="lazy" decoding="async">
+                    <span style="position:absolute; top:15px; right:15px; background:var(--gold-primary); color:var(--navy-deep); font-weight:700; padding:5px 12px; border-radius:4px; font-size:0.8rem; box-shadow:0 2px 8px rgba(0,0,0,0.5); z-index:2;"><i class="fa-solid fa-location-dot"></i> Ninh Vân, Ninh Bình</span>
+                    <img src="/images/thumb/du_an/3._khuon_vien_3d/khu_so_5/enscape_2026-09-04-10-46-34.webp" alt="Khu Số 5" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(42)" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -3192,28 +3159,28 @@
                 <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:15px; margin-top:30px;">
 
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_tai_ha_noi/20240523_065741.webp" alt="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hà Nội" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_tai_ha_noi/20240523_065741.webp" alt="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hà Nội" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_o_nghe_an/20241006_111154.webp" alt="Khu Lăng Mộ Cho Chủ Đầu Tư Ở Nghệ An" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_cho_chu_dau_tu_o_nghe_an/20241006_111154.webp" alt="Khu Lăng Mộ Cho Chủ Đầu Tư Ở Nghệ An" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_xanh_reu_cho_chu_dau_tu_tai_hue/20251025_102039.webp" alt="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Huế" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_xanh_reu_cho_chu_dau_tu_tai_hue/20251025_102039.webp" alt="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Huế" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/du_an/1._khu_lang_mo/khu_lang_mo_xanh_reu_cho_chu_dau_tu_tai_ha_tinh/20250912_080715.webp" alt="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Hà Tĩnh" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/thumb/du_an/1._khu_lang_mo/khu_lang_mo_xanh_reu_cho_chu_dau_tu_tai_ha_tinh/20250912_080715.webp" alt="Khu Lăng Mộ Xanh Rêu Cho Chủ Đầu Tư Tại Hà Tĩnh" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/du_an/2._nha_tho/nha_tho_cho_gia_chu_tai_ninh_binh/20220106_162028.webp" alt="Nhà Thờ Cho Gia Chủ Tại Ninh Bình" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/thumb/du_an/2._nha_tho/nha_tho_cho_gia_chu_tai_ninh_binh/20220106_162028.webp" alt="Nhà Thờ Cho Gia Chủ Tại Ninh Bình" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/du_an/2._nha_tho/nha_tho_ho_tu_gia_cho_gia_chu_tai_quang_ninh/20240722_170935.webp" alt="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Quảng Ninh" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/thumb/du_an/2._nha_tho/nha_tho_ho_tu_gia_cho_gia_chu_tai_quang_ninh/20240722_170935.webp" alt="Nhà Thờ Họ Tư Gia Cho Gia Chủ Tại Quảng Ninh" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_tai_hung_yen_bang_chat_lieu_da_xanh_reu/20240206_125509-01.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Tại Hưng Yên Bằng Chất Liệu Đá Xanh Rêu" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/thumb/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_tai_hung_yen_bang_chat_lieu_da_xanh_reu/20240206_125509-01.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Tại Hưng Yên Bằng Chất Liệu Đá Xanh Rêu" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
             <div style="border-radius:6px; overflow:hidden; border:1px solid var(--glass-border); height:200px;">
-                <img src="/images/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_o_son_tay/20250509_095747.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Ở Sơn Tây" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
+                <img src="/images/thumb/du_an/2._nha_tho/nha_tho_tu_gia_cho_gia_chu_o_son_tay/20250509_095747.webp" alt="Nhà Thờ Tư Gia Cho Gia Chủ Ở Sơn Tây" style="width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.3s;" onclick="openLightbox(this.src)" loading="lazy" decoding="async">
             </div>
                 </div>
             </div>
@@ -3493,7 +3460,7 @@
     </div>
 
 
-    <script src="default_data.js"></script>
+    
     <script>
         let projectsData = (typeof DEFAULT_PROJECTS !== 'undefined') ? DEFAULT_PROJECTS : [];
         let groupedProductsData = (typeof DEFAULT_PRODUCTS !== 'undefined') ? DEFAULT_PRODUCTS : [];
@@ -3520,22 +3487,25 @@
 
             ensureData();
 
-            fetch('/live_overrides.json?t=' + Date.now(), { cache: 'no-store' })
+            window.ktDataReady = fetch('/live_overrides.json', { cache: 'no-cache' })
                 .then(function(r) { return r.ok ? r.json() : null; })
                 .then(function(data) {
-                    if (!data) return;
+                    if (!data) return ktLoadDefaultData();
                     var liveTs = data.timestamp || 0;
                     var localTs2 = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
                     var defaultTs2 = (typeof DEFAULT_DATA_TIMESTAMP !== 'undefined') ? DEFAULT_DATA_TIMESTAMP : 0;
                     if (liveTs >= localTs2 || liveTs >= defaultTs2 || (!projectsData || projectsData.length === 0)) {
                         if (Array.isArray(data.projects) && data.projects.length > 0) projectsData = data.projects;
                         if (Array.isArray(data.products) && data.products.length > 0) groupedProductsData = data.products;
-                        renderAllProjectCards();
-                        renderExecutedProjects();
-                        renderD3Projects();
+                        if (ktNeedRender('executedGrid', data.projects)) {
+                            renderAllProjectCards();
+                            renderExecutedProjects();
+                            renderD3Projects();
+                        }
                     }
                 })
-                .catch(function(e) { console.warn('live_overrides fetch error', e); });
+                .catch(function(e) { console.warn('live_overrides fetch error', e); return ktLoadDefaultData(); })
+                .then(function() { window.ktDataDone = true; });
         })();
 
         function renderAllProjectCards() {
@@ -3563,7 +3533,7 @@
                         <i class="fa-solid fa-camera"></i> ${imgCount} Ảnh
                     </span>
                     ${location}
-                    <img src="${mainImg}" alt="${safeTitle}" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(${idx})" loading="lazy" decoding="async">
+                    <img src="${ktThumb(mainImg)}" alt="${safeTitle}" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onclick="openProjectModal(${idx})" loading="lazy" decoding="async">
                     <div style="position:absolute; bottom:10px; right:10px; background:rgba(5, 11, 26, 0.88); border:1.5px solid var(--gold-primary); padding:5px 10px; border-radius:6px; backdrop-filter:blur(4px); z-index:2; box-shadow:0 4px 12px rgba(0,0,0,0.6);">
                         <a href="tel:0397247333" style="display:flex; align-items:center; gap:5px; color:var(--gold-light); font-weight:700; font-size:0.88rem; text-decoration:none; line-height:1;" title="Gọi 0397.247.333">
                             <i class="fa-solid fa-phone" style="color:var(--gold-primary); font-size:0.75rem;"></i> 0397.247.333
@@ -3598,6 +3568,7 @@
         let currentProjectImgIdx = 0;
 
         function openProjectModal(idx) {
+            if ((typeof projectsData === 'undefined' || !projectsData || !projectsData.length) && window.ktDataReady && !window.ktDataDone) { window.ktDataReady.then(function() { openProjectModal(idx); }); return; }
             ensureData();
             const p = projectsData[idx];
             if (!p) return;
@@ -3658,7 +3629,7 @@
                     for (let i = 0; i < imgList.length; i++) {
                         const src = imgList[i];
                         const borderStyle = (i === 0) ? 'border:2px solid var(--gold-primary); opacity:1.0; transform:scale(1.04); box-shadow:0 0 8px rgba(197,160,89,0.8);' : 'border:1px solid rgba(255,255,255,0.35); opacity:0.75;';
-                        galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + (src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_160,q_auto:eco/") : src) + '" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
+                        galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + ktThumb(src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_160,q_auto:eco/") : src) + '" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
                     }
                     galleryHtml += '</div>';
                     galleryContainer.innerHTML = galleryHtml;
@@ -3873,6 +3844,7 @@
         }
 
         function openGroupedProductModal(idx) {
+            if ((typeof groupedProductsData === 'undefined' || !groupedProductsData || !groupedProductsData.length) && window.ktDataReady && !window.ktDataDone) { window.ktDataReady.then(function() { openGroupedProductModal(idx); }); return; }
             try {
                 if (typeof groupedProductsData === 'undefined' || !groupedProductsData[idx]) return;
                 const p = groupedProductsData[idx];
@@ -3935,7 +3907,7 @@
                         for (let i = 0; i < imgList.length; i++) {
                             const src = imgList[i];
                             const borderStyle = (i === 0) ? 'border:2px solid #c5a059; opacity:1.0; transform:scale(1.04); box-shadow:0 0 8px rgba(197,160,89,0.8);' : 'border:1px solid rgba(255,255,255,0.35); opacity:0.75;';
-                            galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + (src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_160,q_auto:eco/") : src) + '" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
+                            galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + ktThumb(src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_160,q_auto:eco/") : src) + '" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
                         }
                         galleryHtml += '</div>';
                         galleryContainer.innerHTML = galleryHtml;
@@ -3995,7 +3967,7 @@
                         const rTitle = item.title ? item.title.replace(/"/g, '&quot;') : '';
                         
                         recHtml += '<div class="rec-prod-item" onclick="openGroupedProductModal(' + rIdx + ')">' +
-                            '<img src="' + rImg + '" alt="' + rTitle + '" style="width:90px; height:68px; object-fit:cover; border-radius:6px; flex-shrink:0;" loading="lazy" decoding="async">' +
+                            '<img src="' + ktThumb(rImg) + '" alt="' + rTitle + '" style="width:90px; height:68px; object-fit:cover; border-radius:6px; flex-shrink:0;" loading="lazy" decoding="async">' +
                             '<div style="flex:1; overflow:hidden;">' +
                                 '<h4 style="color:#0b3c5d; font-size:0.9rem; margin:0 0 4px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + rTitle + '</h4>' +
                             '</div>' +
@@ -4152,7 +4124,7 @@
             const lb = document.getElementById('imageLightbox');
             const img = document.getElementById('lightboxImg');
             if (lb && img) {
-                img.src = imgSrc;
+                img.src = window.ktFull ? ktFull(imgSrc) : imgSrc;
                 lb.style.display = 'flex';
             }
         }

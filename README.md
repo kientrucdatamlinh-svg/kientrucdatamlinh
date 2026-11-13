@@ -25,3 +25,17 @@ Chạy `python scripts/optimize_images.py` (cần Pillow) để tạo ảnh WebP
 | `ADMIN_KEY` | Mật khẩu quản trị mới (dài, khó đoán). Trang admin sẽ hỏi mật khẩu này khi bấm đồng bộ |
 
 Tuyệt đối không dán token vào bất kỳ file `.html`/`.js` nào.
+
+## Tốc độ tải ảnh (dành cho điện thoại cũ)
+
+- Thẻ sản phẩm/dự án dùng ảnh thu nhỏ trong `images/thumb/` (rộng 640px); bấm xem chi tiết/phóng to vẫn dùng ảnh gốc. Thiếu ảnh thu nhỏ thì trang tự dùng ảnh gốc.
+- Ảnh nền đầu trang: chỉ tải ảnh đầu tiên ngay, các ảnh sau tải khi trang đã hiện xong; điện thoại dùng bản nhỏ trong `images/nen/m/`.
+- Thẻ được ghi sẵn trong HTML theo `live_overrides.json`, nên trang không phải vẽ lại khi tải dữ liệu.
+
+Khi thêm ảnh mới hoặc cập nhật dữ liệu sản phẩm/dự án:
+
+```
+python scripts/make_thumbs.py      # tạo ảnh thu nhỏ còn thiếu
+python -m http.server 8806         # (cửa sổ khác) rồi:
+python scripts/bake_cards.py       # ghi sẵn thẻ theo dữ liệu mới
+```

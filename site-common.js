@@ -65,7 +65,7 @@ const projectsData = [{"id": 0, "cat_code": "langmo", "cat_name": "Công Trình 
                     for (let i = 0; i < imgList.length; i++) {
                         const src = imgList[i];
                         const borderStyle = (i === 0) ? 'border:2px solid var(--gold-primary); opacity:1.0; transform:scale(1.04); box-shadow:0 0 8px rgba(197,160,89,0.8);' : 'border:1px solid rgba(255,255,255,0.35); opacity:0.75;';
-                        galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + (src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_160,q_auto:eco/") : src) + '" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
+                        galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + ktThumb(src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_160,q_auto:eco/") : src) + '" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
                     }
                     galleryHtml += '</div>';
                     galleryContainer.innerHTML = galleryHtml;
@@ -342,7 +342,7 @@ const projectsData = [{"id": 0, "cat_code": "langmo", "cat_name": "Công Trình 
                         for (let i = 0; i < imgList.length; i++) {
                             const src = imgList[i];
                             const borderStyle = (i === 0) ? 'border:2px solid #c5a059; opacity:1.0; transform:scale(1.04); box-shadow:0 0 8px rgba(197,160,89,0.8);' : 'border:1px solid rgba(255,255,255,0.35); opacity:0.75;';
-                            galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + (src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_160,q_auto:eco/") : src) + '" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
+                            galleryHtml += '<img data-src="' + src + '" data-idx="' + i + '" src="' + ktThumb(src.indexOf("/image/upload/") !== -1 ? src.replace("/image/upload/", "/image/upload/f_auto,q_auto,w_160,q_auto:eco/") : src) + '" decoding="async" style="width:80px; height:58px; object-fit:cover; border-radius:6px; cursor:pointer; flex-shrink:0; transition:all 0.2s;' + borderStyle + '" title="Ảnh thứ ' + (i+1) + '">';
                         }
                         galleryHtml += '</div>';
                         galleryContainer.innerHTML = galleryHtml;
@@ -402,7 +402,7 @@ const projectsData = [{"id": 0, "cat_code": "langmo", "cat_name": "Công Trình 
                         const rTitle = item.title ? item.title.replace(/"/g, '&quot;') : '';
                         
                         recHtml += '<div class="rec-prod-item" onclick="openGroupedProductModal(' + rIdx + ')">' +
-                            '<img src="' + rImg + '" alt="' + rTitle + '" style="width:90px; height:68px; object-fit:cover; border-radius:6px; flex-shrink:0;" loading="lazy" decoding="async">' +
+                            '<img src="' + ktThumb(rImg) + '" alt="' + rTitle + '" style="width:90px; height:68px; object-fit:cover; border-radius:6px; flex-shrink:0;" loading="lazy" decoding="async">' +
                             '<div style="flex:1; overflow:hidden;">' +
                                 '<h4 style="color:#0b3c5d; font-size:0.9rem; margin:0 0 4px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">' + rTitle + '</h4>' +
                             '</div>' +
@@ -559,7 +559,7 @@ const projectsData = [{"id": 0, "cat_code": "langmo", "cat_name": "Công Trình 
             const lb = document.getElementById('imageLightbox');
             const img = document.getElementById('lightboxImg');
             if (lb && img) {
-                img.src = imgSrc;
+                img.src = window.ktFull ? ktFull(imgSrc) : imgSrc;
                 lb.style.display = 'flex';
             }
         }
