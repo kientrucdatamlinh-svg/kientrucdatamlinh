@@ -24,9 +24,9 @@ def splice(src, el_id, inner, sig):
         if depth == 0:
             end = pos + t.start(); break
     else: raise SystemExit('thẻ #' + el_id + ' không đóng')
-    tag = re.sub(r'\sdata-sig="[^"]*"', '', m.group(0))
-    if sig: tag = tag[:-1] + ' data-sig="%s">' % sig
-    return src[:m.start()] + tag + inner + '\n            ' + src[end:]
+    tag = re.sub(r'\sdata-(?:live)?sig="[^"]*"', '', m.group(0))
+    mark = ('<!--kt:%s-->' % sig) if sig else ''
+    return src[:m.start()] + tag + mark + inner.lstrip() + '\n            ' + src[end:]
 
 async def main():
     async with async_playwright() as p:
@@ -37,7 +37,11 @@ async def main():
             await pg.goto(BASE + '/' + page, wait_until='load')
             await pg.wait_for_function('window.ktDataDone === true', timeout=60000)
             await pg.wait_for_timeout(300)
-            got = await pg.evaluate('ids => ids.map(i => { const e = document.getElementById(i); return e ? [e.innerHTML, e.getAttribute("data-sig")] : null; })', ids)
+            got = await pg.evaluate(r'''ids => ids.map(i => {
+                const e = document.getElementById(i); if (!e) return null;
+                const c = e.firstChild, kept = (c && c.nodeType === 8 && c.nodeValue.indexOf('kt:') === 0) ? c.nodeValue.slice(3) : null;
+                return [e.innerHTML.replace(/^\s*<!--kt:[^>]*-->/, ''), e.getAttribute('data-livesig') || kept];
+            })''', ids)
             path = os.path.join(ROOT, page); s = open(path, encoding='utf-8').read()
             for i, g in zip(ids, got):
                 if g is None: raise SystemExit(page + ': thiếu #' + i)

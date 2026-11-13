@@ -24,7 +24,7 @@
      w.ktLoadBg=function(all){var l=d.querySelectorAll('[data-bg]');for(var i=0;i<l.length;i++){var el=l[i];if(all||el.className.indexOf('active')>-1){el.style.backgroundImage="url('"+w.ktBgUrl(el.getAttribute('data-bg'))+"')";el.removeAttribute('data-bg');}}};
      w.addEventListener('load',function(){setTimeout(function(){w.ktLoadBg(true);},1500);});
      w.ktSig=function(a){try{var s=JSON.stringify(a)||'',h=5381;for(var i=0;i<s.length;i++){h=((h<<5)+h+s.charCodeAt(i))|0;}return(h>>>0).toString(36)+'.'+s.length;}catch(e){return '';}};
-     w.ktNeedRender=function(id,payload){var el=d.getElementById(id),sig=w.ktSig(payload);if(el&&sig&&el.getAttribute('data-sig')===sig)return false;if(el&&sig)el.setAttribute('data-sig',sig);return true;};
+     w.ktNeedRender=function(id,payload){var el=d.getElementById(id),sig=w.ktSig(payload),c=el&&el.firstChild;if(c&&sig&&c.nodeType===8&&c.nodeValue==='kt:'+sig)return false;if(el&&sig)el.setAttribute('data-livesig',sig);return true;};
      var defP=null;
      w.ktLoadDefaultData=function(){if(defP)return defP;defP=new Promise(function(res){var s=d.createElement('script');s.src='/default_data.js';s.onload=s.onerror=function(){try{if(typeof w.ensureData==='function')w.ensureData();}catch(e){}res();};d.body.appendChild(s);});return defP;};
     })(window,document);
@@ -2031,8 +2031,7 @@
                 <button class="tab-btn" data-cat="nhatho" onclick="filterExecutedTabClick('nhatho', this)">Nhà Thờ (12)</button>
             </div>
 
-            <div class="portfolio-grid" id="executedGrid" data-sig="qjpaf1.82243">
-            <div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hà Nội" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
+            <div class="portfolio-grid" id="executedGrid"><!--kt:qjpaf1.82243--><div class="portfolio-card project-card" data-category="langmo" data-name="Khu Lăng Mộ Cho Chủ Đầu Tư Tại Hà Nội" style="background: var(--navy-medium); border: 1px solid var(--glass-border); border-radius: 8px; overflow: hidden; transition: var(--transition-smooth); display: flex; flex-direction: column; height: 100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(0)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 9 Ảnh
@@ -2633,8 +2632,7 @@
                 <p>Tổng hợp các khu dự án thiết kế 3D chi tiết quy hoạch khuôn viên lăng mộ gia tộc và hoa viên tâm linh cao cấp.</p>
             </div>
 
-            <div class="portfolio-grid" id="d3Grid">
-            <div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 1" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
+            <div class="portfolio-grid" id="d3Grid"><div class="portfolio-card project-card" data-category="khuonvien3d" data-name="Khu Số 1" style="background:var(--navy-medium); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; transition:var(--transition-smooth); display:flex; flex-direction:column; height:100%;">
                 <div style="position:relative; height:240px; overflow:hidden; cursor:pointer;" onclick="openProjectModal(23)">
                     <span style="position:absolute; top:15px; left:15px; background:rgba(5, 11, 26, 0.85); color:var(--gold-primary); border:1px solid var(--gold-primary); font-weight:700; padding:4px 10px; border-radius:4px; font-size:0.78rem; z-index:2; backdrop-filter:blur(4px);">
                         <i class="fa-solid fa-camera"></i> 7 Ảnh
