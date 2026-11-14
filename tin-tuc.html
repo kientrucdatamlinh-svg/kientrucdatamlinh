@@ -4433,14 +4433,12 @@
                             const imgSeo = img.includes('/image/upload/') && !img.includes('f_auto')
                                 ? img.replace('/image/upload/', '/image/upload/f_auto,q_auto,w_400/')
                                 : img;
-                            const price = p.price || p.price_cat || 'Liên hệ báo giá';
                             return `<a href="san-pham.html" style="text-decoration:none;display:block;background:var(--navy-medium);border-radius:8px;overflow:hidden;border:1px solid rgba(212,175,55,0.15);transition:transform .2s,box-shadow .2s;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 24px rgba(212,175,55,0.2)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
                                 <div style="width:100%;aspect-ratio:4/3;overflow:hidden;">
-                                    <img src="${imgSeo}" alt="${p.title}" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                                    <img src="${ktThumb(imgSeo)}" alt="${p.title}" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;">
                                 </div>
                                 <div style="padding:10px;">
                                     <h4 style="color:#e2e8f0;font-size:0.82rem;margin:0 0 5px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${p.title}</h4>
-                                    <span style="color:var(--gold-primary);font-size:0.8rem;font-weight:600;">${price}</span>
                                 </div>
                             </a>`;
                         }).join('')}
@@ -4759,7 +4757,6 @@
                     if (!pImg) pImg = '/images/logo/1788683389646_349790670883413890_349790670883413890_9d62d35d995bbff24a9626769abc15cb.webp';
                     else if (!/^(https?:|data:|blob:|\/)/.test(pImg)) pImg = '/' + pImg;
                     const pMat = p.material || 'Đá Xanh Tự Nhiên';
-                    const pPrice = p.price || 'Liên Hệ KTS';
                     const pCat = p.cat_name || 'Lăng Mộ Đá';
                     return `
                         <div class="sidebar-rec-card">
@@ -4771,7 +4768,6 @@
                                 <h4 class="sidebar-rec-title" title="${p.title}">${p.title}</h4>
                                 <div class="sidebar-rec-meta">
                                     <span class="sidebar-rec-material"><i class="fa-solid fa-layer-group" style="color: var(--gold-primary); font-size: 0.7rem;"></i> ${pMat}</span>
-                                    <span class="sidebar-rec-price">${pPrice}</span>
                                 </div>
                                 <div class="sidebar-rec-actions">
                                     <a href="san-pham.html" class="sidebar-rec-btn btn-view">Xem chi tiết <i class="fa-solid fa-arrow-right"></i></a>
