@@ -39,3 +39,9 @@ python scripts/make_thumbs.py      # tạo ảnh thu nhỏ còn thiếu
 python -m http.server 8806         # (cửa sổ khác) rồi:
 python scripts/bake_cards.py       # ghi sẵn thẻ theo dữ liệu mới
 ```
+
+## Lượt xem bài viết
+
+- Đếm thật qua `api/views.js`, lưu trong Upstash Redis `ktdtl-luot-xem` (gói Free, gắn với dự án Vercel `kientrucdatamlinh-afms`, biến `KV_REST_API_URL`/`KV_REST_API_TOKEN`).
+- Mỗi trình duyệt tính 1 lượt cho mỗi bài trong một phiên; bỏ qua bot.
+- Khách chỉ thấy số khi bài đạt từ 1.000 lượt (`KT_VIEWS_SHOW_FROM` trong `tin-tuc.html`). Xem số thật mọi bài tại `https://kientrucdatamlinh.com/api/views` (số theo id bài).
