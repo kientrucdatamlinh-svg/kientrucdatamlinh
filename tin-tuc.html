@@ -4364,7 +4364,7 @@
                         <div class="article-meta" style="margin-bottom: 8px; display: flex; flex-wrap: wrap; gap: 12px;">
                             <span><i class="fa-regular fa-calendar"></i> ${item.date}</span>
                             <span><i class="fa-regular fa-clock"></i> ${item.readTime}</span>
-                            <span><i class="fa-regular fa-eye"></i> ${formatNumberViews(getArticleTotalViews(item))} lượt xem</span>
+                            ${ktViewsShown(item) ? `<span><i class="fa-regular fa-eye"></i> ${formatNumberViews(getArticleTotalViews(item))} lượt xem</span>` : ''}
                         </div>
                         <h3 class="article-card-title" onclick="openArticleModal(${item.id})" title="${item.title}">
                             ${item.title}
@@ -4455,7 +4455,7 @@
         function renderPopularArticles() {
             const list = document.getElementById('popularArticlesList');
             if (!list) return;
-            const popular = [...ARTICLES_DATA].filter(a => !a.hidden && a.status !== 'hidden').sort((a, b) => getArticleTotalViews(b) - getArticleTotalViews(a)).slice(0, 10);
+            const popular = [...ARTICLES_DATA].filter(a => !a.hidden && a.status !== 'hidden').sort((a, b) => (getArticleTotalViews(b) - getArticleTotalViews(a)) || ((b.id || 0) - (a.id || 0))).slice(0, 10);
             
             list.innerHTML = popular.map(item => `
                 <div class="popular-item" onclick="openArticleModal(${item.id})">
@@ -4464,7 +4464,7 @@
                     </div>
                     <div class="popular-info">
                         <h4>${item.title}</h4>
-                        <div class="popular-date"><i class="fa-regular fa-calendar"></i> ${item.date} • <i class="fa-regular fa-eye"></i> ${formatNumberViews(getArticleTotalViews(item))}</div>
+                        <div class="popular-date"><i class="fa-regular fa-calendar"></i> ${item.date}${ktViewsShown(item) ? ` • <i class="fa-regular fa-eye"></i> ${formatNumberViews(getArticleTotalViews(item))}` : ''}</div>
                     </div>
                 </div>
             `).join('');
@@ -4490,26 +4490,43 @@
             }
         }
 
+        // --- Lượt xem THẬT (đếm trên máy chủ /api/views). Chỉ hiện cho khách khi bài đạt ngưỡng. ---
+        const KT_VIEWS_SHOW_FROM = 1000;
+        let KT_REAL_VIEWS = {};
         function recordArticleClick(id) {
             try {
-                const map = getArticleClicksMap();
-                map[id] = (map[id] || 0) + 1;
-                localStorage.setItem('ktdtl_article_clicks', JSON.stringify(map));
-                return map[id];
-            } catch(e) {
-                return 1;
-            }
+                const key = 'ktdtl_viewed_' + id;
+                if (sessionStorage.getItem(key)) return;
+                sessionStorage.setItem(key, '1');
+            } catch(e) {}
+            try {
+                fetch('/api/views', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }), keepalive: true })
+                    .then(function(r) { return r.ok ? r.json() : null; })
+                    .then(function(d) { if (d && d.views) KT_REAL_VIEWS[String(id)] = d.views; })
+                    .catch(function() {});
+            } catch(e) {}
         }
+        function loadRealViews() {
+            fetch('/api/views').then(function(r) { return r.ok ? r.json() : null; }).then(function(d) {
+                if (!d || !d.views) return;
+                KT_REAL_VIEWS = d.views;
+                // Chỉ vẽ lại khi có bài đủ ngưỡng hiển thị
+                if (Object.keys(KT_REAL_VIEWS).some(function(k) { return KT_REAL_VIEWS[k] >= KT_VIEWS_SHOW_FROM; })) {
+                    try { renderArticles(); renderPopularArticles(); } catch(e) {}
+                }
+            }).catch(function() {});
+        }
+        document.addEventListener('DOMContentLoaded', loadRealViews);
 
         function getArticleTotalViews(article) {
-            const baseViews = parseInt((article.views || '75').toString().replace(/,/g, '').replace(/\./g, '')) || 75;
-            const clicksMap = getArticleClicksMap();
-            const extraClicks = clicksMap[article.id] || 0;
-            return baseViews + extraClicks;
+            return parseInt(KT_REAL_VIEWS[String(article.id)], 10) || 0;
+        }
+        function ktViewsShown(article) {
+            return getArticleTotalViews(article) >= KT_VIEWS_SHOW_FROM;
         }
 
         function formatNumberViews(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
 
         // Font size adjusters
@@ -4671,7 +4688,7 @@
             if (!listEl) return;
 
             // Sort by total views (base + clicks)
-            const sorted = [...ARTICLES_DATA].sort((a, b) => getArticleTotalViews(b) - getArticleTotalViews(a));
+            const sorted = [...ARTICLES_DATA].sort((a, b) => (getArticleTotalViews(b) - getArticleTotalViews(a)) || ((b.id || 0) - (a.id || 0)));
             const topArticles = sorted.slice(0, 5);
 
             listEl.innerHTML = topArticles.map((item, idx) => {
@@ -4687,9 +4704,9 @@
                         </div>
                         <div class="reading-popular-info">
                             <h4 class="reading-popular-title" title="${item.title}">${item.title}</h4>
-                            <div class="reading-popular-views">
+                            ${ktViewsShown(item) ? `<div class="reading-popular-views">
                                 <i class="fa-regular fa-eye"></i> ${viewsFormatted} lượt xem
-                            </div>
+                            </div>` : ''}
                         </div>
                     </div>
                 `;
@@ -4725,7 +4742,7 @@
                     <div class="article-meta" style="border-bottom: 1px solid rgba(197, 160, 89, 0.25); padding-bottom: 15px; margin-bottom: 22px; flex-wrap: wrap; gap: 14px;">
                         <span><i class="fa-regular fa-calendar"></i> Ngày đăng: ${article.date}</span>
                         <span><i class="fa-solid fa-user-pen"></i> Tác giả: ${article.author}</span>
-                        <span style="color: var(--gold-light); font-weight: 600;"><i class="fa-regular fa-eye"></i> ${viewsFormatted} lượt xem</span>
+                        ${ktViewsShown(article) ? `<span style="color: var(--gold-light); font-weight: 600;"><i class="fa-regular fa-eye"></i> ${viewsFormatted} lượt xem</span>` : ''}
                         <span><i class="fa-regular fa-clock"></i> Thời gian đọc: ${article.readTime}</span>
                     </div>
                 </div>
