@@ -4283,6 +4283,9 @@
             fetch('/live_overrides.json?t=' + Date.now(), { cache: 'no-store' })
                 .then(function(r) { return r.ok ? r.json() : null; })
                 .then(function(data) {
+                    if (data && Array.isArray(data.products) && data.products.length > 0) {
+                        window.KTDTL_LIVE_PRODUCTS = data.products;
+                    }
                     if (data && Array.isArray(data.articles) && data.articles.length > 0) {
                         applyArticles(data.articles, data.timestamp);
                     } else if (typeof localStorage !== 'undefined' && localStorage.getItem('ktdtl_articles')) {
@@ -4591,15 +4594,20 @@
         }
 
         // Get 5 recommended products matching article content
+        // Ảnh lỗi -> thử lần lượt các ảnh khác của sản phẩm, cuối cùng mới dùng logo
+        function ktdtlRecImgFallback(img) {
+            let rest = [];
+            try { rest = JSON.parse(decodeURIComponent(img.dataset.alt || '%5B%5D')); } catch(e) {}
+            if (rest.length) { img.dataset.alt = encodeURIComponent(JSON.stringify(rest.slice(1))); img.src = rest[0]; return; }
+            img.onerror = null; img.src = '/images/logo/logo-sen-ktdtl.webp';
+        }
+
         function getRecommendedProducts(article) {
-            let prods = (typeof DEFAULT_PRODUCTS !== 'undefined') ? DEFAULT_PRODUCTS : [];
-            try {
-                const localTs = parseInt(localStorage.getItem('ktdtl_last_saved_ts') || '0');
-                const defaultTs = (typeof DEFAULT_DATA_TIMESTAMP !== 'undefined') ? DEFAULT_DATA_TIMESTAMP : 0;
-                if (localTs > defaultTs && localStorage.getItem('ktdtl_products')) {
-                    prods = JSON.parse(localStorage.getItem('ktdtl_products'));
-                }
-            } catch(e){}
+            // Ưu tiên dữ liệu mới nhất trên máy chủ (live_overrides.json), sau đó dữ liệu gốc.
+            // Không dùng localStorage: trình duyệt từng mở trang quản trị có thể còn dữ liệu cũ với đường dẫn ảnh đã đổi.
+            let prods = (Array.isArray(window.KTDTL_LIVE_PRODUCTS) && window.KTDTL_LIVE_PRODUCTS.length)
+                ? window.KTDTL_LIVE_PRODUCTS
+                : ((typeof DEFAULT_PRODUCTS !== 'undefined') ? DEFAULT_PRODUCTS : []);
 
             if (!prods || prods.length === 0) return [];
 
@@ -4770,15 +4778,16 @@
             if (recContainer) {
                 const recProducts = getRecommendedProducts(article);
                 recContainer.innerHTML = recProducts.map(p => {
-                    let pImg = ((p.imgs && p.imgs.length > 0) ? p.imgs[0] : (p.image || '')).trim();
-                    if (!pImg) pImg = '/images/logo/logo-sen-ktdtl.webp';
-                    else if (!/^(https?:|data:|blob:|\/)/.test(pImg)) pImg = '/' + pImg;
+                    const fixPath = u => { u = String(u || '').trim(); return !u ? '' : (/^(https?:|data:|blob:|\/)/.test(u) ? u : '/' + u); };
+                    const pList = [].concat(p.imgs || [], p.image ? [p.image] : []).map(fixPath).filter(Boolean).slice(0, 4);
+                    const pImg = pList[0] || '/images/logo/logo-sen-ktdtl.webp';
+                    const pAlt = encodeURIComponent(JSON.stringify(pList.slice(1)));
                     const pMat = p.material || 'Đá Xanh Tự Nhiên';
                     const pCat = p.cat_name || 'Lăng Mộ Đá';
                     return `
                         <div class="sidebar-rec-card">
                             <div class="sidebar-rec-thumb">
-                                <img src="${pImg}" alt="${p.title}" loading="eager" decoding="async" width="96" height="96" onerror="this.onerror=null;this.src='/images/logo/logo-sen-ktdtl.webp';">
+                                <img src="${pImg}" alt="${p.title}" loading="eager" decoding="async" width="96" height="96" data-alt="${pAlt}" onerror="ktdtlRecImgFallback(this)">
                                 <span class="sidebar-rec-tag">${pCat}</span>
                             </div>
                             <div class="sidebar-rec-info">
