@@ -98,25 +98,85 @@
                 }
             };
 
-            fetch('https://api.emailjs.com/api/v1.0/email/send', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=UTF-8'
-                },
-                body: JSON.stringify(emailData)
-            }).then(function(res) {
-                if (res.ok) {
-                    console.log('✅ EmailJS: Đã gửi thông báo về Gmail thành công!');
-                } else {
-                    res.text().then(function(t) { console.warn('EmailJS response error:', t); });
-                }
-            }).catch(function(err) {
-                console.warn('EmailJS fetch error:', err);
+            // newLead.sent: Promise -> true nếu email ĐÃ THẬT SỰ gửi về Gmail, false nếu lỗi/quá 15 giây.
+            // Trước đây web luôn báo "đã gửi" kể cả khi gửi hỏng -> khách tưởng xong, xưởng không nhận được gì.
+            newLead.sent = new Promise(function(resolve) {
+                var done = false;
+                function finish(ok) { if (!done) { done = true; resolve(ok); } }
+                setTimeout(function() { finish(false); }, 15000);
+                fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    },
+                    body: JSON.stringify(emailData)
+                }).then(function(res) {
+                    if (res.ok) {
+                        console.log('✅ EmailJS: Đã gửi thông báo về Gmail thành công!');
+                        finish(true);
+                    } else {
+                        res.text().then(function(t) { console.warn('EmailJS response error:', res.status, t); })
+                            .catch(function() {})
+                            .then(function() { finish(false); });
+                    }
+                }).catch(function(err) {
+                    console.warn('EmailJS fetch error:', err);
+                    finish(false);
+                });
             });
 
             return newLead;
         } catch(e) {
             console.error('Save lead error:', e);
         }
+    };
+
+    // 5. Hộp báo lỗi khi KHÔNG gửi được: mời khách gọi / nhắn Zalo thẳng để không mất khách
+    function showSendError() {
+        try {
+            var old = document.getElementById('ktdtlSendError');
+            if (old) old.remove();
+            var box = document.createElement('div');
+            box.id = 'ktdtlSendError';
+            box.setAttribute('role', 'dialog');
+            box.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:16px;';
+            box.innerHTML =
+                '<div style="max-width:420px;width:100%;background:#0a142c;border:1px solid #c5a059;border-radius:12px;padding:22px;color:#f5f7fa;font-family:Roboto,Arial,sans-serif;text-align:center;line-height:1.55;">' +
+                '<div style="font-size:1.15rem;font-weight:700;color:#e5c07b;margin-bottom:8px;">Chưa gửi được yêu cầu</div>' +
+                '<div style="font-size:.95rem;color:#c5cbd6;margin-bottom:16px;">Xin lỗi anh/chị, hệ thống chưa gửi được thông tin (có thể do mạng). Thông tin anh/chị nhập vẫn còn nguyên trong form.<br>Anh/chị vui lòng <b>gọi hoặc nhắn Zalo trực tiếp KTS Hướng</b> để được tư vấn ngay:</div>' +
+                '<a href="tel:0397247333" style="display:block;background:#c5a059;color:#1a1205;font-weight:700;text-decoration:none;padding:12px;border-radius:8px;margin-bottom:8px;">📞 Gọi 0397.247.333</a>' +
+                '<a href="https://zalo.me/0397247333" target="_blank" rel="noopener" style="display:block;border:1px solid #c5a059;color:#e5c07b;font-weight:700;text-decoration:none;padding:12px;border-radius:8px;margin-bottom:12px;">💬 Nhắn Zalo 0397.247.333</a>' +
+                '<button type="button" style="background:none;border:none;color:#7e8b9b;cursor:pointer;font-size:.9rem;text-decoration:underline;">Đóng</button>' +
+                '</div>';
+            box.addEventListener('click', function(ev) {
+                if (ev.target === box || ev.target.tagName === 'BUTTON') box.remove();
+            });
+            document.body.appendChild(box);
+        } catch(e) {
+            alert('Chưa gửi được yêu cầu. Anh/chị vui lòng gọi hoặc nhắn Zalo 0397.247.333 để được tư vấn ngay.');
+        }
+    }
+
+    // 6. Gửi form có kiểm tra kết quả: chỉ báo "đã gửi" khi email THẬT SỰ về Gmail.
+    //    window.ktdtlSubmitLead(lead, { form: <form>, successMessage: '...' }) -> Promise<boolean>
+    window.ktdtlSubmitLead = function(lead, opts) {
+        opts = opts || {};
+        var form = opts.form || null;
+        var btn = form ? form.querySelector('button[type="submit"], input[type="submit"]') : null;
+        var oldLabel = btn ? btn.innerHTML : '';
+        if (btn) { btn.disabled = true; btn.innerHTML = 'Đang gửi...'; }
+        var r = null;
+        try { r = window.ktdtlSaveLead(lead); } catch(e) {}
+        var p = (r && r.sent && typeof r.sent.then === 'function') ? r.sent : Promise.resolve(false);
+        return p.then(function(ok) {
+            if (btn) { btn.disabled = false; btn.innerHTML = oldLabel; }
+            if (ok) {
+                alert(opts.successMessage || 'Cảm ơn anh/chị đã gửi thông tin! KTS Nguyễn Văn Hướng sẽ liên hệ tư vấn sớm nhất.');
+                if (form) form.reset();
+            } else {
+                showSendError();
+            }
+            return ok;
+        });
     };
 })();

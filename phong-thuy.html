@@ -3189,12 +3189,17 @@
                 const name = (document.getElementById('fsName').value || '').trim() || 'Khách phong thủy';
                 const phone = (document.getElementById('fsPhone').value || '').trim();
                 const note = (document.getElementById('fsNote').value || '').trim() || 'Yêu cầu tư vấn phong thủy đặt mộ';
+                const okMsg = 'Cảm ơn bạn! KTS Nguyễn Văn Hướng sẽ trực tiếp gọi điện tư vấn phong thủy đặt mộ cho gia đình bạn trong vòng 15 phút.';
+                // Chỉ báo "đã gửi" khi email thật sự về Gmail; lỗi thì mời khách gọi/Zalo trực tiếp.
+                if (typeof window.ktdtlSubmitLead === 'function') {
+                    window.ktdtlSubmitLead({ name, phone, note, source: 'phong-thuy.html' }, { form: form, successMessage: okMsg });
+                    return;
+                }
                 if (typeof window.ktdtlSaveLead === 'function') {
                     window.ktdtlSaveLead({ name, phone, note, source: 'phong-thuy.html' });
                 }
             } catch(err) {}
-            alert('Cảm ơn bạn! KTS Nguyễn Văn Hướng sẽ trực tiếp gọi điện tư vấn phong thủy đặt mộ cho gia đình bạn trong vòng 15 phút.');
-            document.getElementById('fengshuiConsultForm').reset();
+            alert('Hệ thống đang bận. Anh/chị vui lòng gọi hoặc nhắn Zalo 0397.247.333 để KTS Nguyễn Văn Hướng tư vấn ngay.');
         }
 
         // Auto trigger initial calculation

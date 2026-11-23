@@ -4320,6 +4320,25 @@
                 ? date.getTime() : -Infinity;
         }
 
+        // Đường dẫn riêng của từng bài (/tin-tuc/<ten-bai>-<id>) để Google đọc được từng bài.
+        // PHẢI giống hệt slugify() trong api/_articles.js.
+        function ktSlug(text) {
+            return String(text || '')
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/đ/g, 'd').replace(/Đ/g, 'D')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '') || 'bai-viet';
+        }
+        function ktArticleUrl(item) { return '/tin-tuc/' + ktSlug(item.title) + '-' + item.id; }
+        // Bấm thường: vẫn mở cửa sổ đọc nhanh như cũ. Ctrl/Cmd/chuột giữa: mở trang riêng ở tab mới.
+        function ktOpenArticleLink(e, id) {
+            if (e && (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1)) return true;
+            if (e) e.preventDefault();
+            openArticleModal(id);
+            return false;
+        }
+
         function renderArticles() {
             const grid = document.getElementById('articlesGrid');
             const searchVal = (document.getElementById('newsSearchInput').value || '').toLowerCase().trim();
@@ -4369,13 +4388,13 @@
                             <span><i class="fa-regular fa-clock"></i> ${item.readTime}</span>
                             ${ktViewsShown(item) ? `<span><i class="fa-regular fa-eye"></i> ${formatNumberViews(getArticleTotalViews(item))} lượt xem</span>` : ''}
                         </div>
-                        <h3 class="article-card-title" onclick="openArticleModal(${item.id})" title="${item.title}">
-                            ${item.title}
+                        <h3 class="article-card-title" title="${item.title}">
+                            <a href="${ktArticleUrl(item)}" onclick="return ktOpenArticleLink(event, ${item.id})" style="color:inherit;text-decoration:none;">${item.title}</a>
                         </h3>
                         <p class="article-card-desc">${item.excerpt}</p>
-                        <div class="read-more-btn" onclick="openArticleModal(${item.id})">
+                        <a class="read-more-btn" href="${ktArticleUrl(item)}" onclick="return ktOpenArticleLink(event, ${item.id})" style="text-decoration:none;">
                             Đọc bài viết <i class="fa-solid fa-arrow-right"></i>
-                        </div>
+                        </a>
                     </div>
                 </article>
             `).join('');
