@@ -55,6 +55,18 @@
     {
       "source": "/tin-tuc/:path",
       "destination": "/api/bai-viet?path=:path"
+    },
+    {
+      "source": "/san-pham/:path",
+      "destination": "/api/san-pham?path=:path"
+    },
+    {
+      "source": "/du-an/:path",
+      "destination": "/api/du-an?path=:path"
+    },
+    {
+      "source": "/:c(mau-mo-da-dep|lang-tho-da|nha-tho-ho-bang-da|cong-da|tuong-da-linh-vat|lan-can-da|cuon-thu-da|thap-da)",
+      "destination": "/api/danh-muc?c=:c"
     }
   ],
   "functions": {
@@ -62,6 +74,15 @@
       "includeFiles": "live_overrides.json"
     },
     "api/sitemap.js": {
+      "includeFiles": "live_overrides.json"
+    },
+    "api/san-pham.js": {
+      "includeFiles": "live_overrides.json"
+    },
+    "api/du-an.js": {
+      "includeFiles": "live_overrides.json"
+    },
+    "api/danh-muc.js": {
       "includeFiles": "live_overrides.json"
     }
   }
