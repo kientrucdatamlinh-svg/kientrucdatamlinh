@@ -71,19 +71,19 @@
   ],
   "functions": {
     "api/bai-viet.js": {
-      "includeFiles": "live_overrides.json"
+      "includeFiles": "{live_overrides.json,product_descriptions.json}"
     },
     "api/sitemap.js": {
-      "includeFiles": "live_overrides.json"
+      "includeFiles": "{live_overrides.json,product_descriptions.json}"
     },
     "api/san-pham.js": {
-      "includeFiles": "live_overrides.json"
+      "includeFiles": "{live_overrides.json,product_descriptions.json}"
     },
     "api/du-an.js": {
-      "includeFiles": "live_overrides.json"
+      "includeFiles": "{live_overrides.json,product_descriptions.json}"
     },
     "api/danh-muc.js": {
-      "includeFiles": "live_overrides.json"
+      "includeFiles": "{live_overrides.json,product_descriptions.json}"
     }
   }
 }

@@ -68,8 +68,12 @@ function loadData() {
   }
   const visible = x => x && x.title && !x.hidden && x.status !== 'hidden' && x.status !== 'draft';
   const articles = (Array.isArray(data.articles) ? data.articles : []).filter(a => visible(a) && a.id != null);
+  // Mô tả viết lại theo ảnh thật (product_descriptions.json, khoá = tên mẫu). Không có thì dùng mô tả cũ.
+  // Để file riêng để trang quản trị đồng bộ live_overrides.json không ghi đè mất.
+  let descs = {};
+  try { descs = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'product_descriptions.json'), 'utf8')) || {}; } catch (e) {}
   const products = (Array.isArray(data.products) ? data.products : []).filter(visible)
-    .map(p => Object.assign({}, p, { imgs: toList(p.imgs) }));
+    .map(p => Object.assign({}, p, { imgs: toList(p.imgs), desc: descs[p.title] || p.desc }));
   const projects = (Array.isArray(data.projects) ? data.projects : []).filter(p => visible(p) && p.id != null)
     .map(p => Object.assign({}, p, { imgs: toList(p.imgs), specs: toList(p.specs) }));
   cache = { articles, products, projects };
