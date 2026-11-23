@@ -2,10 +2,10 @@
  * KIẾN TRÚC ĐÁ TÂM LINH - Sơ đồ trang web (sitemap.xml) tự cập nhật
  *
  * /sitemap.xml được chuyển về đây (vercel.json → rewrites). Gồm 9 trang chính
- * + MỌI bài viết (mỗi bài một địa chỉ riêng /tin-tuc/<ten-bai>-<id>), để Google biết và đọc từng bài.
+ * + MỌI bài viết, trang danh mục, sản phẩm và công trình (mỗi thứ một địa chỉ riêng), để Google biết và đọc từng trang.
  * Đăng bài mới → sơ đồ tự có bài đó, không phải sửa tay.
  */
-const { SITE, articlePath, loadArticles, isoDate } = require('./_articles');
+const { SITE, CATEGORIES, articlePath, productPath, projectPath, categoryPath, loadData, isoDate } = require('./_articles');
 
 const PAGES = [
   ['/', 'daily', '1.0'],
@@ -24,7 +24,7 @@ function x(s) {
 }
 
 module.exports = function handler(req, res) {
-  const articles = loadArticles();
+  const { articles, products, projects } = loadData();
   const dates = articles.map(a => isoDate(a.date)).filter(Boolean).sort();
   const newest = dates[dates.length - 1] || null;
 
@@ -42,6 +42,11 @@ module.exports = function handler(req, res) {
         (d ? `    <lastmod>${d}</lastmod>\n` : '') +
         `    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>`);
     });
+
+  const add = (p, freq, pri) => urls.push(`  <url>\n    <loc>${x(SITE + p)}</loc>\n    <changefreq>${freq}</changefreq>\n    <priority>${pri}</priority>\n  </url>`);
+  CATEGORIES.forEach(c => add(categoryPath(c), 'weekly', '0.9'));
+  products.forEach(p => add(productPath(p), 'monthly', '0.7'));
+  projects.forEach(p => add(projectPath(p), 'monthly', '0.6'));
 
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/xml; charset=utf-8');
