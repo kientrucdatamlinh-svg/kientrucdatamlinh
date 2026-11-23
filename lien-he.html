@@ -2550,21 +2550,25 @@
                 if (message) noteDetail += 'Chi tiết: ' + message;
                 if (!noteDetail) noteDetail = 'Yêu cầu tư vấn thiết kế & bản vẽ 3D';
 
-                if (typeof window.ktdtlSaveLead === 'function') {
-                    window.ktdtlSaveLead({
-                        name: name,
-                        phone: phone,
-                        address: address,
-                        product: product,
-                        note: noteDetail,
-                        source: 'lien-he.html'
-                    });
+                const lead = {
+                    name: name,
+                    phone: phone,
+                    address: address,
+                    product: product,
+                    note: noteDetail,
+                    source: 'lien-he.html'
+                };
+                const okMsg = 'Cảm ơn bạn đã gửi thông tin! Yêu cầu của bạn đã được chuyển tới KTS Nguyễn Văn Hướng. Chúng tôi sẽ liên hệ tư vấn và gửi bản vẽ 3D trong vòng 15 phút.';
+                // Chỉ báo "đã gửi" khi email thật sự về Gmail; lỗi thì mời khách gọi/Zalo trực tiếp.
+                if (typeof window.ktdtlSubmitLead === 'function') {
+                    window.ktdtlSubmitLead(lead, { form: document.getElementById('contactForm'), successMessage: okMsg });
+                    return;
                 }
+                if (typeof window.ktdtlSaveLead === 'function') window.ktdtlSaveLead(lead);
             } catch(err) {
                 console.error('Error submitting form:', err);
             }
-            alert('Cảm ơn bạn đã gửi thông tin! Yêu cầu của bạn đã được chuyển tới KTS Nguyễn Văn Hướng. Chúng tôi sẽ liên hệ tư vấn và gửi bản vẽ 3D trong vòng 15 phút.');
-            document.getElementById('contactForm').reset();
+            alert('Hệ thống đang bận. Anh/chị vui lòng gọi hoặc nhắn Zalo 0397.247.333 để KTS Nguyễn Văn Hướng tư vấn ngay.');
         }
     </script>
     <!-- Vercel Web Analytics -->
