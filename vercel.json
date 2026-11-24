@@ -25,6 +25,11 @@
       "source": "/scratch/:path*",
       "destination": "/",
       "permanent": false
+    },
+    {
+      "source": "/san-pham/cuon-thu-rong-thoi-li-da-xanh-reu",
+      "destination": "/san-pham/cuon-thu-co-cot",
+      "permanent": true
     }
   ],
   "headers": [
