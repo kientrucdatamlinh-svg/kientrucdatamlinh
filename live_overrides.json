@@ -1,5 +1,5 @@
 {
-  "timestamp": 1795489364980,
+  "timestamp": 1795489398873,
   "products": [
     {
       "cat_code": "langtho",
@@ -715,6 +715,7 @@
       "folder_key": "3. Cuốn thư đá/cuốn thư rồng thời lí đá xanh rêu",
       "title": "Cuốn Thư Có Cột",
       "imgs": [
+        "/images/san_pham/3._cuon_thu_da/cuon_thu_rong_thoi_li_da_xanh_reu/img_20231227_073743.webp",
         "/images/san_pham/3._cuon_thu_da/cuon_thu_rong_thoi_li_da_xanh_reu/fb_img_1652536398514.webp",
         "/images/san_pham/3._cuon_thu_da/cuon_thu_rong_thoi_li_da_xanh_reu/fb_img_1652536410986.webp",
         "/images/san_pham/3._cuon_thu_da/cuon_thu_rong_thoi_li_da_xanh_reu/fb_img_1709047302517.webp",
@@ -722,8 +723,7 @@
         "/images/san_pham/3._cuon_thu_da/cuon_thu_rong_thoi_li_da_xanh_reu/img_20210224_185949.webp",
         "/images/san_pham/3._cuon_thu_da/cuon_thu_rong_thoi_li_da_xanh_reu/img_20210515_215045_1.webp",
         "/images/san_pham/3._cuon_thu_da/cuon_thu_rong_thoi_li_da_xanh_reu/img_20210822_184149.webp",
-        "/images/san_pham/3._cuon_thu_da/cuon_thu_rong_thoi_li_da_xanh_reu/img_20220901_085655.webp",
-        "/images/san_pham/3._cuon_thu_da/cuon_thu_rong_thoi_li_da_xanh_reu/img_20231227_073743.webp"
+        "/images/san_pham/3._cuon_thu_da/cuon_thu_rong_thoi_li_da_xanh_reu/img_20220901_085655.webp"
       ],
       "price": "18 - 55 Triệu VNĐ",
       "price_cat": "20to50",
