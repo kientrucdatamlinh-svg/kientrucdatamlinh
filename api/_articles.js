@@ -72,8 +72,12 @@ function loadData() {
   // Để file riêng để trang quản trị đồng bộ live_overrides.json không ghi đè mất.
   let descs = {};
   try { descs = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'product_descriptions.json'), 'utf8')) || {}; } catch (e) {}
+  // Giá, kích thước thật, nơi đã làm do chủ xưởng ghi trong Sổ mô tả (product_info.json, khoá = tên mẫu).
+  // Chỉ mẫu nào chủ xưởng cho hiện giá mới có "price" trong file này.
+  let info = {};
+  try { info = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'product_info.json'), 'utf8')) || {}; } catch (e) {}
   const products = (Array.isArray(data.products) ? data.products : []).filter(visible)
-    .map(p => Object.assign({}, p, { imgs: toList(p.imgs), desc: descs[p.title] || p.desc }));
+    .map(p => Object.assign({}, p, { imgs: toList(p.imgs), desc: descs[p.title] || p.desc, info: info[p.title] || {} }));
   const projects = (Array.isArray(data.projects) ? data.projects : []).filter(p => visible(p) && p.id != null)
     .map(p => Object.assign({}, p, { imgs: toList(p.imgs), specs: toList(p.specs) }));
   cache = { articles, products, projects };

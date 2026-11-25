@@ -2,14 +2,30 @@
  * KIẾN TRÚC ĐÁ TÂM LINH - Trang riêng cho từng sản phẩm: /san-pham/<ten-san-pham>
  * (vercel.json → rewrites). Trước đây sản phẩm chỉ mở dạng cửa sổ trong san-pham.html,
  * Google không thấy được từng mẫu. Các xưởng đứng đầu Google đều có trang riêng cho từng mẫu.
- * Không hiện giá (theo lựa chọn của chủ xưởng ngày 13/11/2026).
+ * Giá chỉ hiện ở mẫu chủ xưởng đã tích "Cho hiện giá" trong Sổ mô tả (product_info.json), từ 25/11/2026.
+ * Mô tả trong product_descriptions.json được viết kiểu markdown đơn giản: dòng "### " là tiêu đề nhỏ, **chữ** là in đậm.
  */
 const { SITE, CATEGORIES, slugify, productPath, projectPath, categoryPath, articlePath, loadData } = require('./_articles');
 const { esc, plain, cut, absUrl, layout, sendHtml, redirect, notFoundPage, HOTLINE, TEL, imgSrc, thumb } = require('./_layout');
 
+function inline(t) {
+  return esc(t).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+}
 function paras(text) {
   return String(text || '').split(/\n\s*\n/).map(t => t.trim()).filter(Boolean)
-    .map(t => '<p>' + esc(t).replace(/\n/g, '<br>') + '</p>').join('\n');
+    .map(t => {
+      const h = t.match(/^#{2,4}\s+(.+)$/);
+      return h ? '<h2>' + inline(h[1]) + '</h2>' : '<p>' + inline(t) + '</p>';
+    }).join('\n');
+}
+// Bỏ dấu markdown khi dùng mô tả làm thẻ description
+function stripMd(text) {
+  return String(text || '').replace(/^#{2,4}\s+/gm, '').replace(/\*\*/g, '');
+}
+// "107x167" -> "107 × 167 cm"; chữ khác giữ nguyên như chủ xưởng ghi
+function fmtSize(s) {
+  s = String(s || '').trim();
+  return /^\d+(?:[.,]\d+)?\s*[x×]\s*\d+(?:[.,]\d+)?$/i.test(s) ? s.replace(/\s*[x×]\s*/i, ' × ') + ' cm' : s;
 }
 
 module.exports = function handler(req, res) {
@@ -25,7 +41,7 @@ module.exports = function handler(req, res) {
   const imgs = p.imgs.filter(Boolean);
   const title = p.title + ' – ' + catName + ' Ninh Vân | Kiến Trúc Đá Tâm Linh';
   const description = cut(p.title + ': ' + (p.material ? 'chất liệu ' + p.material + '. ' : '') +
-    plain(p.desc), 158);
+    plain(stripMd(p.desc)), 158);
 
   const sameCat = products.filter(x => x.cat_code === p.cat_code && x.title !== p.title).slice(0, 8);
   const kws = (cat && cat.kw) || [];
@@ -33,7 +49,9 @@ module.exports = function handler(req, res) {
     .sort((x, y) => Number(y.id) - Number(x.id)).slice(0, 5);
   const relProjects = projects.filter(x => kws.some(k => String(x.title).toLowerCase().includes(k))).slice(0, 4);
 
-  const specs = [['Danh mục', catName], ['Chất liệu', p.material], ['Tiêu chuẩn', p.spec],
+  const info = p.info || {};
+  const specs = [['Giá tham khảo', info.price], ['Kích thước', fmtSize(info.size)], ['Đã làm cho khách ở', info.where],
+    ['Danh mục', catName], ['Chất liệu', p.material], ['Tiêu chuẩn', p.spec],
     ['Nơi chế tác', 'Làng nghề đá Ninh Vân, Hoa Lư, Ninh Bình'], ['Số ảnh thực tế', imgs.length ? String(imgs.length) : '']]
     .filter(r => r[1]);
 
@@ -54,7 +72,7 @@ ${imgs.length ? `<img class="hero" src="${esc(imgSrc(imgs[0]))}" alt="${esc(p.ti
 <table class="spec">${specs.map(r => `<tr><th>${esc(r[0])}</th><td>${esc(r[1])}</td></tr>`).join('')}</table>
 <section class="cta" style="margin-top:0">
 <h2>Nhận báo giá mẫu này</h2>
-<p>Giá phụ thuộc kích thước, loại đá và hoa văn. Gửi kích thước đất hoặc ảnh mẫu qua Zalo để KTS Hướng báo giá và gửi bản vẽ 3D.</p>
+<p>${info.price ? `Giá tham khảo: <strong>${esc(info.price)}</strong>. ` : ''}Giá phụ thuộc kích thước, loại đá và hoa văn. Gửi kích thước đất hoặc ảnh mẫu qua Zalo để KTS Hướng báo giá và gửi bản vẽ 3D.</p>
 <div class="btns"><a class="btn btn-gold" href="tel:${TEL}">📞 Gọi ${HOTLINE}</a><a class="btn btn-line" href="https://zalo.me/${TEL}" target="_blank" rel="noopener">💬 Gửi ảnh qua Zalo</a></div>
 </section>
 <div class="content">${paras(p.desc)}</div>
