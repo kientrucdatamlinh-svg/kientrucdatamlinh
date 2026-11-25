@@ -107,7 +107,8 @@ ${a.image ? `<img class="hero" src="${esc(a.image.startsWith('http') ? a.image :
 </section>
 ${prods.length ? `<section class="rel"><h2>Mẫu ${esc(cat.name.toLowerCase())} tại xưởng</h2><div class="grid">${prods.map(p => `<a class="card" href="${productPath(p)}"><img src="${esc(thumb(p.imgs[0]))}" alt="${esc(p.title)}" loading="lazy" width="400" height="300"><b>${esc(p.title)}</b><small>${esc(p.material || '')}</small></a>`).join('')}</div><p><a href="${categoryPath(cat)}">Xem tất cả mẫu ${esc(cat.name.toLowerCase())} →</a></p></section>` : ''}
 ${related.length ? `<section class="rel"><h2>Bài viết liên quan</h2><ul>${related.map(r => `<li><a href="${articlePath(r)}">${esc(r.title)}<small>${esc(r.categoryName || '')}${r.date ? ' · ' + esc(r.date) : ''}</small></a></li>`).join('')}</ul></section>` : ''}
-<a class="back" href="/tin-tuc.html">← Xem tất cả bài viết</a>`;
+<a class="back" href="/tin-tuc.html">← Xem tất cả bài viết</a>
+<script>(function(){try{var k='ktdtl_viewed_${a.id}';if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1');}catch(e){}try{fetch('/api/views',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:${JSON.stringify(a.id)}}),keepalive:true}).catch(function(){});}catch(e){}})();</script>`;
 
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
